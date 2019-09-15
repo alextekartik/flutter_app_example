@@ -6,6 +6,7 @@ Future main() async {
 
   for (var dir in [
     'demoidb',
+    'notepad',
   ]) {
     shell = shell.pushd(join('..', dir));
     await shell.run('''
