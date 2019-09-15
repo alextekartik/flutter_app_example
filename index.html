@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>tekartik_demoidb_app</title>
-</head>
+<html lang="en">
+  <head>
+    <title>Examples</title>
+    <meta name="generator" content="https://pub.dev/packages/peanut">
+    <style>
+      html, body { height: 100%; }
+      #root {
+        display: flex;
+        max-width: 900px;
+        margin: 0 auto;
+        height: 100%;
+        max-height: 1000px;
+      }
+      #toc {
+        display: block;
+        align-self: center;
+        margin: 2ex;
+      }
+      iframe {
+        flex-grow: 1;
+        border-style: solid;
+        border-width: 1px;
+        border-color: lightgray;
+        align-self: stretch;
+      }
+    </style>
+  </head>
 <body>
-  <script src="main.dart.js" type="application/javascript"></script>
+  <div id='root'>
+  <div id="toc">
+    <p><a href="demoidb/" target="example_frame">Demoidb</a></p>
+    <p><a href="notepad/" target="example_frame">Notepad</a></p>  
+  </div>
+  <iframe name='example_frame'></iframe>
+  </div>
 </body>
 </html>
