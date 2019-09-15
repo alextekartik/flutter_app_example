@@ -7,3 +7,4 @@
 !/lib/
 !pubspec.yaml
 !README.md
+!test/widget_test.dart
