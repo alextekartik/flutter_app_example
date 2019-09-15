@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:tekartik_app_flutter_idb/idb.dart';
 
 import 'package:flutter/material.dart';
+import 'package:tekartik_app_flutter_idb/idb.dart';
 
 void main() {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   var bloc = MyAppBloc();
   runApp(MyApp(
     bloc: bloc,
@@ -17,7 +17,7 @@ var valueKey = 'value';
 class MyAppBloc {
   MyAppBloc() {
     // Load counter on start
-        () async {
+    () async {
       var db = await database;
       var txn = db.transaction(storeName, idbModeReadOnly);
       var store = txn.objectStore(storeName);
@@ -25,18 +25,21 @@ class MyAppBloc {
       _counterController.add(_value);
     }();
   }
+
   Future<Database> database = () async {
-    var db = await idbFactory.open('counter.db', version: 1,
-        onUpgradeNeeded: (e) {
-          var db = e.database;
-          db.createObjectStore(storeName);
-        });
+    var db =
+        await idbFactory.open('counter.db', version: 1, onUpgradeNeeded: (e) {
+      var db = e.database;
+      db.createObjectStore(storeName);
+    });
     return db;
   }();
 
   int _value;
   final _counterController = StreamController<int>.broadcast();
+
   Stream<int> get counter => _counterController.stream;
+
   Future increment() async {
     _value++;
     var db = await database;
@@ -51,6 +54,7 @@ class MyApp extends StatelessWidget {
   final MyAppBloc bloc;
 
   const MyApp({Key key, @required this.bloc}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -78,6 +82,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   final MyAppBloc bloc;
+
   MyHomePage({Key key, this.title, @required this.bloc}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -112,22 +117,23 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  if (count != null)
+                  if (count != null) ...[
+                    Text(
+                      'You have pushed the button this many times:',
+                    ),
                     Text('$count', style: Theme.of(context).textTheme.display1)
+                  ]
                 ],
               ),
             ),
             floatingActionButton: count != null
                 ? FloatingActionButton(
-              onPressed: () {
-                widget.bloc.increment();
-              },
-              tooltip: 'Increment',
-              child: Icon(Icons.add),
-            )
+                    onPressed: () {
+                      widget.bloc.increment();
+                    },
+                    tooltip: 'Increment',
+                    child: Icon(Icons.add),
+                  )
                 : null,
           );
         });

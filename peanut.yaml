@@ -1,0 +1,4 @@
+# Configuration for https://pub.dartlang.org/packages/peanut
+directories:
+  - demoidb/web
+  - notepad/web
