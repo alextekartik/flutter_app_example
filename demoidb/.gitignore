@@ -3,8 +3,8 @@
 /*/
 
 # Add files you modify here
-!.gitignore
+!/.gitignore
 !/lib/
-!pubspec.yaml
-!README.md
-!test/widget_test.dart
+!/pubspec.yaml
+!/README.md
+!/test/

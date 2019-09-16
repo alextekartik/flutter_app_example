@@ -8,6 +8,6 @@ Future main() async {
     print('Flutter version $flutterVersion not compatible');
     return;
   }
-  await projects_generate.generateAll();
+  await projects_generate.generateAll(force: true);
   await test_all.main();
 }

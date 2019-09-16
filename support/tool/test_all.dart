@@ -24,6 +24,7 @@ dart tool/travis.dart
       await shell.run('''
 
 flutter analyze
+flutter test
 
     ''');
     }

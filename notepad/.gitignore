@@ -3,7 +3,8 @@
 /*/
 
 # Add files you modify here
-!.gitignore
+!/.gitignore
 !/lib/
-!pubspec.yaml
+!/pubspec.yaml
 !/test/
+!/README.md
