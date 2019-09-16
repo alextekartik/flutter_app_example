@@ -9,7 +9,7 @@ dependencies:
     git:
       url: git://github.com/tekartik/build_utils.dart
       ref: dart2
-    version: '>=0.7.0'
+    version: '>=0.7.0+1'
   tekartik_travis_ci_flutter:
     git:
       url: git://github.com/tekartik/travis_ci_flutter.dart
