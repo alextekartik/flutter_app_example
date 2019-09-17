@@ -8,3 +8,5 @@
 !/pubspec.yaml
 !/test/
 !/README.md
+!/analysis_options.yaml
+!/web/

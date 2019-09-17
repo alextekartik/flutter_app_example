@@ -5,19 +5,13 @@ import 'package:idb_shim/idb_client.dart';
 import 'package:idb_shim/idb_client_memory.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_common_utils/map_utils.dart';
-import 'package:tekartik_common_utils/model/model.dart';
 
 const String dbName = "note.db";
 
 const int kVersion1 = 1;
 
-String columnTitle = "title";
-String columnDescription = "description";
-String columnId = "_id";
-String columnContent = "content";
-String columnUpdated = "updated";
-
-String tableNotes = "Notes";
+String fieldTitle = "title";
+String fieldDescription = "description";
 
 class MemoryNoteProvider extends NoteProvider {
   MemoryNoteProvider() : super(idbFactory: idbMemoryFactory);
@@ -28,7 +22,6 @@ class NoteProvider {
   Database db;
 
   static final String notesStoreName = 'notes';
-  static final String updatedIndexName = 'updated';
 
   NoteProvider({@required this.idbFactory});
 
@@ -48,7 +41,6 @@ class NoteProvider {
   Future<int> getCount() async {
     var store = notesReadableTxn;
     var count = await store.count();
-    print('count $count');
     return count;
   }
 
@@ -56,38 +48,30 @@ class NoteProvider {
     var store = notesReadableTxn;
     Map<String, dynamic> map =
         asMap<String, dynamic>(await store?.getObject(id));
-    // devPrint("getNote: ${map}");
     if (map != null) {
-      return Note.fromMap(map)..id = id;
+      return Note.fromMap(map, id);
     }
     return null;
   }
 
   Future open() async {
-    /*
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    print(documentsDirectory);
-
-    String path = join(documentsDirectory.path, idbDbName);
-
-     */
     db = await idbFactory.open(dbName,
         version: kVersion1, onUpgradeNeeded: onUpgradeNeeded);
   }
 
   void onUpgradeNeeded(VersionChangeEvent event) {
     var db = event.database;
-    var store = db.createObjectStore(notesStoreName, autoIncrement: true);
-    store.createIndex(updatedIndexName, 'updated');
+    db.createObjectStore(notesStoreName, autoIncrement: true);
   }
 
-  Future saveNote(Note updatedNote) async {
+  /// Add if id is null, update otherwise
+  Future saveNote(Note note) async {
     // devPrint('saveNote $updatedNote');
     var store = notesWritableTxn;
-    if (updatedNote.id != null) {
-      await store.put(updatedNote.toUpdateMap(), updatedNote.id);
+    if (note.id != null) {
+      await store.put(note.toMap(), note.id);
     } else {
-      updatedNote.id = await store.add(updatedNote.toUpdateMap()) as int;
+      note.id = await store.add(note.toMap()) as int;
     }
   }
 
@@ -97,33 +81,20 @@ class NoteProvider {
     }
   }
 
-  Future<List<ListNote>> getListNotes({int offset, int limit}) async {
+  Future<List<Note>> getNotes() async {
     // devPrint('getting $offset $limit');
-    var list = <ListNote>[];
+    var list = <Note>[];
     var store = notesReadableTxn;
-    var index = store.index(updatedIndexName);
+    // ignore: cancel_subscriptions
     StreamSubscription subscription;
-    subscription = index
+    subscription = store
         .openCursor(direction: idbDirectionPrev, autoAdvance: true)
         .listen((cursor) {
       try {
-        if (offset != null) {
-          if (offset-- > 0) {
-            return;
-          }
-        }
-
-        if (limit != null) {
-          if (list.length >= limit) {
-            subscription?.cancel();
-            return;
-          }
-        }
-
         var map = asMap<String, dynamic>(cursor.value);
 
         if (map != null) {
-          var note = cursorToListNote(cursor);
+          var note = cursorToNote(cursor);
           // devPrint('adding ${note}');
           list.add(note);
         }
@@ -133,45 +104,6 @@ class NoteProvider {
     });
     await subscription.asFuture();
     return list;
-  }
-
-  Stream<ListNotes> onListNotes() {
-    throw UnsupportedError('stream not supported for idb');
-  }
-
-  Future addTestNotes(int count) async {
-    /*
-    // find last id
-    var lastId = await notesStore.findKey(db,
-            finder: Finder(sortOrders: [SortOrder(Field.key, false)])) ??
-        0;
-
-     */
-    var store = notesWritableTxn;
-    int id;
-    try {
-      id = (await store.openKeyCursor(direction: idbDirectionPrev).first)
-          ?.primaryKey as int;
-    } catch (e) {
-      print('error getting last id');
-    }
-    id ??= 0;
-
-    for (int i = 0; i < count; i++) {
-      var note = newNote(++id);
-      await store.add(note.toUpdateMap());
-    }
-
-    return null;
-  }
-
-  Note newNote(int i) {
-    var note = Note()
-      ..title = 'Note $i'
-      ..description = 'Description $i'
-      ..content = "Content $i"
-      ..updated = DateTime.now();
-    return note;
   }
 
   Future clearAllNotes() async {
@@ -186,84 +118,40 @@ class NoteProvider {
   }
 }
 
-ListNote cursorToListNote(
-    CursorWithValue/*<int, Map<String, dynamic>>*/ cursor) {
-  ListNote listNote;
+Note cursorToNote(CursorWithValue/*<int, Map<String, dynamic>>*/ cursor) {
+  Note note;
   var snapshot = asMap(cursor.value);
   if (snapshot != null) {
-    listNote = ListNote.fromMap(snapshot)..id = cursor.primaryKey as int;
+    note = Note.fromMap(snapshot, cursor.primaryKey as int);
   }
-  return listNote;
+  return note;
 }
 
-class Note extends ListNote {
-  String content;
-  DateTime updated;
-
-  Note();
-
-  Note.fromMap(Map<String, dynamic> map, {int id})
-      : super.fromMap(map, id: id) {
-    content = map[columnContent] as String;
-    int updatedMs = map[columnUpdated] as int;
-    if (updatedMs != null) {
-      updated = DateTime.fromMillisecondsSinceEpoch(updatedMs);
-    }
-  }
-
-  @override
-  Map<String, dynamic> toUpdateMap() {
-    var map = super.toUpdateMap();
-    map[columnTitle] = title;
-    map[columnDescription] = description;
-    map[columnContent] = content;
-    map[columnUpdated] = updated?.millisecondsSinceEpoch;
-
-    return map;
-  }
-}
-
-class ListNote {
+class Note {
   int id;
   String title;
-  String description;
+  String descritpion;
 
-  ListNote();
+  Note({@required this.title, @required this.descritpion, this.id});
 
-  ListNote.fromMap(Map map, {int id}) {
-    this.id = id ??= map[columnId] as int;
-    title = map[columnTitle] as String;
-    description = map[columnDescription] as String;
-  }
-
-  Map<String, dynamic> toUpdateMap() {
-    var map = <String, dynamic>{};
-    map[columnTitle] = title;
-    map[columnDescription] = description;
+  Map<String, String> toMap() {
+    Map<String, String> map = {
+      fieldTitle: title,
+      fieldDescription: descritpion
+    };
     return map;
   }
 
-  @override
-  String toString() => "$id $title";
-}
-
-abstract class ListNotes implements List<ListNote> {}
-
-abstract class ListNotesBase extends ListBase<ListNote> implements ListNotes {
-  ModelList modelList;
-
-  ListNotesBase(List list) {
-    modelList = ModelList(list);
+  Note.fromMap(Map map, this.id) {
+    title = map[fieldTitle];
+    descritpion = map[fieldDescription];
   }
 
   @override
-  int get length => modelList.length;
-
-  @override
-  void operator []=(int index, ListNote value) {
-    throw UnsupportedError('read-only');
+  bool operator ==(other) {
+    return other is Note &&
+        other.title == title &&
+        other.descritpion == descritpion &&
+        other.id == id;
   }
-
-  @override
-  set length(int newLength) => throw UnsupportedError('read-only');
 }

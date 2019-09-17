@@ -14,8 +14,8 @@ void testProvider(NoteProvider noteProvider) {
   });
   group('provider_generic', () {
     test('add', () async {
-      await noteProvider.addTestNotes(1);
-      expect(await noteProvider.getListNotes(), hasLength(1));
+      await noteProvider.saveNote(Note(title: 'test', descritpion: 'desc'));
+      expect(await noteProvider.getNotes(), hasLength(1));
     });
   });
 }
