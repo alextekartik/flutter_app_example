@@ -14,7 +14,7 @@ String fieldTitle = "title";
 String fieldDescription = "description";
 
 class MemoryNoteProvider extends NoteProvider {
-  MemoryNoteProvider() : super(idbFactory: idbMemoryFactory);
+  MemoryNoteProvider() : super(idbFactory: idbFactoryMemory);
 }
 
 class NoteProvider {
