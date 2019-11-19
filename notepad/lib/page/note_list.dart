@@ -41,20 +41,24 @@ class NoteListPageState extends State<NoteListPage> {
   }
 
   Widget buildNotesList(AsyncSnapshot<List<Note>> snapshot) {
+    var notes = snapshot.data;
+    if (notes != null) {
+      return ListView.builder(
+          itemBuilder: (BuildContext context, int index) =>
+              _createItem(notes, index),
+          itemCount: notes.length);
+    }
+    // print('snapshot ${snapshot.connectionState} ${snapshot.data}');
     switch (snapshot.connectionState) {
       case ConnectionState.none:
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        break;
       default:
         if (snapshot.hasError) {
           return Text("Unexected error occurs: ${snapshot.error}");
         }
-        var notes = snapshot.data;
-        return ListView.builder(
-            itemBuilder: (BuildContext context, int index) =>
-                _createItem(notes, index),
-            itemCount: notes.length);
     }
+    return Center(child: CircularProgressIndicator());
   }
 
   Widget _createItem(List<Note> notes, int index) {
