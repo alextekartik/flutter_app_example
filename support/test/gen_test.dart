@@ -16,7 +16,10 @@ void main() {
         await fsGenerate(dir: dirName, src: src);
         var context = await flutterContext;
         if (context.supportsWeb) {
-          await Shell(workingDirectory: dirName).run('flutter build web');
+          await Shell(workingDirectory: dirName).run('''
+              flutter packages get
+              flutter build web
+              ''');
         }
 
         dirName = '.dart_tool/flutter_app_example_support/test/app/gen_notepad';
