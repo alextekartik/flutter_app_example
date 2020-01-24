@@ -10,5 +10,5 @@ Future generate({bool force}) async {
   await gitGenerate(
       dirName: notepadAppDirName,
       appName: 'tekartik_notepad_app',
-      force: force, noWeb: true);
+      force: force);
 }
