@@ -2,9 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_idb/idb.dart';
+import 'package:tekartik_app_platform/app_platform.dart';
+
+import 'app_io.dart' if (dart.library.html) 'app_web.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  platformInit();
+  appInit();
   var bloc = MyAppBloc();
   runApp(MyApp(
     bloc: bloc,
@@ -121,7 +126,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text(
                       'You have pushed the button this many times:',
                     ),
-                    Text('$count', style: Theme.of(context).textTheme.display1)
+                    Text('$count',
+                        style:
+                            // ignore: deprecated_member_use
+                            Theme.of(context).textTheme.display1)
                   ]
                 ],
               ),

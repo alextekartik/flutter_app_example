@@ -35,6 +35,23 @@ dependencies:
       url: git://github.com/tekartik/common_utils.dart
       ref: dart2
     version: '>=0.9.8'
+  tekartik_app_platform:
+    git:
+      url: git://github.com/tekartik/app_flutter_utils.dart
+      ref: dart2
+      path: app_platform
+    version: '>=0.1.0'
+  sqflite_ffi_test:
+    git:
+      url: git://github.com/tekartik/sqflite_more
+      ref: dart2
+      path: sqflite_ffi_test
+  tekartik_app_roboto:
+    git:
+      url: git://github.com/tekartik/app_flutter_utils.dart
+      ref: dart2
+      path: app_roboto
+      version: '>=0.1.0'
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,7 +85,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: packages/tekartik_app_roboto/fonts/Roboto/Roboto-Regular.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
