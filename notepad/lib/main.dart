@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_idb/idb.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
-import 'package:tekartik_notepad_app/app_io.dart';
 import 'package:tekartik_notepad_app/note_provider.dart';
 import 'package:tekartik_notepad_app/page/note_list.dart';
-import 'app_io.dart' if (dart.library.html) 'app_web.dart';
+import 'app_stub.dart'
+    if (dart.library.html) 'app_web.dart'
+    if (dart.library.io) 'app_io.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
