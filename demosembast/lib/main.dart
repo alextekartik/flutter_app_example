@@ -2,29 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:tekartik_app_flutter_sembast/sembast.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:tekartik_app_flutter_sembast/setup/sembast_flutter.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
-  String rootPath;
   String packageName = 'com.tekartik.demosembast';
 
-  // Common init for all
-  if (!kIsWeb) {
-    String documentsPath;
-    try {
-      documentsPath = (await getApplicationDocumentsDirectory()).path;
-    } catch (_) {}
-    if (documentsPath != null) {
-      rootPath = join(documentsPath, 'db');
-    }
-  }
-  var databaseFactory =
-      getDatabaseFactory(rootPath: rootPath, packageName: packageName);
+  var databaseFactory = await initDatabaseFactory(packageName: packageName);
 
   var bloc = MyAppBloc(databaseFactory);
   runApp(MyApp(
