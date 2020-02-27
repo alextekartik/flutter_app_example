@@ -44,6 +44,7 @@ dependencies:
       path: app_roboto
       version: '>=0.1.0'
   path_provider:
+  path_provider_macos:
 dev_dependencies:
   flutter_test:
     sdk: flutter
