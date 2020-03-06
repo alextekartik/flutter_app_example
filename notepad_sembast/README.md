@@ -1,6 +1,6 @@
 # Sembast flutter notepad example
 
-Note pad demo using sembast based persistency. [Online demo](https://alextekartik.github.io/flutter_app_example/notepad_sembast).
+Note pad demo using sembast based persistency. [Online demo](https://alextekartik.github.io/flutter_app_example/notepad_sembast/).
 
 Works on Flutter iOS/Android/Web/MacOS.
 

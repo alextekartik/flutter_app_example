@@ -1,5 +1,4 @@
 import 'package:process_run/shell_run.dart';
-import 'projects_generate.dart' as projects_generate;
 import 'test_all.dart' as test_all;
 
 Future main() async {
