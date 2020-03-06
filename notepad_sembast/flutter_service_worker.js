@@ -11,7 +11,7 @@ const RESOURCES = {
 "/assets/FontManifest.json": "7be6663596f7f7e92f09b6d73eb425c3",
 "/main.dart.js": "31b37ba6ead7c4fdb7b58c109967d58b",
 "/manifest.json": "8e064c3bcf0ecaeb0545f8ae28323222",
-"/index.html": "d69d3278c21d30fc1da05474ff0b6c68"
+"/index.html": "ad4bdd9d1713564792fd02567f35bac8"
 };
 
 self.addEventListener('activate', function (event) {
