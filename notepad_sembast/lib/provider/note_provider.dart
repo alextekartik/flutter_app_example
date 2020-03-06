@@ -79,7 +79,7 @@ class DbNoteProvider {
               ..title.v = 'Welcome to NotePad'
               ..content.v =
                   'Enter your notes\n\nThis is a content. Just tap anywhere to edit the note.\n'
-                      '${kIsWeb ? '\nYou can open multiple tabs on windows and see that the content is the same in all tabs' : ''}'
+                      '${kIsWeb ? '\nYou can open multiple tabs or windows and see that the content is the same in all tabs' : ''}'
               ..date.v = 2)
             .toMap(),
       ]);
