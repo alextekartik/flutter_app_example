@@ -5,32 +5,26 @@ Flutter app examples
 * [Notepad example](notepad_sembast/README.md) using sembast
 * [Notepad example](notepad/README.md) using idb
 
-# Setup
+## Manual setup
 
-The final code is generated from the current app template to avoid saving ten times the same things
+Since it is a pain to maintain projects for all target, only the minimum needed files
+are checked in. You should be able to re-create the needed project files (gradle, workspace) using `flutter create .`
+in each application folder.
+
+### MacOS
+
+Assuming you are on flutter dev channel
 
 ```bash
-cd support
-pub get
+flutter create .
+flutter run -d macos
 ```
 
-You can generate each project one by one 
+### Web
+
+Assuming you are on flutter web channel
 
 ```bash
-dart tool/demoidb_project_generate.dart
-dart tool/notepad_project_generate.dart
-```
-
-or all at once:
-```bash
-dart tool/projects_generate.dart
-```
-
-# Run
-
-Enter the app directory you want to run and use flutter tools
-
-```bash
-cd demoidb
-flutter run
+flutter create .
+flutter run -d chrome
 ```
