@@ -11,6 +11,6 @@ Future main() async {
   
   ''');
 
-  await projects_generate.generateAll(force: true);
+  // await projects_generate.generateAll(force: true);
   await test_all.main();
 }

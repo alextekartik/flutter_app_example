@@ -2,6 +2,9 @@
 
 Flutter app examples
 
+* [Notepad example](notepad_sembast/README.md) using sembast
+* [Notepad example](notepad/README.md) using idb
+
 # Setup
 
 The final code is generated from the current app template to avoid saving ten times the same things

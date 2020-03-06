@@ -6,12 +6,12 @@ import 'package:idb_shim/idb_client_memory.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_common_utils/map_utils.dart';
 
-const String dbName = "note.db";
+const String dbName = 'note.db';
 
 const int kVersion1 = 1;
 
-String fieldTitle = "title";
-String fieldDescription = "description";
+String fieldTitle = 'title';
+String fieldDescription = 'description';
 
 class MemoryNoteProvider extends NoteProvider {
   MemoryNoteProvider() : super(idbFactory: idbFactoryMemory);
@@ -46,8 +46,7 @@ class NoteProvider {
 
   Future<Note> getNote(int id) async {
     var store = notesReadableTxn;
-    Map<String, dynamic> map =
-        asMap<String, dynamic>(await store?.getObject(id));
+    var map = asMap<String, dynamic>(await store?.getObject(id));
     if (map != null) {
       return Note.fromMap(map, id);
     }
@@ -130,28 +129,28 @@ Note cursorToNote(CursorWithValue/*<int, Map<String, dynamic>>*/ cursor) {
 class Note {
   int id;
   String title;
-  String descritpion;
+  String description;
 
-  Note({@required this.title, @required this.descritpion, this.id});
+  Note({@required this.title, @required this.description, this.id});
 
   Map<String, String> toMap() {
-    Map<String, String> map = {
+    var map = <String, String>{
       fieldTitle: title,
-      fieldDescription: descritpion
+      fieldDescription: description
     };
     return map;
   }
 
   Note.fromMap(Map map, this.id) {
     title = map[fieldTitle];
-    descritpion = map[fieldDescription];
+    description = map[fieldDescription];
   }
 
   @override
   bool operator ==(other) {
     return other is Note &&
         other.title == title &&
-        other.descritpion == descritpion &&
+        other.description == description &&
         other.id == id;
   }
 }

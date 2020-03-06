@@ -27,7 +27,7 @@ class NoteListPageState extends State<NoteListPage> {
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("Notepad"),
+            title: Text('Notepad'),
           ),
           body: buildNotesList(snapshot),
           floatingActionButton: FloatingActionButton(
@@ -55,7 +55,7 @@ class NoteListPageState extends State<NoteListPage> {
         break;
       default:
         if (snapshot.hasError) {
-          return Text("Unexected error occurs: ${snapshot.error}");
+          return Text('Unexected error occurs: ${snapshot.error}');
         }
     }
     return Center(child: CircularProgressIndicator());
@@ -69,9 +69,9 @@ class NoteListPageState extends State<NoteListPage> {
       },
       child: ListTile(
         title: Text(notes[index].title),
-        subtitle: Text(notes[index].descritpion.length > 50
-            ? notes[index].descritpion.substring(0, 50)
-            : notes[index].descritpion),
+        subtitle: Text(notes[index].description.length > 50
+            ? notes[index].description.substring(0, 50)
+            : notes[index].description),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => NoteEditPage(

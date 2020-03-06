@@ -27,7 +27,7 @@ class NoteEditPageState extends State<NoteEditPage> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       await noteProvider.saveNote(
-          Note(title: _title, descritpion: _description, id: note?.id));
+          Note(title: _title, description: _description, id: note?.id));
       Navigator.pop(context);
     }
   }
@@ -36,7 +36,7 @@ class NoteEditPageState extends State<NoteEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit notes data"),
+        title: Text('Edit notes data'),
       ),
       body: Container(
           margin: EdgeInsets.all(16.0),
@@ -49,13 +49,13 @@ class NoteEditPageState extends State<NoteEditPage> {
                     Container(
                       child: TextFormField(
                         decoration: InputDecoration(
-                          labelText: "Title",
+                          labelText: 'Title',
                           border: InputBorder.none,
                         ),
-                        key: Key("title"),
+                        key: Key('title'),
                         initialValue: note?.title,
                         validator: (val) =>
-                            val.isNotEmpty ? null : "Title must not be empty",
+                            val.isNotEmpty ? null : 'Title must not be empty',
                         onSaved: (val) => _title = val,
                       ),
                     ),
@@ -65,14 +65,14 @@ class NoteEditPageState extends State<NoteEditPage> {
                     )),
                     TextFormField(
                       decoration: InputDecoration(
-                        labelText: "Description",
+                        labelText: 'Description',
                         border: InputBorder.none,
                       ),
-                      key: Key("description"),
-                      initialValue: note?.descritpion,
+                      key: Key('description'),
+                      initialValue: note?.description,
                       validator: (val) => val.isNotEmpty
                           ? null
-                          : "Description must not be empty",
+                          : 'Description must not be empty',
                       onSaved: (val) => _description = val,
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
