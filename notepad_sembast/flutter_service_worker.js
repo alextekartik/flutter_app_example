@@ -9,9 +9,9 @@ const RESOURCES = {
 "/assets/AssetManifest.json": "e1961c0bec4a3f540c85ada3a529dcb1",
 "/assets/fonts/MaterialIcons-Regular.ttf": "56d3ffdef7a25659eab6a68a3fbfaf16",
 "/assets/FontManifest.json": "7be6663596f7f7e92f09b6d73eb425c3",
-"/main.dart.js": "4e952e8c36633ecf9d9a1264c907e610",
-"/manifest.json": "7eca68ecacadae81fa50c05f1b8ddc24",
-"/index.html": "9985d25f8981ded6df9138ffeef00065"
+"/main.dart.js": "31b37ba6ead7c4fdb7b58c109967d58b",
+"/manifest.json": "8e064c3bcf0ecaeb0545f8ae28323222",
+"/index.html": "d69d3278c21d30fc1da05474ff0b6c68"
 };
 
 self.addEventListener('activate', function (event) {
