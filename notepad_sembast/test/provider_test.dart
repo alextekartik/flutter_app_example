@@ -18,7 +18,8 @@ void main() {
       await provider.open();
       var note = DbNote()
         ..title.v = 'my_title'
-        ..content.v = 'my content';
+        ..content.v = 'my content'
+        ..date.v = DateTime.now().millisecondsSinceEpoch;
       await provider.saveNote(note);
       var first = await provider.onNotes().first;
       expect(first.first.title.v, 'my_title');
