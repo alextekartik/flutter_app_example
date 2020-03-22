@@ -72,10 +72,13 @@ class NoteListPageState extends State<NoteListPage> {
         subtitle: Text(notes[index].description.length > 50
             ? notes[index].description.substring(0, 50)
             : notes[index].description),
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
+        onTap: () async {
+          var result = await Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => NoteEditPage(
                   noteProvider: noteProvider, note: notes[index])));
+          if (result == true) {
+            setState(() {});
+          }
         },
       ),
     );

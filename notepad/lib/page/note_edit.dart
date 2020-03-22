@@ -28,7 +28,7 @@ class NoteEditPageState extends State<NoteEditPage> {
       _formKey.currentState.save();
       await noteProvider.saveNote(
           Note(title: _title, description: _description, id: note?.id));
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
   }
 
