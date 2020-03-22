@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:tekartik_notepad_app/note_provider.dart';
-
+import 'package:rxdart/rxdart.dart';
+import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'note_edit.dart';
+
+class NoteListPageBloc {
+  final NoteProvider noteProvider;
+
+  NoteListPageBloc(this.noteProvider);
+  final _subject = BehaviorSubject<List<Note>>();
+
+  ValueStream<List<Note>> get notes => _subject;
+
+  Future refresh() async {
+    _subject.add(await noteProvider.getNotes());
+  }
+
+  void dispose() {
+    _subject.close();
+  }
+}
 
 class NoteListPage extends StatefulWidget {
   final NoteProvider noteProvider;
@@ -14,16 +32,25 @@ class NoteListPage extends StatefulWidget {
 }
 
 class NoteListPageState extends State<NoteListPage> {
-  NoteProvider get noteProvider => widget.noteProvider;
+  NoteListPageBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = NoteListPageBloc(widget.noteProvider);
+    bloc.refresh();
+  }
+
   @override
   void dispose() {
+    bloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Note>>(
-      future: widget.noteProvider.getNotes(),
+    return ValueStreamBuilder(
+      stream: bloc.notes,
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
@@ -31,9 +58,14 @@ class NoteListPageState extends State<NoteListPage> {
           ),
           body: buildNotesList(snapshot),
           floatingActionButton: FloatingActionButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) =>
-                      NoteEditPage(noteProvider: widget.noteProvider))),
+              onPressed: () async {
+                var result = await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) =>
+                        NoteEditPage(noteProvider: widget.noteProvider)));
+                if (result == true) {
+                  await bloc.refresh();
+                }
+              },
               child: Icon(Icons.add)),
         );
       },
@@ -65,7 +97,8 @@ class NoteListPageState extends State<NoteListPage> {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (direction) async {
-        await noteProvider.deleteNote(notes[index].id);
+        await widget.noteProvider.deleteNote(notes[index].id);
+        await bloc.refresh();
       },
       child: ListTile(
         title: Text(notes[index].title),
@@ -75,9 +108,9 @@ class NoteListPageState extends State<NoteListPage> {
         onTap: () async {
           var result = await Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => NoteEditPage(
-                  noteProvider: noteProvider, note: notes[index])));
+                  noteProvider: widget.noteProvider, note: notes[index])));
           if (result == true) {
-            setState(() {});
+            await bloc.refresh();
           }
         },
       ),
