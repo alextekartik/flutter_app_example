@@ -59,7 +59,7 @@ class DbNoteProvider {
       });
 
   Future<DbNote> getNote(int id) async {
-    Map<String, dynamic> map = await notesStore.record(id).get(db);
+    var map = await notesStore.record(id).get(db);
     // devPrint('getNote: ${map}');
     if (map != null) {
       return DbNote()..fromMap(map, id: id);

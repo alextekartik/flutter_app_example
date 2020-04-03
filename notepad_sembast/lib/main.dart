@@ -10,7 +10,7 @@ DbNoteProvider noteProvider;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
-  String packageName = 'com.tekartik.sembast.notepad';
+  var packageName = 'com.tekartik.sembast.notepad';
 
   var databaseFactory = await initDatabaseFactory(packageName: packageName);
 

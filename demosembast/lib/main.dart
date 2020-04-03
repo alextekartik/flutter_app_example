@@ -9,7 +9,7 @@ import 'package:tekartik_app_flutter_sembast/setup/sembast_flutter.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
-  String packageName = 'com.tekartik.demosembast';
+  var packageName = 'com.tekartik.demosembast';
 
   var databaseFactory = await initDatabaseFactory(packageName: packageName);
 

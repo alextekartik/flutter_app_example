@@ -87,12 +87,12 @@ class Field<T> extends Column<T> {
   void setValue(T value, {bool presentIfNull}) {
     if (value == null) {
       if (presentIfNull != true) {
-        this.v = value;
+        v = value;
       } else {
         removeValue();
       }
     } else {
-      this.v = value;
+      v = value;
     }
   }
 

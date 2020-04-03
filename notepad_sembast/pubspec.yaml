@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  sembast_web: '>=1.1.0-dev.3'
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
