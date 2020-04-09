@@ -4,14 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_sembast/sembast.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
-import 'package:tekartik_app_flutter_sembast/setup/sembast_flutter.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
   var packageName = 'com.tekartik.demosembast';
 
-  var databaseFactory = await initDatabaseFactory(packageName: packageName);
+  var databaseFactory = getDatabaseFactory(packageName: packageName);
 
   var bloc = MyAppBloc(databaseFactory);
   runApp(MyApp(

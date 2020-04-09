@@ -3,7 +3,7 @@ import 'package:tekartik_notepad_sembast_app/page/list_page.dart';
 import 'package:tekartik_notepad_sembast_app/provider/note_provider.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
-import 'package:tekartik_app_flutter_sembast/setup/sembast_flutter.dart';
+import 'package:tekartik_app_flutter_sembast/sembast.dart';
 
 DbNoteProvider noteProvider;
 
@@ -12,7 +12,7 @@ Future main() async {
   platformInit();
   var packageName = 'com.tekartik.sembast.notepad';
 
-  var databaseFactory = await initDatabaseFactory(packageName: packageName);
+  var databaseFactory = getDatabaseFactory(packageName: packageName);
 
   noteProvider = DbNoteProvider(databaseFactory);
   // devPrint('/notepad Starting');

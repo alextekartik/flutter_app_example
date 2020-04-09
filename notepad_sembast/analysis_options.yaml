@@ -3,12 +3,20 @@
 # see https://github.com/dart-lang/pedantic#enabled-lints.
 include: package:pedantic/analysis_options.yaml
 
-# For lint rules and documentation, see http://dart-lang.github.io/linter/lints.
-# Uncomment to specify additional rules.
-# linter:
-#   rules:
-#     - camel_case_types
-
+#
+# Until there are meta linter rules, each desired lint must be explicitly enabled.
+# See: https://github.com/dart-lang/linter/issues/288
+#
+# For a list of lints, see: http://dart-lang.github.io/linter/lints/
+# See the configuration guide for more
+# https://github.com/dart-lang/sdk/tree/master/pkg/analyzer#configuring-the-analyzer
 analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+  strong-mode:
+    implicit-casts: false
+  errors:
+    # treat missing required parameters as a warning (not a hint)
+    missing_required_param: warning
+    # treat missing returns as a warning (not a hint)
+    missing_return: warning
+    # allow having TODOs in the code
+    todo: ignore
