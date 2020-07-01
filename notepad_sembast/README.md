@@ -2,11 +2,13 @@
 
 Note pad demo using sembast based persistency. [Online demo](https://alextekartik.github.io/flutter_app_example/notepad_sembast/).
 
-Works on Flutter iOS/Android/Web/MacOS/Linux.
+Works on Flutter iOS/Android/Web/MacOS/Linux/windows.
 
 Simple sembast example:
 * Usage of `StreamBuilder` with `Query.onSnapshots()`
 * Works on the web using `sembast_web`
+* Works on flutter mobile using `sembast_sqflite`
+* Works on flutter desktop using `sembast_sqflite` and `sqflite_common_ffi`
 
 ## Setup
 
@@ -17,4 +19,4 @@ flutter create .
 flutter run
 ```
 
-To allow running on iOS/Android. For other platforms, Make sure you are on the proper flutter channel (beta for the web, dev for MacOS/Linux as of 2020/07/01)
+To allow running on iOS/Android. For other platforms, Make sure you are on the proper flutter channel (as of 2020/07/01: beta for the web, dev for MacOS/Linux, master for Windows)

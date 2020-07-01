@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tekartik_notepad_sembast_app/page/list_page.dart';
 import 'package:tekartik_notepad_sembast_app/provider/note_provider.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
+import 'package:tekartik_app_flutter_sqflite/sqflite.dart' as sqflite;
 import 'package:tekartik_app_flutter_sembast/sembast.dart';
 
 DbNoteProvider noteProvider;
@@ -10,6 +12,10 @@ DbNoteProvider noteProvider;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
+  // For dev, find the proper sqlite3.dll
+  if (!kIsWeb) {
+    sqflite.sqfliteWindowsFfiInit();
+  }
   var packageName = 'com.tekartik.sembast.notepad';
 
   var databaseFactory = getDatabaseFactory(packageName: packageName);
