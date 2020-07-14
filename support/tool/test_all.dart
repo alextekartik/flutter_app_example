@@ -9,6 +9,7 @@ Future main() async {
     'notepad',
     'demosembast',
     'notepad_sembast',
+    'process_run_example',
   ]) {
     shell = shell.pushd(join('..', dir));
     await shell.run('''
