@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:process_run/cmd_run.dart';
 import 'package:process_run/shell.dart';
 import 'package:flutter/material.dart';
+import 'package:process_run/which.dart';
 import 'dart:convert';
+import 'package:pub_semver/pub_semver.dart';
 
+final appVersion = Version(0, 1, 0);
 void main() {
   runApp(MyApp());
 }
@@ -105,8 +109,51 @@ class _MyHomePageState extends State<MyHomePage> {
     _addLine(ErrLine('Error text will be displayed in red'));
   }
 
-  void _run(String command) {
-    _shell.run(command);
+  Future _run(String command) async {
+    if (command == '@info') {
+      _addLine(OutLine('appVersion: $appVersion'));
+      _addLine(OutLine('dartExecutable: $dartExecutable'));
+      _addLine(OutLine('flutterExecutablePath: $flutterExecutablePath'));
+      _addLine(OutLine('which(\'dart\'): ${await which('dart')}'));
+      _addLine(OutLine('which(\'flutter\'): ${await which('flutter')}'));
+      _addLine(OutLine('which(\'pub\'): ${await which('pub')}'));
+      try {
+        _addLine(OutLine('DartCmd(\'--version\'): ${(await runCmd(DartCmd([
+          '--version'
+        ]))).stderr.toString().trim()}'));
+      } catch (e) {
+        _addLine(ErrLine('DartCmd(\'--version\') error $e'));
+      }
+      try {
+        _addLine(OutLine(
+            'FlutterCmd(\'--version\'): ${(await runCmd(FlutterCmd([
+          '--version'
+        ]))).stdout.toString().trim()}'));
+      } catch (e) {
+        _addLine(ErrLine('FlutterCmd(\'--version\') error $e'));
+      }
+      try {
+        _addLine(OutLine('PubCmd(\'--version\'): ${(await runCmd(PubCmd([
+          '--version'
+        ]))).stderr.toString().trim()}'));
+      } catch (e) {
+        _addLine(ErrLine('PubCmd(\'--version\') error $e'));
+      }
+      _addLine(OutLine('$userHomePath: $userHomePath'));
+      _addLine(OutLine('$userAppDataPath: $userAppDataPath'));
+      await _shell.run('flutter --version');
+      await _shell.run('dart --version');
+      await _shell.run('pub --version');
+    } else if (command == '@userEnv') {
+      _addLine(OutLine(
+          'userEnvironment: ${JsonEncoder.withIndent('  ').convert(userEnvironment)}'));
+    } else if (command == '@path') {
+      userPaths.forEach((element) {
+        _addLine(OutLine(element));
+      });
+    } else {
+      _shell.run(command);
+    }
   }
 
   void flutterDoctor() {
@@ -123,7 +170,17 @@ class _MyHomePageState extends State<MyHomePage> {
           PopupMenuButton<String>(
             onSelected: _run,
             itemBuilder: (BuildContext context) {
-              return ['flutter --help', 'dart --version', 'dart --help']
+              return [
+                'flutter --version',
+                'flutter --help',
+                'dart --version',
+                'dart --help',
+                'pub --version',
+                'pub --help',
+                '@info',
+                '@path',
+                '@userEnv'
+              ]
                   .map((e) => PopupMenuItem<String>(
                         value: e,
                         child: Text(e),
@@ -163,8 +220,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: flutterDoctor,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        tooltip: 'Flutter doctor',
+        child: Icon(Icons.info_outline),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
