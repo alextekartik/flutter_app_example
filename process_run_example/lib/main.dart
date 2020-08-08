@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         _addLine(OutLine('PubCmd(\'--version\'): ${(await runCmd(PubCmd([
           '--version'
-        ]))).stderr.toString().trim()}'));
+        ]))).stdout.toString().trim()}'));
       } catch (e) {
         _addLine(ErrLine('PubCmd(\'--version\') error $e'));
       }
