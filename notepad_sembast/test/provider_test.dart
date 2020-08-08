@@ -16,7 +16,7 @@ void main() {
       await provider.deleteDb();
       await provider.open();
       var first = await provider.onNotes().first;
-      expect(first.first.title.v, 'Simple title');
+      expect(first.first.title.v, 'Welcome to NotePad');
       await provider.close();
     });
     test('initial', () async {

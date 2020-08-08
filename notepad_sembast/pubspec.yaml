@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  sembast: '>=2.4.7+3'
+  sembast: '>=2.4.7+6'
   sembast_web: '>=1.2.0'
   sembast_sqflite: '>=1.0.0'
   # The following adds the Cupertino Icons font to your application.
