@@ -9,10 +9,10 @@ import 'package:pub_semver/pub_semver.dart';
 
 final appVersion = Version(0, 1, 0);
 void main() {
-  runApp(MyApp());
+  runApp(ProcessRunExampleApp());
 }
 
-class MyApp extends StatelessWidget {
+class ProcessRunExampleApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
       title: 'Process run Example',
       theme: ThemeData(
         brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.cyan[600],
+
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -29,19 +32,19 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        //primarySwatch: Colors.green,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Process run example'),
+      home: MainPage(title: 'Process run example'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class MainPage extends StatefulWidget {
+  MainPage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -55,7 +58,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MainPageState createState() => _MainPageState();
 }
 
 abstract class Line {
@@ -72,7 +75,7 @@ class OutLine extends Line {
   OutLine(String text) : super(text);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MainPageState extends State<MainPage> {
   Shell _shell;
   final _stdoutCtlr = StreamController<List<int>>();
   final _stderrCtlr = StreamController<List<int>>();
@@ -156,8 +159,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void flutterDoctor() {
-    _run('flutter doctor -v');
+  Future runCustomCommand() async {
+    var command = await _readCommand();
+    if (command != null) {
+      await _shell.run(command);
+    }
   }
 
   @override
@@ -173,6 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return [
                 'flutter --version',
                 'flutter --help',
+                'flutter doctor -v',
                 'dart --version',
                 'dart --help',
                 'pub --version',
@@ -219,10 +226,56 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: flutterDoctor,
-        tooltip: 'Flutter doctor',
-        child: Icon(Icons.info_outline),
+        onPressed: runCustomCommand,
+        tooltip: 'Custom command',
+        child: Icon(Icons.arrow_right),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  TextEditingController _commandInputController;
+  Future<String> _readCommand() async {
+    _commandInputController?.dispose();
+    var textValue = _commandInputController?.text ?? 'echo "Hello World!"';
+    _commandInputController = TextEditingController(text: textValue);
+    _commandInputController.selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: textValue.length,
+    );
+
+    void _run() {
+      Navigator.pop(context, _commandInputController.text);
+    }
+
+    return await showDialog<String>(
+      context: context,
+      child: AlertDialog(
+        contentPadding: const EdgeInsets.all(16.0),
+        content: new Row(
+          children: <Widget>[
+            new Expanded(
+                child: new TextField(
+              controller: _commandInputController,
+              autofocus: true,
+              onSubmitted: (_) => _run(),
+              decoration: new InputDecoration(
+                  labelText: 'Full command', hintText: 'Command'),
+            )),
+          ],
+        ),
+        actions: <Widget>[
+          new FlatButton(
+              child: const Text('CANCEL'),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          new FlatButton(
+              child: const Text('RUN'),
+              onPressed: () {
+                _run();
+              })
+        ],
+      ),
     );
   }
 
@@ -231,6 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _stdoutCtlr.close();
     _stderrCtlr.close();
     _linesCtlr.close();
+    _commandInputController?.dispose();
     super.dispose();
   }
 }
