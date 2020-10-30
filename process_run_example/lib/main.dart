@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:process_run/cmd_run.dart';
 import 'package:process_run/shell.dart';
@@ -75,6 +77,72 @@ class OutLine extends Line {
   OutLine(String text) : super(text);
 }
 
+/// Basic line streaming. Assuming system encoding
+Stream<String> streamLines(Stream<List<int>> stream,
+    {Encoding encoding = systemEncoding}) {
+  StreamSubscription subscription;
+  List<int> currentLine;
+  const endOfLine = 10;
+  const lineFeed = 13;
+  StreamController<String> ctlr;
+  encoding ??= systemEncoding;
+  ctlr = StreamController<String>(onListen: () {
+    void addCurrentLine() {
+      if (currentLine?.isNotEmpty ?? false) {
+        try {
+          ctlr.add(systemEncoding.decode(currentLine));
+        } catch (_) {
+          // Ignore nad encoded line
+          print('ignoring: $currentLine');
+        }
+      }
+      currentLine = null;
+    }
+
+    void addToCurrentLine(List<int> data) {
+      if (currentLine == null) {
+        currentLine = data;
+      } else {
+        var newCurrentLine = Uint8List(currentLine.length + data.length);
+        newCurrentLine.setAll(0, currentLine);
+        newCurrentLine.setAll(currentLine.length, data);
+        currentLine = newCurrentLine;
+      }
+    }
+
+    subscription = stream.listen((data) {
+      // var _w;
+      // print('read $data');
+      // devPrint('read $data');
+      // look for \n (10)
+      var start = 0;
+      for (var i = 0; i < data.length; i++) {
+        var byte = data[i];
+        if (byte == endOfLine || byte == lineFeed) {
+          addToCurrentLine(data.sublist(start, i));
+          addCurrentLine();
+          // Skip it
+          start = i + 1;
+        }
+      }
+      // Store last current line
+      if (data.length > start) {
+        addToCurrentLine(data.sublist(start, data.length));
+      }
+    }, onDone: () {
+      // Last one
+      if (currentLine != null) {
+        addCurrentLine();
+      }
+      ctlr.close();
+    });
+  }, onCancel: () {
+    subscription?.cancel();
+  });
+
+  return ctlr.stream;
+}
+
 class _MainPageState extends State<MainPage> {
   Shell _shell;
   final _stdoutCtlr = StreamController<List<int>>();
@@ -94,18 +162,28 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    streamLines(_stdoutCtlr.stream).listen((line) {
+      _addLine(OutLine(line));
+    });
+    streamLines(_stderrCtlr.stream).listen((line) {
+      _addLine(ErrLine(line));
+    });
+    /*
     utf8.decoder
         .bind(_stdoutCtlr.stream)
         .transform(const LineSplitter())
         .listen((text) {
       _addLine(OutLine(text));
     });
+
     utf8.decoder
         .bind(_stderrCtlr.stream)
         .transform(const LineSplitter())
         .listen((text) {
       _addLine(ErrLine(text));
     });
+
+     */
     _shell = Shell(stdout: _stdoutCtlr.sink, stderr: _stderrCtlr.sink);
     _addLine(OutLine(
         'Press the button to run flutter doctor -v, see other commands in the menu'));
