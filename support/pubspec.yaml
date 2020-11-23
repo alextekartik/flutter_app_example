@@ -1,4 +1,5 @@
 name: flutter_app_example_support
+publish_to: none
 deploy_to: none
 
 environment:
