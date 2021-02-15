@@ -327,7 +327,7 @@ class _MainPageState extends State<MainPage> {
 
     return await showDialog<String>(
       context: context,
-      child: AlertDialog(
+      builder: (_) => AlertDialog(
         contentPadding: const EdgeInsets.all(16.0),
         content: new Row(
           children: <Widget>[
