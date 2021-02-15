@@ -58,7 +58,7 @@ dev_dependencies:
   process_run:
 
 dependency_overrides:
-  pedantic: '>=1.9.0'
+  # pedantic: '>=1.9.0'
 #  sembast:
 #    path: ../../../tekartik/sembast.dart/sembast
 #  sembast_sqflite:
