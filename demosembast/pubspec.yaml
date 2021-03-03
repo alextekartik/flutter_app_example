@@ -15,12 +15,11 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: '>=2.10.0-0 <3.0.0'
+  sdk: '>=2.12.0-0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  sembast_web: '>=0.1.0+4'
   path:
 
   # The following adds the Cupertino Icons font to your application.
@@ -29,19 +28,19 @@ dependencies:
   tekartik_app_flutter_sembast:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2
+      ref: null_safety
       path: app_sembast
     version: '>=0.3.0'
   tekartik_app_platform:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2
+      ref: null_safety
       path: app_platform
     version: '>=0.1.0'
   tekartik_app_roboto:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2
+      ref: null_safety
       path: app_roboto
       version: '>=0.1.0'
   path_provider:
