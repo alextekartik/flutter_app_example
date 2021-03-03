@@ -112,7 +112,7 @@ class DbNoteProvider {
   Future _saveNote(DatabaseExecutor db, DbNote updatedNote) async {
     if (updatedNote.id.v != null) {
       await db.update(tableNotes, updatedNote.toMap(),
-          where: '$columnId = ?', whereArgs: <dynamic>[updatedNote.id]);
+          where: '$columnId = ?', whereArgs: <dynamic>[updatedNote.id.v]);
     } else {
       updatedNote.id.v = await db.insert(tableNotes, updatedNote.toMap());
     }
