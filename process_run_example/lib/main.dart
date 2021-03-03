@@ -342,12 +342,12 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
               child: const Text('CANCEL'),
               onPressed: () {
                 Navigator.pop(context);
               }),
-          new FlatButton(
+          new TextButton(
               child: const Text('RUN'),
               onPressed: () {
                 _run();
