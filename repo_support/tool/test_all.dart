@@ -5,6 +5,7 @@ Future main() async {
   var shell = Shell();
 
   for (var dir in [
+    'notepad_sqflite',
     'demoidb',
     'notepad',
     'demosembast',

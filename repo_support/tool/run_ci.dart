@@ -5,6 +5,7 @@ Future main() async {
   for (var dir in [
     '.',
     ...[
+      'notepad_sqflite',
       'demoidb',
       'notepad',
       'demosembast',
