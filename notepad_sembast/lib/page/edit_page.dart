@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sembast_app/main.dart';
 import 'package:tekartik_notepad_sembast_app/model/model.dart';
-import 'package:tekartik_common_utils/common_utils_import.dart';
 
 class EditNotePage extends StatefulWidget {
   /// null when adding a note
   final DbNote initialNote;
 
   const EditNotePage({Key key, @required this.initialNote}) : super(key: key);
+
   @override
   _EditNotePageState createState() => _EditNotePageState();
 }
@@ -18,6 +19,7 @@ class _EditNotePageState extends State<EditNotePage> {
   TextEditingController _contentTextController;
 
   int get _noteId => widget.initialNote?.id?.v;
+
   @override
   void initState() {
     super.initState();
@@ -74,16 +76,16 @@ class _EditNotePageState extends State<EditNotePage> {
                       ),
                       actions: <Widget>[
                         TextButton(
-                          child: Text('CONTINUE'),
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
+                          child: Text('CONTINUE'),
                         ),
                         TextButton(
-                          child: Text('CANCEL'),
                           onPressed: () {
                             Navigator.pop(context, false);
                           },
+                          child: Text('CANCEL'),
                         ),
                       ],
                     );
@@ -118,16 +120,16 @@ class _EditNotePageState extends State<EditNotePage> {
                               ),
                               actions: <Widget>[
                                 TextButton(
-                                  child: Text('YES'),
                                   onPressed: () {
                                     Navigator.of(context).pop(true);
                                   },
+                                  child: Text('YES'),
                                 ),
                                 TextButton(
-                                  child: Text('NO'),
                                   onPressed: () {
                                     Navigator.of(context).pop(false);
                                   },
+                                  child: Text('NO'),
                                 ),
                               ],
                             );

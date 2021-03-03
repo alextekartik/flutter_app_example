@@ -26,7 +26,7 @@ class MyAppBloc {
       var db = await database;
       var txn = db.transaction(storeName, idbModeReadOnly);
       var store = txn.objectStore(storeName);
-      _value = ((await store.getObject(valueKey)) as int) ?? 0;
+      _value = ((await store.getObject(valueKey)) as int?) ?? 0;
       _counterController.add(_value);
     }();
   }
@@ -40,17 +40,18 @@ class MyAppBloc {
     return db;
   }();
 
-  int _value;
-  final _counterController = StreamController<int>.broadcast();
+  int? _value;
+  final StreamController<int?> _counterController =
+      StreamController<int>.broadcast();
 
-  Stream<int> get counter => _counterController.stream;
+  Stream<int> get counter => _counterController.stream as Stream<int>;
 
   Future increment() async {
-    _value++;
+    _value = _value! + 1;
     var db = await database;
     var txn = db.transaction(storeName, idbModeReadWrite);
     var store = txn.objectStore(storeName);
-    await store.put(_value, valueKey);
+    await store.put(_value!, valueKey);
     _counterController.add(_value);
   }
 }
@@ -58,7 +59,7 @@ class MyAppBloc {
 class MyApp extends StatelessWidget {
   final MyAppBloc bloc;
 
-  const MyApp({Key key, @required this.bloc}) : super(key: key);
+  const MyApp({Key? key, required this.bloc}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -88,7 +89,8 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final MyAppBloc bloc;
 
-  MyHomePage({Key key, this.title, @required this.bloc}) : super(key: key);
+  MyHomePage({Key? key, required this.title, required this.bloc})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect

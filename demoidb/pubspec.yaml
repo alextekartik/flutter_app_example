@@ -1,5 +1,5 @@
 name: tekartik_demoidb_app
-description: A new Flutter project.
+description: Simples idb demo app
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,11 +11,11 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.1.0
+version: 0.2.0
 publish_to: none
 
 environment:
-  sdk: '>=2.10.0-0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -27,24 +27,19 @@ dependencies:
   tekartik_app_flutter_idb:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2
+      ref: null_safety
       path: app_idb
     version: '>=0.3.0'
   tekartik_app_platform:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2
+      ref: null_safety
       path: app_platform
     version: '>=0.1.0'
-  sqflite_ffi_test:
-    git:
-      url: git://github.com/tekartik/sqflite_more
-      ref: dart2
-      path: sqflite_ffi_test
   tekartik_app_roboto:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2
+      ref: null_safety
       path: app_roboto
       version: '>=0.1.0'
 
