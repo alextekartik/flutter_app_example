@@ -34,7 +34,7 @@ class MyAppBloc {
       var db = await database!;
       _streamSubscription = record.onSnapshot(db).listen((snapshot) {
         _counterController.add(snapshot?.value ?? 0);
-      } as void Function(RecordSnapshot<String, int>?)?);
+      });
     }();
   }
 
@@ -92,7 +92,8 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final MyAppBloc bloc;
 
-  MyHomePage({Key? key, required this.title, required this.bloc}) : super(key: key);
+  MyHomePage({Key? key, required this.title, required this.bloc})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
