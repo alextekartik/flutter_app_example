@@ -1,6 +1,6 @@
 # Configuration for https://pub.dartlang.org/packages/peanut
 directories:
-  - demoidb/web
-  - demosembast/web
-  - notepad/web
+  - demo_idb/web
+  - demo_sembast/web
+  - notepad_idb/web
   - notepad_sembast/web

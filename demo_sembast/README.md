@@ -1,6 +1,6 @@
 # demo
 
-Simplest sembast demo based on the app template with added persistency. [Online demo](https://alextekartik.github.io/flutter_app_example/demosembast)
+Simplest sembast demo based on the app template with added persistency. [Online demo](https://alextekartik.github.io/flutter_app_example/demo_sembast)
 
 Notice that you can open multiple tabs, content is synchronized.
 
