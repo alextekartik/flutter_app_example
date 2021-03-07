@@ -15,7 +15,7 @@ class NotePage extends StatefulWidget {
 class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DbNote>(
+    return StreamBuilder<DbNote?>(
       stream: noteProvider.onNote(widget.noteId),
       builder: (context, snapshot) {
         var note = snapshot.data;

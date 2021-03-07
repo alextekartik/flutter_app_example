@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:tekartik_build_utils/flutter/app/generate.dart';
 
-String exampleDirName = join('..', 'demosembast');
+String exampleDirName = join('..', 'demo_sembast');
 
 Future main() async {
   await generate();

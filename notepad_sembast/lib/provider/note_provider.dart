@@ -55,8 +55,7 @@ class DbNoteProvider {
       });
 
   Future<DbNote?> getNote(int id) async {
-    var map = await (notesStore.record(id).get(db!)
-        as FutureOr<Map<String, Object>?>);
+    var map = await notesStore.record(id).get(db!);
     // devPrint('getNote: ${map}');
     if (map != null) {
       return DbNote()..fromMap(map, id: id);
@@ -110,9 +109,9 @@ class DbNoteProvider {
   });
 
   var noteTransformer = StreamTransformer<
-      RecordSnapshot<int, Map<String, Object?>>,
-      DbNote>.fromHandlers(handleData: (snapshot, sink) {
-    sink.add(snapshotToNote(snapshot));
+      RecordSnapshot<int, Map<String, Object?>>?,
+      DbNote?>.fromHandlers(handleData: (snapshot, sink) {
+    sink.add(snapshot == null ? null : snapshotToNote(snapshot));
   });
 
   /// Listen for changes on any note
@@ -124,7 +123,7 @@ class DbNoteProvider {
   }
 
   /// Listed for changes on a given note
-  Stream<DbNote> onNote(int id) {
+  Stream<DbNote?> onNote(int id) {
     return notesStore.record(id).onSnapshot(db!).transform(noteTransformer);
   }
 

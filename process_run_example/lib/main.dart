@@ -46,7 +46,7 @@ class ProcessRunExampleApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key, this.title}) : super(key: key);
+  MainPage({Key? key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -57,7 +57,7 @@ class MainPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final String? title;
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -80,17 +80,16 @@ class OutLine extends Line {
 /// Basic line streaming. Assuming system encoding
 Stream<String> streamLines(Stream<List<int>> stream,
     {Encoding encoding = systemEncoding}) {
-  StreamSubscription subscription;
-  List<int> currentLine;
+  StreamSubscription? subscription;
+  List<int>? currentLine;
   const endOfLine = 10;
   const lineFeed = 13;
-  StreamController<String> ctlr;
-  encoding ??= systemEncoding;
+  late StreamController<String> ctlr;
   ctlr = StreamController<String>(onListen: () {
     void addCurrentLine() {
       if (currentLine?.isNotEmpty ?? false) {
         try {
-          ctlr.add(systemEncoding.decode(currentLine));
+          ctlr.add(systemEncoding.decode(currentLine!));
         } catch (_) {
           // Ignore nad encoded line
           print('ignoring: $currentLine');
@@ -103,9 +102,9 @@ Stream<String> streamLines(Stream<List<int>> stream,
       if (currentLine == null) {
         currentLine = data;
       } else {
-        var newCurrentLine = Uint8List(currentLine.length + data.length);
-        newCurrentLine.setAll(0, currentLine);
-        newCurrentLine.setAll(currentLine.length, data);
+        var newCurrentLine = Uint8List(currentLine!.length + data.length);
+        newCurrentLine.setAll(0, currentLine!);
+        newCurrentLine.setAll(currentLine!.length, data);
         currentLine = newCurrentLine;
       }
     }
@@ -144,7 +143,7 @@ Stream<String> streamLines(Stream<List<int>> stream,
 }
 
 class _MainPageState extends State<MainPage> {
-  Shell _shell;
+  late Shell _shell;
   final _stdoutCtlr = StreamController<List<int>>();
   final _stderrCtlr = StreamController<List<int>>();
   final _linesCtlr = StreamController<List<Line>>();
@@ -248,7 +247,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title!),
         actions: [
           // overflow menu
           PopupMenuButton<String>(
@@ -289,9 +288,9 @@ class _MainPageState extends State<MainPage> {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: snapshot.data
+                  children: snapshot.data!
                       .map((line) => Text(
-                            line.text ?? '',
+                            line.text,
                             style: line is ErrLine
                                 ? TextStyle(color: Colors.red)
                                 : null,
@@ -311,18 +310,18 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  TextEditingController _commandInputController;
-  Future<String> _readCommand() async {
+  TextEditingController? _commandInputController;
+  Future<String?> _readCommand() async {
     _commandInputController?.dispose();
     var textValue = _commandInputController?.text ?? 'echo "Hello World!"';
     _commandInputController = TextEditingController(text: textValue);
-    _commandInputController.selection = TextSelection(
+    _commandInputController!.selection = TextSelection(
       baseOffset: 0,
       extentOffset: textValue.length,
     );
 
     void _run() {
-      Navigator.pop(context, _commandInputController.text);
+      Navigator.pop(context, _commandInputController!.text);
     }
 
     return await showDialog<String>(

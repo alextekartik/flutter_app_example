@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:tekartik_build_utils/flutter/app/generate.dart';
 
-String idbExampleDirName = join('..', 'demoidb');
+String idbExampleDirName = join('..', 'demo_idb');
 
 Future main() async {
   await generate();
