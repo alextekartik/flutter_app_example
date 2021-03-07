@@ -74,16 +74,16 @@ class _EditNotePageState extends State<EditNotePage> {
                       ),
                       actions: <Widget>[
                         TextButton(
-                          child: Text('CONTINUE'),
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
+                          child: Text('CONTINUE'),
                         ),
                         TextButton(
-                          child: Text('CANCEL'),
                           onPressed: () {
                             Navigator.pop(context, false);
                           },
+                          child: Text('CANCEL'),
                         ),
                       ],
                     );
@@ -118,16 +118,16 @@ class _EditNotePageState extends State<EditNotePage> {
                               ),
                               actions: <Widget>[
                                 TextButton(
-                                  child: Text('YES'),
                                   onPressed: () {
                                     Navigator.of(context).pop(true);
                                   },
+                                  child: Text('YES'),
                                 ),
                                 TextButton(
-                                  child: Text('NO'),
                                   onPressed: () {
                                     Navigator.of(context).pop(false);
                                   },
+                                  child: Text('NO'),
                                 ),
                               ],
                             );

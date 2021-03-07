@@ -49,7 +49,6 @@ class _NoteListPageState extends State<NoteListPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return EditNotePage(
@@ -57,6 +56,7 @@ class _NoteListPageState extends State<NoteListPage> {
             );
           }));
         },
+        child: Icon(Icons.add),
       ),
     );
   }
