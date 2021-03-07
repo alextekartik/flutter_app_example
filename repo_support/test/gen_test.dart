@@ -12,7 +12,7 @@ void main() {
       test('fs_generate', () async {
         var dirName =
             '.dart_tool/flutter_app_example_support/test/app/gen_demoidb';
-        var src = '../demoidb';
+        var src = '../demo_idb';
         await fsGenerate(dir: dirName, src: src);
         var context = await flutterContext;
         if (context.supportsWeb) {
@@ -23,7 +23,7 @@ void main() {
         }
 
         dirName = '.dart_tool/flutter_app_example_support/test/app/gen_notepad';
-        src = '../notepad';
+        src = '../notepad_idb';
         await fsGenerate(dir: dirName, src: src);
         if (context.supportsWeb) {
           await Shell(workingDirectory: dirName).run('flutter build web');
