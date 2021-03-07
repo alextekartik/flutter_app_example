@@ -18,7 +18,7 @@ class _NoteListPageState extends State<NoteListPage> {
           title: Text(
         'NotePad sqflite',
       )),
-      body: StreamBuilder<List<DbNote>>(
+      body: StreamBuilder<List<DbNote?>>(
         stream: noteProvider.onNotes(),
         builder: (context, snapshot) {
           var notes = snapshot.data;
@@ -28,13 +28,13 @@ class _NoteListPageState extends State<NoteListPage> {
             );
           }
           return ListView.builder(
-              itemCount: notes?.length,
+              itemCount: notes.length,
               itemBuilder: (context, index) {
-                var note = notes[index];
+                var note = notes[index]!;
                 return ListTile(
-                  title: Text(note.title?.v ?? ''),
+                  title: Text(note.title.v ?? ''),
                   subtitle: note.content.v?.isNotEmpty ?? false
-                      ? Text(LineSplitter.split(note.content.v).first)
+                      ? Text(LineSplitter.split(note.content.v!).first)
                       : null,
                   onTap: () {
                     Navigator.of(context)

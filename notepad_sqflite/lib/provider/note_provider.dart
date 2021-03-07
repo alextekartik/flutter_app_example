@@ -5,19 +5,15 @@ import 'package:tekartik_notepad_sqflite_app/model/model.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model_constant.dart';
 
 DbNote snapshotToNote(Map<String, Object?> snapshot) {
-  DbNote note;
-  if (snapshot != null) {
-    note = DbNote()..fromMap(snapshot);
-  }
-  return note;
+  return DbNote()..fromMap(snapshot);
 }
 
 class DbNotes extends ListBase<DbNote> {
   final List<Map<String, Object?>> list;
-  List<DbNote> _cacheNotes;
+  late List<DbNote?> _cacheNotes;
 
   DbNotes(this.list) {
-    _cacheNotes = List.generate(list.length ?? 0, (index) => null);
+    _cacheNotes = List.generate(list.length, (index) => null);
   }
 
   @override
@@ -29,7 +25,7 @@ class DbNotes extends ListBase<DbNote> {
   int get length => list.length;
 
   @override
-  void operator []=(int index, DbNote value) => throw 'read-only';
+  void operator []=(int index, DbNote? value) => throw 'read-only';
 
   @override
   set length(int newLength) => throw 'read-only';
@@ -39,7 +35,7 @@ class DbNoteProvider {
   final lock = Lock(reentrant: true);
   final DatabaseFactory dbFactory;
   final _updateTriggerController = StreamController<bool>.broadcast();
-  Database db;
+  Database? db;
 
   DbNoteProvider(this.dbFactory);
 
@@ -61,15 +57,15 @@ class DbNoteProvider {
     _updateTriggerController.sink.add(true);
   }
 
-  Future<Database> get ready async => db ??= await lock.synchronized(() async {
+  Future<Database?> get ready async => db ??= await lock.synchronized(() async {
         if (db == null) {
           await open();
         }
         return db;
       });
 
-  Future<DbNote> getNote(int id) async {
-    var list = (await db.query(tableNotes,
+  Future<DbNote?> getNote(int? id) async {
+    var list = (await db!.query(tableNotes,
         columns: [columnId, columnTitle, columnContent, columnUpdated],
         where: '$columnId = ?',
         whereArgs: <Object?>[id]));
@@ -109,12 +105,12 @@ class DbNoteProvider {
   Future<String> fixPath(String path) async => path;
 
   /// Add or update a note
-  Future _saveNote(DatabaseExecutor db, DbNote updatedNote) async {
+  Future _saveNote(DatabaseExecutor? db, DbNote updatedNote) async {
     if (updatedNote.id.v != null) {
-      await db.update(tableNotes, updatedNote.toMap(),
+      await db!.update(tableNotes, updatedNote.toMap(),
           where: '$columnId = ?', whereArgs: <Object?>[updatedNote.id.v]);
     } else {
-      updatedNote.id.v = await db.insert(tableNotes, updatedNote.toMap());
+      updatedNote.id.v = await db!.insert(tableNotes, updatedNote.toMap());
     }
   }
 
@@ -123,8 +119,8 @@ class DbNoteProvider {
     _triggerUpdate();
   }
 
-  Future<void> deleteNote(int id) async {
-    await db
+  Future<void> deleteNote(int? id) async {
+    await db!
         .delete(tableNotes, where: '$columnId = ?', whereArgs: <Object?>[id]);
     _triggerUpdate();
   }
@@ -136,15 +132,15 @@ class DbNoteProvider {
   });
 
   var noteTransformer =
-      StreamTransformer<Map<String, Object?>, DbNote>.fromHandlers(
+      StreamTransformer<Map<String, Object?>, DbNote?>.fromHandlers(
           handleData: (snapshot, sink) {
     sink.add(snapshotToNote(snapshot));
   });
 
   /// Listen for changes on any note
-  Stream<List<DbNote>> onNotes() {
-    StreamController<DbNotes> ctlr;
-    StreamSubscription _triggerSubscription;
+  Stream<List<DbNote?>> onNotes() {
+    late StreamController<DbNotes> ctlr;
+    StreamSubscription? _triggerSubscription;
 
     Future<void> sendUpdate() async {
       var notes = await getListNotes();
@@ -167,9 +163,9 @@ class DbNoteProvider {
   }
 
   /// Listed for changes on a given note
-  Stream<DbNote> onNote(int id) {
-    StreamController<DbNote> ctlr;
-    StreamSubscription _triggerSubscription;
+  Stream<DbNote?> onNote(int? id) {
+    late StreamController<DbNote?> ctlr;
+    StreamSubscription? _triggerSubscription;
 
     Future<void> sendUpdate() async {
       var note = await getNote(id);
@@ -178,7 +174,7 @@ class DbNoteProvider {
       }
     }
 
-    ctlr = StreamController<DbNote>(onListen: () {
+    ctlr = StreamController<DbNote?>(onListen: () {
       sendUpdate();
 
       /// Listen for trigger
@@ -192,9 +188,10 @@ class DbNoteProvider {
   }
 
   /// Don't read all fields
-  Future<DbNotes> getListNotes({int offset, int limit, bool descending}) async {
+  Future<DbNotes> getListNotes(
+      {int? offset, int? limit, bool? descending}) async {
     // devPrint('fetching $offset $limit');
-    var list = (await db.query(tableNotes,
+    var list = (await db!.query(tableNotes,
         columns: [columnId, columnTitle, columnContent],
         orderBy: '$columnUpdated ${(descending ?? false) ? 'ASC' : 'DESC'}',
         limit: limit,
@@ -203,12 +200,12 @@ class DbNoteProvider {
   }
 
   Future clearAllNotes() async {
-    await db.delete(tableNotes);
+    await db!.delete(tableNotes);
     _triggerUpdate();
   }
 
   Future close() async {
-    await db.close();
+    await db!.close();
   }
 
   Future deleteDb() async {

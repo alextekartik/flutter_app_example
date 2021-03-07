@@ -5,35 +5,35 @@ import 'package:tekartik_common_utils/common_utils_import.dart';
 
 class EditNotePage extends StatefulWidget {
   /// null when adding a note
-  final DbNote initialNote;
+  final DbNote? initialNote;
 
-  const EditNotePage({Key key, @required this.initialNote}) : super(key: key);
+  const EditNotePage({Key? key, required this.initialNote}) : super(key: key);
   @override
   _EditNotePageState createState() => _EditNotePageState();
 }
 
 class _EditNotePageState extends State<EditNotePage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _titleTextController;
-  TextEditingController _contentTextController;
+  TextEditingController? _titleTextController;
+  TextEditingController? _contentTextController;
 
-  int get _noteId => widget.initialNote?.id?.v;
+  int? get _noteId => widget.initialNote?.id.v;
   @override
   void initState() {
     super.initState();
     _titleTextController =
-        TextEditingController(text: widget.initialNote?.title?.v);
+        TextEditingController(text: widget.initialNote?.title.v);
     _contentTextController =
-        TextEditingController(text: widget.initialNote?.content?.v);
+        TextEditingController(text: widget.initialNote?.content.v);
   }
 
   Future save() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       await noteProvider.saveNote(DbNote()
         ..id.v = _noteId
-        ..title.v = _titleTextController.text
-        ..content.v = _contentTextController.text
+        ..title.v = _titleTextController!.text
+        ..content.v = _contentTextController!.text
         ..date.v = DateTime.now().millisecondsSinceEpoch);
       Navigator.pop(context);
       // Pop twice when editing
@@ -48,14 +48,14 @@ class _EditNotePageState extends State<EditNotePage> {
     return WillPopScope(
       onWillPop: () async {
         var dirty = false;
-        if (_titleTextController.text != widget.initialNote?.title?.v) {
+        if (_titleTextController!.text != widget.initialNote?.title.v) {
           dirty = true;
-        } else if (_contentTextController.text !=
-            widget.initialNote?.content?.v) {
+        } else if (_contentTextController!.text !=
+            widget.initialNote?.content.v) {
           dirty = true;
         }
         if (dirty) {
-          return await showDialog<bool>(
+          return await (showDialog<bool>(
                   context: context,
                   barrierDismissible: false, // user must tap button!
                   builder: (BuildContext context) {
@@ -87,7 +87,7 @@ class _EditNotePageState extends State<EditNotePage> {
                         ),
                       ],
                     );
-                  }) ??
+                  }) as FutureOr<bool>?) ??
               false;
         }
         return true;
@@ -133,7 +133,7 @@ class _EditNotePageState extends State<EditNotePage> {
                             );
                           }) ??
                       false) {
-                    await noteProvider.deleteNote(widget.initialNote.id.v);
+                    await noteProvider.deleteNote(widget.initialNote!.id.v);
                     // Pop twice to go back to the list
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
@@ -165,7 +165,7 @@ class _EditNotePageState extends State<EditNotePage> {
                         ),
                         controller: _titleTextController,
                         validator: (val) =>
-                            val.isNotEmpty ? null : 'Title must not be empty',
+                            val!.isNotEmpty ? null : 'Title must not be empty',
                       ),
                       SizedBox(
                         height: 16,
@@ -176,7 +176,7 @@ class _EditNotePageState extends State<EditNotePage> {
                           border: OutlineInputBorder(),
                         ),
                         controller: _contentTextController,
-                        validator: (val) => val.isNotEmpty
+                        validator: (val) => val!.isNotEmpty
                             ? null
                             : 'Description must not be empty',
                         keyboardType: TextInputType.multiline,
