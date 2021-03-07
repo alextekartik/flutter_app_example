@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tekartik_notepad_sembast_app/main.dart';
 import 'package:tekartik_notepad_sembast_app/model/model.dart';
 import 'package:tekartik_notepad_sembast_app/page/edit_page.dart';
-import 'package:tekartik_common_utils/common_utils_import.dart';
 
 class NotePage extends StatefulWidget {
   final int noteId;
 
-  const NotePage({Key key, @required this.noteId}) : super(key: key);
+  const NotePage({Key? key, required this.noteId}) : super(key: key);
 
   @override
   _NotePageState createState() => _NotePageState();
@@ -57,7 +56,7 @@ class _NotePageState extends State<NotePage> {
                     child: ListView(children: <Widget>[
                       ListTile(
                           title: Text(
-                        note.title.v,
+                        note.title.v!,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )),
                       ListTile(title: Text(note.content.v ?? ''))

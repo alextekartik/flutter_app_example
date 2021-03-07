@@ -45,7 +45,7 @@ class NoteProvider {
 
   Future<Note?> getNote(int id) async {
     var store = notesReadableTxn;
-    var map = asMap<String, dynamic>(await store.getObject(id));
+    var map = asMap<String, Object?>(await store.getObject(id));
     if (map != null) {
       return Note.fromMap(map, id);
     }
@@ -89,7 +89,7 @@ class NoteProvider {
         .openCursor(direction: idbDirectionPrev, autoAdvance: true)
         .listen((cursor) {
       try {
-        var map = asMap<String, dynamic>(cursor.value);
+        var map = asMap<String, Object?>(cursor.value);
 
         if (map != null) {
           var note = cursorToNote(cursor);
@@ -116,7 +116,7 @@ class NoteProvider {
   }
 }
 
-Note? cursorToNote(CursorWithValue/*<int, Map<String, dynamic>>*/ cursor) {
+Note? cursorToNote(CursorWithValue/*<int, Map<String, Object?>>*/ cursor) {
   Note? note;
   var snapshot = asMap(cursor.value);
   if (snapshot != null) {

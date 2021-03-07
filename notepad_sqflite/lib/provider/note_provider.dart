@@ -4,7 +4,7 @@ import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model_constant.dart';
 
-DbNote snapshotToNote(Map<String, dynamic> snapshot) {
+DbNote snapshotToNote(Map<String, Object?> snapshot) {
   DbNote note;
   if (snapshot != null) {
     note = DbNote()..fromMap(snapshot);
@@ -13,7 +13,7 @@ DbNote snapshotToNote(Map<String, dynamic> snapshot) {
 }
 
 class DbNotes extends ListBase<DbNote> {
-  final List<Map<String, dynamic>> list;
+  final List<Map<String, Object?>> list;
   List<DbNote> _cacheNotes;
 
   DbNotes(this.list) {
@@ -72,7 +72,7 @@ class DbNoteProvider {
     var list = (await db.query(tableNotes,
         columns: [columnId, columnTitle, columnContent, columnUpdated],
         where: '$columnId = ?',
-        whereArgs: <dynamic>[id]));
+        whereArgs: <Object?>[id]));
     if (list.isNotEmpty) {
       return DbNote()..fromMap(list.first);
     }
@@ -112,7 +112,7 @@ class DbNoteProvider {
   Future _saveNote(DatabaseExecutor db, DbNote updatedNote) async {
     if (updatedNote.id.v != null) {
       await db.update(tableNotes, updatedNote.toMap(),
-          where: '$columnId = ?', whereArgs: <dynamic>[updatedNote.id.v]);
+          where: '$columnId = ?', whereArgs: <Object?>[updatedNote.id.v]);
     } else {
       updatedNote.id.v = await db.insert(tableNotes, updatedNote.toMap());
     }
@@ -125,18 +125,18 @@ class DbNoteProvider {
 
   Future<void> deleteNote(int id) async {
     await db
-        .delete(tableNotes, where: '$columnId = ?', whereArgs: <dynamic>[id]);
+        .delete(tableNotes, where: '$columnId = ?', whereArgs: <Object?>[id]);
     _triggerUpdate();
   }
 
   var notesTransformer =
-      StreamTransformer<List<Map<String, dynamic>>, List<DbNote>>.fromHandlers(
+      StreamTransformer<List<Map<String, Object?>>, List<DbNote>>.fromHandlers(
           handleData: (snapshotList, sink) {
     sink.add(DbNotes(snapshotList));
   });
 
   var noteTransformer =
-      StreamTransformer<Map<String, dynamic>, DbNote>.fromHandlers(
+      StreamTransformer<Map<String, Object?>, DbNote>.fromHandlers(
           handleData: (snapshot, sink) {
     sink.add(snapshotToNote(snapshot));
   });

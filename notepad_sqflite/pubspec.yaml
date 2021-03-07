@@ -28,17 +28,17 @@ dependencies:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
       path: app_sqflite
-      ref: dart2
+      ref: null_safety
       version: '>=0.4.2'
   path_provider_macos:
   tekartik_common_utils:
     git:
       url: git://github.com/tekartik/common_utils.dart
-      ref: dart2
+      ref: null_safety
   tekartik_app_platform:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2
+      ref: null_safety
       path: app_platform
     version: '>=0.1.0'
   tekartik_app_roboto:

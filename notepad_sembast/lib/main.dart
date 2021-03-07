@@ -7,7 +7,7 @@ import 'package:tekartik_app_platform/app_platform.dart';
 import 'package:tekartik_app_flutter_sqflite/sqflite.dart' as sqflite;
 import 'package:tekartik_app_flutter_sembast/sembast.dart';
 
-DbNoteProvider noteProvider;
+late DbNoteProvider noteProvider;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

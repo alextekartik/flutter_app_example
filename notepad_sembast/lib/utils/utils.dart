@@ -1,6 +1,6 @@
 String logTruncate(String text) {
   var len = 128;
-  if (text != null && text.length > len) {
+  if (text.length > len) {
     text = text.substring(0, len);
   }
   return text;
