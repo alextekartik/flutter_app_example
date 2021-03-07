@@ -28,19 +28,19 @@ class _NoteListPageState extends State<NoteListPage> {
             );
           }
           return ListView.builder(
-              itemCount: notes?.length,
+              itemCount: notes.length,
               itemBuilder: (context, index) {
                 var note = notes[index];
                 return ListTile(
-                  title: Text(note.title?.v ?? ''),
+                  title: Text(note.title.v ?? ''),
                   subtitle: note.content.v?.isNotEmpty ?? false
-                      ? Text(LineSplitter.split(note.content.v).first)
+                      ? Text(LineSplitter.split(note.content.v!).first)
                       : null,
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
                       return NotePage(
-                        noteId: note.id.v,
+                        noteId: note.id.v!,
                       );
                     }));
                   },
@@ -49,7 +49,6 @@ class _NoteListPageState extends State<NoteListPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return EditNotePage(
@@ -57,6 +56,7 @@ class _NoteListPageState extends State<NoteListPage> {
             );
           }));
         },
+        child: Icon(Icons.add),
       ),
     );
   }

@@ -3,10 +3,10 @@ import 'package:tekartik_notepad_app/note_provider.dart';
 
 class NoteEditPage extends StatefulWidget {
   final NoteProvider noteProvider;
-  final Note note;
+  final Note? note;
 
   /// If [note] is null, it is a new note
-  NoteEditPage({this.note, this.noteProvider});
+  NoteEditPage({this.note, required this.noteProvider});
 
   @override
   NoteEditPageState createState() {
@@ -16,16 +16,16 @@ class NoteEditPage extends StatefulWidget {
 
 class NoteEditPageState extends State<NoteEditPage> {
   NoteProvider get noteProvider => widget.noteProvider;
-  Note get note => widget.note;
+  Note? get note => widget.note;
 
   final _formKey = GlobalKey<FormState>();
 
-  String _title;
-  String _description;
+  String? _title;
+  String? _description;
 
   Future _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       await noteProvider.saveNote(
           Note(title: _title, description: _description, id: note?.id));
       Navigator.pop(context, true);
@@ -55,7 +55,7 @@ class NoteEditPageState extends State<NoteEditPage> {
                         key: Key('title'),
                         initialValue: note?.title,
                         validator: (val) =>
-                            val.isNotEmpty ? null : 'Title must not be empty',
+                            val!.isNotEmpty ? null : 'Title must not be empty',
                         onSaved: (val) => _title = val,
                       ),
                     ),
@@ -70,7 +70,7 @@ class NoteEditPageState extends State<NoteEditPage> {
                       ),
                       key: Key('description'),
                       initialValue: note?.description,
-                      validator: (val) => val.isNotEmpty
+                      validator: (val) => val!.isNotEmpty
                           ? null
                           : 'Description must not be empty',
                       onSaved: (val) => _description = val,

@@ -6,12 +6,12 @@ abstract class DbRecord {
   List<Field> get fields;
 
   // Only created if necessary
-  Map<String, Field> _fieldMap;
+  Map<String, Field>? _fieldMap;
 
-  Field getField(String name) {
+  Field? getField(String name) {
     _fieldMap ??=
         Map.fromEntries(fields.map((field) => MapEntry(field.name, field)));
-    return _fieldMap[name];
+    return _fieldMap![name];
   }
 
   final id = Field<int>('id');
@@ -20,7 +20,7 @@ abstract class DbRecord {
     return Field<T>(name);
   }
 
-  Model toMap({List<Field> fields}) {
+  Model toMap({List<Field>? fields}) {
     fields ??= this.fields;
     var model = Model();
     for (var field in fields) {
@@ -29,7 +29,7 @@ abstract class DbRecord {
     return model;
   }
 
-  void fromMap(Map map, {List<Field> fields, int id}) {
+  void fromMap(Map map, {List<Field>? fields, int? id}) {
     this.id.v = id;
     fields ??= this.fields;
     var model = Model(map);
@@ -45,7 +45,7 @@ abstract class DbRecord {
     for (var field in fields) {
       var recordField = record.getField(field.name);
       if (recordField?.hasValue == true) {
-        field.fromField(recordField);
+        field.fromField(recordField!);
       }
     }
   }
@@ -64,17 +64,17 @@ class Column<T> {
 }
 
 class Field<T> extends Column<T> {
-  T _value;
+  T? _value;
 
   /// The value
-  T get v => _value;
+  T? get v => _value;
 
   /// The key
   String get k => name;
 
   bool get isNull => _value == null;
 
-  set v(T value) {
+  set v(T? value) {
     _hasValue = true;
     _value = value;
   }
@@ -84,7 +84,7 @@ class Field<T> extends Column<T> {
     _hasValue = false;
   }
 
-  void setValue(T value, {bool presentIfNull}) {
+  void setValue(T? value, {bool? presentIfNull}) {
     if (value == null) {
       if (presentIfNull != true) {
         v = value;

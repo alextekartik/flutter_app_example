@@ -1,70 +1,74 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tekartik_app_flutter_idb/idb.dart';
+import 'package:tekartik_app_flutter_sembast/sembast.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
 
-import 'app_io.dart' if (dart.library.html) 'app_web.dart';
-
-void main() {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
-  appInit();
-  var bloc = MyAppBloc();
+  var packageName = 'com.tekartik.demosembast';
+
+  var databaseFactory = getDatabaseFactory(packageName: packageName);
+
+  var bloc = MyAppBloc(databaseFactory);
   runApp(MyApp(
     bloc: bloc,
   ));
 }
 
-var storeName = 'counter';
 var valueKey = 'value';
+var store = StoreRef<String, int>.main();
+var record = store.record(valueKey);
 
 class MyAppBloc {
-  MyAppBloc() {
+  final DatabaseFactory databaseFactory;
+  MyAppBloc(this.databaseFactory) {
+    database = () async {
+      var db = await databaseFactory.openDatabase('counter.db');
+      return db;
+    }();
     // Load counter on start
     () async {
-      var db = await database;
-      var txn = db.transaction(storeName, idbModeReadOnly);
-      var store = txn.objectStore(storeName);
-      _value = ((await store.getObject(valueKey)) as int) ?? 0;
-      _counterController.add(_value);
+      var db = await database!;
+      _streamSubscription = record.onSnapshot(db).listen((snapshot) {
+        _counterController.add(snapshot?.value ?? 0);
+      });
     }();
   }
 
-  Future<Database> database = () async {
-    var db =
-        await idbFactory.open('counter.db', version: 1, onUpgradeNeeded: (e) {
-      var db = e.database;
-      db.createObjectStore(storeName);
-    });
-    return db;
-  }();
+  late StreamSubscription _streamSubscription;
 
-  int _value;
+  Future<Database>? database;
+
   final _counterController = StreamController<int>.broadcast();
 
   Stream<int> get counter => _counterController.stream;
 
   Future increment() async {
-    _value++;
-    var db = await database;
-    var txn = db.transaction(storeName, idbModeReadWrite);
-    var store = txn.objectStore(storeName);
-    await store.put(_value, valueKey);
-    _counterController.add(_value);
+    var db = await database!;
+    await db.transaction((txn) async {
+      var value = await record.get(txn) ?? 0;
+      await record.put(txn, ++value);
+    });
+  }
+
+  void dispose() {
+    _streamSubscription.cancel();
   }
 }
 
 class MyApp extends StatelessWidget {
   final MyAppBloc bloc;
 
-  const MyApp({Key key, @required this.bloc}) : super(key: key);
+  const MyApp({Key? key, required this.bloc}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Sembast Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -78,7 +82,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(
-        title: 'Flutter Demo Home Page',
+        title: 'Sembast Demo',
         bloc: bloc,
       ),
     );
@@ -88,7 +92,8 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final MyAppBloc bloc;
 
-  MyHomePage({Key key, this.title, @required this.bloc}) : super(key: key);
+  MyHomePage({Key? key, required this.title, required this.bloc})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -123,6 +128,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   if (count != null) ...[
+                    if (kIsWeb)
+                      Text(
+                        '(You can open multiples tabs and see that they are synchronized)',
+                      ),
                     Text(
                       'You have pushed the button this many times:',
                     ),
@@ -145,5 +154,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 : null,
           );
         });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.bloc.dispose();
   }
 }

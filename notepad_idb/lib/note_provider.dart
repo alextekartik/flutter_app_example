@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:idb_shim/idb_client.dart';
 import 'package:idb_shim/idb_client_memory.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
@@ -19,11 +18,11 @@ class MemoryNoteProvider extends NoteProvider {
 
 class NoteProvider {
   final IdbFactory idbFactory;
-  Database db;
+  late Database db;
 
   static final String notesStoreName = 'notes';
 
-  NoteProvider({@required this.idbFactory});
+  NoteProvider({required this.idbFactory});
 
   // final notesStore = intMapStoreFactory.store(notesStoreName);
   ObjectStore get notesWritableTxn {
@@ -44,9 +43,9 @@ class NoteProvider {
     return count;
   }
 
-  Future<Note> getNote(int id) async {
+  Future<Note?> getNote(int id) async {
     var store = notesReadableTxn;
-    var map = asMap<String, dynamic>(await store?.getObject(id));
+    var map = asMap<String, Object?>(await store.getObject(id));
     if (map != null) {
       return Note.fromMap(map, id);
     }
@@ -74,7 +73,7 @@ class NoteProvider {
     }
   }
 
-  Future deleteNote(int id) async {
+  Future deleteNote(int? id) async {
     if (id != null) {
       await notesWritableTxn.delete(id);
     }
@@ -82,7 +81,7 @@ class NoteProvider {
 
   Future<List<Note>> getNotes() async {
     // devPrint('getting $offset $limit');
-    var list = <Note>[];
+    List<Note?> list = <Note>[];
     var store = notesReadableTxn;
     // ignore: cancel_subscriptions
     StreamSubscription subscription;
@@ -90,7 +89,7 @@ class NoteProvider {
         .openCursor(direction: idbDirectionPrev, autoAdvance: true)
         .listen((cursor) {
       try {
-        var map = asMap<String, dynamic>(cursor.value);
+        var map = asMap<String, Object?>(cursor.value);
 
         if (map != null) {
           var note = cursorToNote(cursor);
@@ -102,7 +101,7 @@ class NoteProvider {
       }
     });
     await subscription.asFuture();
-    return list;
+    return list as FutureOr<List<Note>>;
   }
 
   Future clearAllNotes() async {
@@ -117,8 +116,8 @@ class NoteProvider {
   }
 }
 
-Note cursorToNote(CursorWithValue/*<int, Map<String, dynamic>>*/ cursor) {
-  Note note;
+Note? cursorToNote(CursorWithValue/*<int, Map<String, Object?>>*/ cursor) {
+  Note? note;
   var snapshot = asMap(cursor.value);
   if (snapshot != null) {
     note = Note.fromMap(snapshot, cursor.primaryKey as int);
@@ -127,14 +126,14 @@ Note cursorToNote(CursorWithValue/*<int, Map<String, dynamic>>*/ cursor) {
 }
 
 class Note {
-  int id;
-  String title;
-  String description;
+  int? id;
+  String? title;
+  String? description;
 
-  Note({@required this.title, @required this.description, this.id});
+  Note({required this.title, required this.description, this.id});
 
-  Map<String, String> toMap() {
-    var map = <String, String>{
+  Map<String, String?> toMap() {
+    var map = <String, String?>{
       fieldTitle: title,
       fieldDescription: description
     };

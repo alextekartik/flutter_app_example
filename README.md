@@ -3,7 +3,7 @@
 Flutter app examples
 
 * [Notepad example](notepad_sembast/README.md) using sembast
-* [Notepad example](notepad/README.md) using idb
+* [Notepad example](notepad_idb/README.md) using idb
 * [Notepad example](notepad_sqflite/README.md) using sqflite
 
 ## Manual setup

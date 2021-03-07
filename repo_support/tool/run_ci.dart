@@ -6,9 +6,9 @@ Future main() async {
     '.',
     ...[
       'notepad_sqflite',
-      'demoidb',
-      'notepad',
-      'demosembast',
+      'demo_idb',
+      'notepad_idb',
+      'demo_sembast',
       'notepad_sembast',
       'process_run_example',
     ].map((e) => join('..', e))
