@@ -1,6 +1,6 @@
 # Sqflite flutter notepad example
 
-Note pad demo using sqflite based persistency. [Online demo](https://alextekartik.github.io/flutter_app_example/notepad_sqflite/).
+Note pad demo using sqflite based persistency.
 
 Works on Flutter iOS/Android/MacOS/Linux/windows.
 
