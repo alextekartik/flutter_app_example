@@ -1,8 +1,8 @@
 {
-    "name": "tekartik_demoidb_app",
-    "short_name": "tekartik_demoidb_app",
+    "name": "demoidb",
+    "short_name": "demoidb",
     "start_url": ".",
-    "display": "minimal-ui",
+    "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
     "description": "A new Flutter project.",
