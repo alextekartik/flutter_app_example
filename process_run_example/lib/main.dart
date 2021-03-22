@@ -199,23 +199,23 @@ class _MainPageState extends State<MainPage> {
       _addLine(OutLine('which(\'pub\'): ${await which('pub')}'));
       try {
         _addLine(OutLine('DartCmd(\'--version\'): ${(await runCmd(DartCmd([
-          '--version'
-        ]))).stderr.toString().trim()}'));
+              '--version'
+            ]))).stderr.toString().trim()}'));
       } catch (e) {
         _addLine(ErrLine('DartCmd(\'--version\') error $e'));
       }
       try {
         _addLine(OutLine(
             'FlutterCmd(\'--version\'): ${(await runCmd(FlutterCmd([
-          '--version'
-        ]))).stdout.toString().trim()}'));
+              '--version'
+            ]))).stdout.toString().trim()}'));
       } catch (e) {
         _addLine(ErrLine('FlutterCmd(\'--version\') error $e'));
       }
       try {
         _addLine(OutLine('PubCmd(\'--version\'): ${(await runCmd(PubCmd([
-          '--version'
-        ]))).stdout.toString().trim()}'));
+              '--version'
+            ]))).stdout.toString().trim()}'));
       } catch (e) {
         _addLine(ErrLine('PubCmd(\'--version\') error $e'));
       }
