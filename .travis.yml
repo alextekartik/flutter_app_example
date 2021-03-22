@@ -1,6 +1,6 @@
 language: dart
 sudo: required
-dist: trusty
+# dist: trusty
 dart:
   - stable
   - beta
