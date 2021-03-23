@@ -14,16 +14,26 @@ in each application folder.
 
 ### MacOS
 
-Assuming you are on flutter dev channel
-
 ```bash
 flutter create .
 flutter run -d macos
 ```
 
-### Web
+### Linux
 
-Assuming you are on flutter web channel
+```bash
+flutter create .
+flutter run -d linux
+```
+
+### Linux
+
+```bash
+flutter create .
+flutter run -d windows
+```
+
+### Web
 
 ```bash
 flutter create .
