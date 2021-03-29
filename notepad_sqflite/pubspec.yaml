@@ -44,7 +44,7 @@ dependencies:
   tekartik_app_roboto:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2
+      ref: null_safety
       path: app_roboto
       version: '>=0.1.0'
   path_provider:
