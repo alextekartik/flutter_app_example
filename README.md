@@ -26,7 +26,7 @@ flutter create .
 flutter run -d linux
 ```
 
-### Linux
+### Windows
 
 ```bash
 flutter create .
