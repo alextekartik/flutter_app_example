@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tekartik_notepad_sembast_app/main.dart';
+import 'package:tekartik_common_utils/common_utils_import.dart';
+import 'package:tekartik_notepad_sembast_app/app.dart';
 import 'package:tekartik_notepad_sembast_app/model/model.dart';
 import 'package:tekartik_notepad_sembast_app/page/edit_page.dart';
 import 'package:tekartik_notepad_sembast_app/page/note_page.dart';
-import 'package:tekartik_common_utils/common_utils_import.dart';
 
 class NoteListPage extends StatefulWidget {
   @override

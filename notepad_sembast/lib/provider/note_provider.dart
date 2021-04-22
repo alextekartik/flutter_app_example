@@ -3,8 +3,8 @@ import 'package:sembast/sembast.dart';
 import 'package:tekartik_notepad_sembast_app/model/model.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 
-DbNote snapshotToNote(RecordSnapshot<int, Map<String, Object?>> snapshot) {
-  return DbNote()..fromMap(snapshot.value, id: snapshot.key);
+DbNote snapshotToNote(RecordSnapshot snapshot) {
+  return DbNote()..fromMap(snapshot.value as Map, id: snapshot.key as int);
 }
 
 class DbNotes extends ListBase<DbNote> {
@@ -42,16 +42,18 @@ class DbNoteProvider {
 
   DbNoteProvider(this.dbFactory);
 
-  Future openPath(String path) async {
+  Future<Database> openPath(String path) async {
     db = await dbFactory.openDatabase(path,
         version: kVersion1, onVersionChanged: _onVersionChanged);
+    return db!;
   }
 
-  Future<Database?> get ready async => db ??= await lock.synchronized(() async {
+  Future<Database> get ready async =>
+      db ??= await lock.synchronized<Database>(() async {
         if (db == null) {
           await open();
         }
-        return db;
+        return db!;
       });
 
   Future<DbNote?> getNote(int id) async {
@@ -82,8 +84,8 @@ class DbNoteProvider {
     }
   }
 
-  Future open() async {
-    await openPath(await fixPath(dbName));
+  Future<Database> open() async {
+    return await openPath(await fixPath(dbName));
   }
 
   Future<String> fixPath(String path) async => path;

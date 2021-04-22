@@ -26,7 +26,7 @@ dependencies:
   sembast_sqflite: '>=1.0.0'
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons:
   tekartik_app_flutter_sembast:
     git:
       url: git://github.com/tekartik/app_flutter_utils.dart

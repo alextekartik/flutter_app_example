@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
-import 'package:tekartik_notepad_sembast_app/main.dart';
+import 'package:tekartik_notepad_sembast_app/app.dart';
 import 'package:tekartik_notepad_sembast_app/model/model.dart';
 
 class EditNotePage extends StatefulWidget {
@@ -57,7 +57,7 @@ class _EditNotePageState extends State<EditNotePage> {
           dirty = true;
         }
         if (dirty) {
-          return await (showDialog<bool>(
+          return (await showDialog<bool>(
                   context: context,
                   barrierDismissible: false, // user must tap button!
                   builder: (BuildContext context) {
@@ -89,7 +89,7 @@ class _EditNotePageState extends State<EditNotePage> {
                         ),
                       ],
                     );
-                  }) as FutureOr<bool>?) ??
+                  })) ??
               false;
         }
         return true;
