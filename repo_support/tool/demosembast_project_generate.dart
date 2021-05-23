@@ -7,7 +7,7 @@ Future main() async {
   await generate();
 }
 
-Future generate({bool force}) async {
+Future generate({bool? force}) async {
   await gitGenerate(
       dirName: exampleDirName,
       appName: 'tekartik_demosembast_app',

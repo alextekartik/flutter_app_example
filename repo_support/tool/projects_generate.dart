@@ -6,7 +6,7 @@ Future main() async {
   await generateAll();
 }
 
-Future generateAll({bool force}) async {
+Future generateAll({bool? force}) async {
   await demoidb.generate(force: force);
   await notepad.generate(force: force);
   await demosembast.generate(force: force);
