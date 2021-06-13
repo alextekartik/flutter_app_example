@@ -7,7 +7,7 @@ Future main() async {
   await generate();
 }
 
-Future generate({bool force}) async {
+Future generate({bool? force}) async {
   await gitGenerate(
       dirName: idbExampleDirName,
       appName: 'tekartik_demoidb_app',

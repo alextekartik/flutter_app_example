@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tekartik_notepad_sembast_app/main.dart';
+import 'package:tekartik_notepad_sembast_app/app.dart';
 import 'package:tekartik_notepad_sembast_app/model/model.dart';
 import 'package:tekartik_notepad_sembast_app/page/edit_page.dart';
 

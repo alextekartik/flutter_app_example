@@ -6,7 +6,7 @@ Future main() async {
   await generate();
 }
 
-Future generate({bool force}) async {
+Future generate({bool? force}) async {
   await gitGenerate(
       dirName: notepadAppDirName,
       appName: 'tekartik_notepad_app',
