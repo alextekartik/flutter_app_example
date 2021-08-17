@@ -40,7 +40,7 @@ class _NoteListPageState extends State<NoteListPage> {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
                       return NotePage(
-                        noteId: note.id.v!,
+                        noteId: note.id!,
                       );
                     }));
                   },

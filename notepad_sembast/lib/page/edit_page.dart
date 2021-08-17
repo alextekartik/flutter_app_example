@@ -18,7 +18,7 @@ class _EditNotePageState extends State<EditNotePage> {
   TextEditingController? _titleTextController;
   TextEditingController? _contentTextController;
 
-  int? get _noteId => widget.initialNote?.id.v;
+  int? get _noteId => widget.initialNote?.id;
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _EditNotePageState extends State<EditNotePage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       await noteProvider.saveNote(DbNote()
-        ..id.v = _noteId
+        ..id = _noteId
         ..title.v = _titleTextController!.text
         ..content.v = _contentTextController!.text
         ..date.v = DateTime.now().millisecondsSinceEpoch);
@@ -135,7 +135,7 @@ class _EditNotePageState extends State<EditNotePage> {
                             );
                           }) ??
                       false) {
-                    await noteProvider.deleteNote(widget.initialNote!.id.v);
+                    await noteProvider.deleteNote(widget.initialNote!.id);
                     // Pop twice to go back to the list
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
