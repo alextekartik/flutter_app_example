@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_declarations
+
 import 'package:flutter/foundation.dart';
 import 'package:sembast/sembast.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';

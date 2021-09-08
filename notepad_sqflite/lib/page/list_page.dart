@@ -1,11 +1,15 @@
+// ignore_for_file: prefer_const_constructors, directives_ordering
+
 import 'package:flutter/material.dart';
+import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sqflite_app/main.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
 import 'package:tekartik_notepad_sqflite_app/page/edit_page.dart';
 import 'package:tekartik_notepad_sqflite_app/page/note_page.dart';
-import 'package:tekartik_common_utils/common_utils_import.dart';
 
 class NoteListPage extends StatefulWidget {
+  const NoteListPage({Key? key}) : super(key: key);
+
   @override
   _NoteListPageState createState() => _NoteListPageState();
 }

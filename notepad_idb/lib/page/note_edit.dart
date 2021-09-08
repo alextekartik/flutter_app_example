@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:tekartik_notepad_app/note_provider.dart';
 
@@ -6,7 +8,8 @@ class NoteEditPage extends StatefulWidget {
   final Note? note;
 
   /// If [note] is null, it is a new note
-  NoteEditPage({this.note, required this.noteProvider});
+  const NoteEditPage({Key? key, this.note, required this.noteProvider})
+      : super(key: key);
 
   @override
   NoteEditPageState createState() {
@@ -46,18 +49,16 @@ class NoteEditPageState extends State<NoteEditPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Title',
-                          border: InputBorder.none,
-                        ),
-                        key: Key('title'),
-                        initialValue: note?.title,
-                        validator: (val) =>
-                            val!.isNotEmpty ? null : 'Title must not be empty',
-                        onSaved: (val) => _title = val,
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Title',
+                        border: InputBorder.none,
                       ),
+                      key: Key('title'),
+                      initialValue: note?.title,
+                      validator: (val) =>
+                          val!.isNotEmpty ? null : 'Title must not be empty',
+                      onSaved: (val) => _title = val,
                     ),
                     Container(
                         child: Divider(

@@ -7,8 +7,7 @@ import 'package:tekartik_notepad_app/page/note_list.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
-  print(
-      'factory: ${getIdbFactory(packageName: 'com.tekartik.notepad_idb_app')}');
+  // print('factory: ${getIdbFactory(packageName: 'com.tekartik.notepad_idb_app')}');
   var noteProvider = NoteProvider(
       idbFactory: getIdbFactory(packageName: 'com.tekartik.notepad_idb_app'));
   await noteProvider.open();

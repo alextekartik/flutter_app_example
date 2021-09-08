@@ -1,20 +1,25 @@
+// ignore_for_file: prefer_const_constructors, duplicate_ignore
+
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:process_run/cmd_run.dart';
 import 'package:process_run/shell.dart';
-import 'package:flutter/material.dart';
 import 'package:process_run/which.dart';
-import 'dart:convert';
 import 'package:pub_semver/pub_semver.dart';
 
 final appVersion = Version(0, 1, 0);
+
 void main() {
   runApp(ProcessRunExampleApp());
 }
 
 class ProcessRunExampleApp extends StatelessWidget {
+  ProcessRunExampleApp({Key? key}) : super(key: key);
   // This widget is the root of your application.
   final ThemeData theme = ThemeData(
     brightness: Brightness.dark,
@@ -30,13 +35,13 @@ class ProcessRunExampleApp extends StatelessWidget {
           colorScheme: theme.colorScheme.copyWith(
         secondary: Colors.cyan[600],
       )),
-      home: MainPage(title: 'Process run example'),
+      home: const MainPage(title: 'Process run example'),
     );
   }
 }
 
 class MainPage extends StatefulWidget {
-  MainPage({Key? key, this.title}) : super(key: key);
+  const MainPage({Key? key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -82,7 +87,7 @@ Stream<String> streamLines(Stream<List<int>> stream,
           ctlr.add(systemEncoding.decode(currentLine!));
         } catch (_) {
           // Ignore nad encoded line
-          print('ignoring: $currentLine');
+          // print('ignoring: $currentLine');
         }
       }
       currentLine = null;
@@ -216,13 +221,13 @@ class _MainPageState extends State<MainPage> {
       await _shell.run('pub --version');
     } else if (command == '@userEnv') {
       _addLine(OutLine(
-          'userEnvironment: ${JsonEncoder.withIndent('  ').convert(userEnvironment)}'));
+          'userEnvironment: ${const JsonEncoder.withIndent('  ').convert(userEnvironment)}'));
     } else if (command == '@path') {
-      userPaths.forEach((element) {
+      for (var element in userPaths) {
         _addLine(OutLine(element));
-      });
+      }
     } else {
-      _shell.run(command);
+      await _shell.run(command);
     }
   }
 
@@ -282,7 +287,7 @@ class _MainPageState extends State<MainPage> {
                       .map((line) => Text(
                             line.text,
                             style: line is ErrLine
-                                ? TextStyle(color: Colors.red)
+                                ? const TextStyle(color: Colors.red)
                                 : null,
                           ))
                       .toList(growable: false),
@@ -295,12 +300,14 @@ class _MainPageState extends State<MainPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: runCustomCommand,
         tooltip: 'Custom command',
+        // ignore: prefer_const_constructors
         child: Icon(Icons.arrow_right),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
   TextEditingController? _commandInputController;
+
   Future<String?> _readCommand() async {
     _commandInputController?.dispose();
     var textValue = _commandInputController?.text ?? 'echo "Hello World!"';
@@ -318,25 +325,25 @@ class _MainPageState extends State<MainPage> {
       context: context,
       builder: (_) => AlertDialog(
         contentPadding: const EdgeInsets.all(16.0),
-        content: new Row(
+        content: Row(
           children: <Widget>[
-            new Expanded(
-                child: new TextField(
+            Expanded(
+                child: TextField(
               controller: _commandInputController,
               autofocus: true,
               onSubmitted: (_) => _run(),
-              decoration: new InputDecoration(
+              decoration: InputDecoration(
                   labelText: 'Full command', hintText: 'Command'),
             )),
           ],
         ),
         actions: <Widget>[
-          new TextButton(
+          TextButton(
               child: const Text('CANCEL'),
               onPressed: () {
                 Navigator.pop(context);
               }),
-          new TextButton(
+          TextButton(
               child: const Text('RUN'),
               onPressed: () {
                 _run();

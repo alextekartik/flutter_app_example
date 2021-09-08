@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -92,7 +94,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final MyAppBloc bloc;
 
-  MyHomePage({Key? key, required this.title, required this.bloc})
+  const MyHomePage({Key? key, required this.title, required this.bloc})
       : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -138,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text('$count',
                         style:
                             // ignore: deprecated_member_use
-                            Theme.of(context).textTheme.display1)
+                            Theme.of(context).textTheme.headline4)
                   ]
                 ],
               ),
