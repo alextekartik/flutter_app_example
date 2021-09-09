@@ -47,13 +47,19 @@ dependencies:
       ref: null_safety
       path: app_roboto
       version: '>=0.1.0'
-  path_provider:
 
+  path_provider:
+  cv:
 dev_dependencies:
   flutter_test:
     sdk: flutter
   process_run:
-
+  tekartik_app_lints_flutter:
+    git:
+      url: git://github.com/tekartik/app_flutter_utils.dart
+      ref: null_safety
+      path: app_lints
+    version: '>=0.1.0'
 dependency_overrides:
 
 # For information on the generic Dart part of this file, see the

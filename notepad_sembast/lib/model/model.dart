@@ -1,10 +1,10 @@
 import 'package:tekartik_notepad_sembast_app/db/db.dart';
 
 class DbNote extends DbRecord {
-  final title = stringField('title');
-  final content = stringField('content');
-  final date = intField('date');
+  final title = CvField<String>('title');
+  final content = CvField<String>('content');
+  final date = CvField<int>('date');
 
   @override
-  List<Field> get fields => [title, content, date];
+  List<CvField> get fields => [title, content, date];
 }

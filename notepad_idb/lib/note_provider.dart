@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_declarations
+
 import 'dart:async';
 
 import 'package:idb_shim/idb_client.dart';
@@ -141,9 +143,12 @@ class Note {
   }
 
   Note.fromMap(Map map, this.id) {
-    title = map[fieldTitle];
-    description = map[fieldDescription];
+    title = map[fieldTitle] as String?;
+    description = map[fieldDescription] as String?;
   }
+
+  @override
+  int get hashCode => id ?? 0;
 
   @override
   bool operator ==(other) {

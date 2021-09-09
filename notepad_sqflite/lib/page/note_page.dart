@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:tekartik_notepad_sqflite_app/main.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';

@@ -1,10 +1,14 @@
+// ignore_for_file: prefer_const_declarations
+
 import 'package:flutter/foundation.dart';
 import 'package:sembast/sembast.dart';
-import 'package:tekartik_notepad_sembast_app/model/model.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
+import 'package:tekartik_notepad_sembast_app/model/model.dart';
 
 DbNote snapshotToNote(RecordSnapshot snapshot) {
-  return DbNote()..fromMap(snapshot.value as Map, id: snapshot.key as int);
+  return DbNote()
+    ..fromMap(snapshot.value as Map)
+    ..id = snapshot.key as int;
 }
 
 class DbNotes extends ListBase<DbNote> {
@@ -60,7 +64,9 @@ class DbNoteProvider {
     var map = await notesStore.record(id).get(db!);
     // devPrint('getNote: ${map}');
     if (map != null) {
-      return DbNote()..fromMap(map, id: id);
+      return DbNote()
+        ..fromMap(map)
+        ..id = id;
     }
     return null;
   }
@@ -91,10 +97,10 @@ class DbNoteProvider {
   Future<String> fixPath(String path) async => path;
 
   Future saveNote(DbNote updatedNote) async {
-    if (updatedNote.id.v != null) {
-      await notesStore.record(updatedNote.id.v!).put(db!, updatedNote.toMap());
+    if (updatedNote.id != null) {
+      await notesStore.record(updatedNote.id!).put(db!, updatedNote.toMap());
     } else {
-      updatedNote.id.v = await notesStore.add(db!, updatedNote.toMap());
+      updatedNote.id = await notesStore.add(db!, updatedNote.toMap());
     }
   }
 

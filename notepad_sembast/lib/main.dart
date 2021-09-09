@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_notepad_sembast_app/page/list_page.dart';
@@ -11,6 +13,8 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

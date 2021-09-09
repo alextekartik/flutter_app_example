@@ -19,4 +19,14 @@ flutter create .
 flutter run
 ```
 
-To allow running on iOS/Android. For other platforms, Make sure you are on the proper flutter channel (as of 2020/07/01: beta for the web, dev for MacOS/Linux, master for Windows)
+### Example on windows
+
+```bash
+# (Optional) Delete/recreate existing project files
+#            Might be needed when switching flutter branch
+rmdir -Recurse -Force windows
+flutter create --platforms windows .
+
+# Run
+flutter run -d windows
+```
