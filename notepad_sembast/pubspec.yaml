@@ -29,25 +29,25 @@ dependencies:
   cupertino_icons:
   tekartik_app_flutter_sembast:
     git:
-      url: git://github.com/tekartik/app_flutter_utils.dart
+      url: https://github.com/tekartik/app_flutter_utils.dart
       path: app_sembast
-      ref: null_safety
+      ref: dart2_3
       version: '>=0.4.2'
   path_provider_macos:
   tekartik_common_utils:
     git:
-      url: git://github.com/tekartik/common_utils.dart
-      ref: null_safety
+      url: https://github.com/tekartik/common_utils.dart
+      ref: dart2_3
   tekartik_app_platform:
     git:
-      url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: null_safety
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      ref: dart2_3
       path: app_platform
     version: '>=0.1.0'
   tekartik_app_roboto:
     git:
-      url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: null_safety
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      ref: dart2_3
       path: app_roboto
       version: '>=0.1.0'
   path_provider:
@@ -59,8 +59,8 @@ dev_dependencies:
   process_run:
   tekartik_app_lints_flutter:
     git:
-      url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: null_safety
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      ref: dart2_3
       path: app_lints
     version: '>=0.1.0'
 
