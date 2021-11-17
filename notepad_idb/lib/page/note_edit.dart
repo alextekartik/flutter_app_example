@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:tekartik_notepad_app/note_provider.dart';
+import 'package:tekartik_notepad_idb_app/note_provider.dart';
 
 class NoteEditPage extends StatefulWidget {
   final NoteProvider noteProvider;
