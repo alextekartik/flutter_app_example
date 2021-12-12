@@ -5,11 +5,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:process_run/cmd_run.dart';
 import 'package:process_run/shell.dart';
-import 'package:process_run/which.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 final appVersion = Version(0, 1, 0);
