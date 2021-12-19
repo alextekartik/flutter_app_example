@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tekartik_notepad_app/note_provider.dart';
+import 'package:tekartik_notepad_idb_app/note_provider.dart';
 
 void main() {
   testProvider(MemoryNoteProvider());

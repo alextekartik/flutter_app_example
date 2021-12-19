@@ -1,5 +1,5 @@
-name: tekartik_notepad_app
-description: A new Flutter project.
+name: tekartik_notepad_idb_app
+description: Notepad idb app.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -23,7 +23,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons:
   sqflite: '>=1.2.0-dev'
   tekartik_app_flutter_idb:
     git:
