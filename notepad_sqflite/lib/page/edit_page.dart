@@ -89,7 +89,7 @@ class _EditNotePageState extends State<EditNotePage> {
                         ),
                       ],
                     );
-                  }) as FutureOr<bool>?) ??
+                  })) ??
               false;
         }
         return true;
