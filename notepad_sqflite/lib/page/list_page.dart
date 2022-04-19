@@ -11,6 +11,7 @@ class NoteListPage extends StatefulWidget {
   const NoteListPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _NoteListPageState createState() => _NoteListPageState();
 }
 

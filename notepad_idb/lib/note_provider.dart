@@ -2,10 +2,9 @@
 
 import 'dart:async';
 
-import 'package:idb_shim/idb_client.dart';
-import 'package:idb_shim/idb_client_memory.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_common_utils/map_utils.dart';
+import 'package:tekartik_notepad_idb_app/src/import.dart';
 
 const String dbName = 'note.db';
 

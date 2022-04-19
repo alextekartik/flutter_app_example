@@ -54,7 +54,7 @@ dependencies:
       ref: dart2_3
       path: app_roboto
       version: '>=0.1.0'
-
+  rxdart:
 dev_dependencies:
   flutter_test:
     sdk: flutter
