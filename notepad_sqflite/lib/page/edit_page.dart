@@ -11,6 +11,7 @@ class EditNotePage extends StatefulWidget {
 
   const EditNotePage({Key? key, required this.initialNote}) : super(key: key);
   @override
+  // ignore: library_private_types_in_public_api
   _EditNotePageState createState() => _EditNotePageState();
 }
 
@@ -37,9 +38,11 @@ class _EditNotePageState extends State<EditNotePage> {
         ..title.v = _titleTextController!.text
         ..content.v = _contentTextController!.text
         ..date.v = DateTime.now().millisecondsSinceEpoch);
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
       // Pop twice when editing
       if (_noteId != null) {
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       }
     }
@@ -137,7 +140,9 @@ class _EditNotePageState extends State<EditNotePage> {
                       false) {
                     await noteProvider.deleteNote(widget.initialNote!.id.v);
                     // Pop twice to go back to the list
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                   }
                 },

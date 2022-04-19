@@ -6,8 +6,8 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:tekartik_notepad_sqflite_app/provider/note_provider.dart';
+import 'package:tekartik_notepad_sqflite_app/src/import.dart';
 
 void main() {
   var factory = databaseFactoryFfi;

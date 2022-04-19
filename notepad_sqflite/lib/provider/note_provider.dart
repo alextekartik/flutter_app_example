@@ -140,7 +140,7 @@ class DbNoteProvider {
   /// Listen for changes on any note
   Stream<List<DbNote?>> onNotes() {
     late StreamController<DbNotes> ctlr;
-    StreamSubscription? _triggerSubscription;
+    StreamSubscription? triggerSubscription;
 
     Future<void> sendUpdate() async {
       var notes = await getListNotes();
@@ -153,11 +153,11 @@ class DbNoteProvider {
       sendUpdate();
 
       /// Listen for trigger
-      _triggerSubscription = _updateTriggerController.stream.listen((_) {
+      triggerSubscription = _updateTriggerController.stream.listen((_) {
         sendUpdate();
       });
     }, onCancel: () {
-      _triggerSubscription?.cancel();
+      triggerSubscription?.cancel();
     });
     return ctlr.stream;
   }
@@ -165,7 +165,7 @@ class DbNoteProvider {
   /// Listed for changes on a given note
   Stream<DbNote?> onNote(int? id) {
     late StreamController<DbNote?> ctlr;
-    StreamSubscription? _triggerSubscription;
+    StreamSubscription? triggerSubscription;
 
     Future<void> sendUpdate() async {
       var note = await getNote(id);
@@ -178,11 +178,11 @@ class DbNoteProvider {
       sendUpdate();
 
       /// Listen for trigger
-      _triggerSubscription = _updateTriggerController.stream.listen((_) {
+      triggerSubscription = _updateTriggerController.stream.listen((_) {
         sendUpdate();
       });
     }, onCancel: () {
-      _triggerSubscription?.cancel();
+      triggerSubscription?.cancel();
     });
     return ctlr.stream;
   }

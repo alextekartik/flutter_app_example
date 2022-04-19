@@ -31,6 +31,7 @@ class NoteEditPageState extends State<NoteEditPage> {
       _formKey.currentState!.save();
       await noteProvider.saveNote(
           Note(title: _title, description: _description, id: note?.id));
+      // ignore: use_build_context_synchronously
       Navigator.pop(context, true);
     }
   }
