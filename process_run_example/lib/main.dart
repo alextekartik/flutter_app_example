@@ -316,7 +316,7 @@ class _MainPageState extends State<MainPage> {
       extentOffset: textValue.length,
     );
 
-    void _run() {
+    void run() {
       Navigator.pop(context, _commandInputController!.text);
     }
 
@@ -330,7 +330,7 @@ class _MainPageState extends State<MainPage> {
                 child: TextField(
               controller: _commandInputController,
               autofocus: true,
-              onSubmitted: (_) => _run(),
+              onSubmitted: (_) => run(),
               decoration: InputDecoration(
                   labelText: 'Full command', hintText: 'Command'),
             )),
@@ -345,7 +345,7 @@ class _MainPageState extends State<MainPage> {
           TextButton(
               child: const Text('RUN'),
               onPressed: () {
-                _run();
+                run();
               })
         ],
       ),

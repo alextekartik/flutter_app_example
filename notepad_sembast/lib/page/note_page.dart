@@ -23,7 +23,7 @@ class _NotePageState extends State<NotePage> {
       builder: (context, snapshot) {
         var note = snapshot.data;
 
-        void _edit() {
+        void edit() {
           if (note != null) {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               return EditNotePage(
@@ -43,7 +43,7 @@ class _NotePageState extends State<NotePage> {
                   IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
-                      _edit();
+                      edit();
                     },
                   ),
               ],
@@ -54,7 +54,7 @@ class _NotePageState extends State<NotePage> {
                   )
                 : GestureDetector(
                     onTap: () {
-                      _edit();
+                      edit();
                     },
                     child: ListView(children: <Widget>[
                       ListTile(
