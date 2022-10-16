@@ -11,7 +11,7 @@ description: Sqflite notepad example
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.1.0
 publish_to: none
 
 environment:
@@ -47,9 +47,11 @@ dependencies:
       ref: dart2_3
       path: app_roboto
       version: '>=0.1.0'
-
   path_provider:
   cv:
+  # Deps and setup
+  sqflite_common_ffi_web:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -61,6 +63,8 @@ dev_dependencies:
       path: app_lints
     version: '>=0.1.0'
 dependency_overrides:
+#  tekartik_app_flutter_sqflite:
+#    path: ../../../tekartik/app_flutter_utils.dart/app_sqflite
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
