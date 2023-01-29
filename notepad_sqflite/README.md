@@ -1,8 +1,8 @@
 # Sqflite flutter notepad example
 
-Note pad demo using sqflite based persistency.
+Note pad demo using sqflite based persistency ([Online web demo](https://notepad_sqflite.surge.sh))
 
-Works on Flutter iOS/Android/MacOS/Linux/windows.
+Works on Flutter iOS/Android/MacOS/Linux/windows/web.
 
 Simple sqflite example:
 * Finding the proper sqflite database factory for the various platform

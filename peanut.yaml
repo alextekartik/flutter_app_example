@@ -4,3 +4,4 @@ directories:
   - demo_sembast/web
   - notepad_idb/web
   - notepad_sembast/web
+  - notepad_sqflite/web

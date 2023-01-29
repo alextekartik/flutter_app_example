@@ -59,7 +59,7 @@ class NoteListPageState extends State<NoteListPage> {
           appBar: AppBar(
             title: Text('Notepad idb'),
           ),
-          body: buildNotesList(snapshot as AsyncSnapshot<List<Note>>),
+          body: buildNotesList(snapshot),
           floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 var result = await Navigator.of(context).push(MaterialPageRoute(
