@@ -107,6 +107,7 @@ class _EditNotePageState extends State<EditNotePage> {
               IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () async {
+                  // ignore: use_build_context_synchronously
                   if (await showDialog<bool>(
                           context: context,
                           barrierDismissible: false, // user must tap button!
