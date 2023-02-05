@@ -28,6 +28,7 @@
 .pub-cache/
 .pub/
 /build/
+.metadata
 
 # Platform project
 /linux/
