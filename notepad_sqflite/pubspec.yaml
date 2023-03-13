@@ -52,7 +52,7 @@ dependencies:
   # Deps and setup
   sqflite_common_ffi: '>=2.2.2-1'
   sqflite: '>=2.2.6-0'
-  sqflite_common_ffi_web: '>=3.3.1'
+  sqflite_common_ffi_web: '>=0.3.3'
 
 dev_dependencies:
   flutter_test:
@@ -65,8 +65,6 @@ dev_dependencies:
       path: app_lints
     version: '>=0.1.0'
 dependency_overrides:
-   sqflite_common_ffi_web:
-     path: ../../../tekartik/sqflite/packages_web/sqflite_common_ffi_web
 #  tekartik_app_flutter_sqflite:
 #    path: ../../../tekartik/app_flutter_utils.dart/app_sqflite
 
