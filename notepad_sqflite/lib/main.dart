@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:tekartik_app_flutter_sqflite/sqflite.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
@@ -15,7 +16,7 @@ Future main() async {
   platformInit();
   // For dev on windows, find the proper sqlite3.dll
   if (!kIsWeb) {
-    sqfliteWindowsFfiInit();
+    sqfliteFfiInit();
   }
   var packageName = 'com.tekartik.sqflite.notepad';
 

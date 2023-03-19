@@ -51,6 +51,7 @@ dependencies:
       path: app_roboto
       version: '>=0.1.0'
   path_provider:
+  path:
   cv:
 
 dev_dependencies:
