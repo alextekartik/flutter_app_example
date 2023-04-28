@@ -25,7 +25,8 @@ class _NotePageState extends State<NotePage> {
 
         void edit() {
           if (note != null) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            Navigator.of(context)
+                .push<void>(MaterialPageRoute(builder: (context) {
               return EditNotePage(
                 initialNote: note,
               );

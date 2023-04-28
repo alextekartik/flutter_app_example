@@ -101,7 +101,7 @@ class NoteProvider {
         // devPrint('error getting list notes $e');
       }
     });
-    await subscription.asFuture();
+    await subscription.asFuture<void>();
     return list as FutureOr<List<Note>>;
   }
 
@@ -109,7 +109,7 @@ class NoteProvider {
     var store = notesWritableTxn;
     await store.openKeyCursor(autoAdvance: true).listen((cursor) {
       cursor.delete();
-    }).asFuture();
+    }).asFuture<void>();
   }
 
   Future close() async {
