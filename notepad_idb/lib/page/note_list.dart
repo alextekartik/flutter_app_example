@@ -62,9 +62,10 @@ class NoteListPageState extends State<NoteListPage> {
           body: buildNotesList(snapshot),
           floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                var result = await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) =>
-                        NoteEditPage(noteProvider: widget.noteProvider!)));
+                var result = await Navigator.of(context).push<Object?>(
+                    MaterialPageRoute(
+                        builder: (_) =>
+                            NoteEditPage(noteProvider: widget.noteProvider!)));
                 if (result == true) {
                   await bloc.refresh();
                 }
@@ -109,9 +110,10 @@ class NoteListPageState extends State<NoteListPage> {
             ? notes[index].description!.substring(0, 50)
             : notes[index].description!),
         onTap: () async {
-          var result = await Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => NoteEditPage(
-                  noteProvider: widget.noteProvider!, note: notes[index])));
+          var result = await Navigator.of(context).push<Object?>(
+              MaterialPageRoute(
+                  builder: (_) => NoteEditPage(
+                      noteProvider: widget.noteProvider!, note: notes[index])));
           if (result == true) {
             await bloc.refresh();
           }
