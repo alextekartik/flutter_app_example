@@ -15,7 +15,7 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: '>=2.18.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -31,23 +31,23 @@ dependencies:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
       path: app_sembast
-      ref: dart2_3
+      ref: dart3a
       version: '>=0.4.2'
   path_provider_macos:
   tekartik_common_utils:
     git:
       url: https://github.com/tekartik/common_utils.dart
-      ref: dart2_3
+      ref: dart3a
   tekartik_app_platform:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2_3
+      ref: dart3a
       path: app_platform
     version: '>=0.1.0'
   tekartik_app_roboto:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2_3
+      ref: dart3a
       path: app_roboto
       version: '>=0.1.0'
   path_provider:
@@ -61,7 +61,7 @@ dev_dependencies:
   tekartik_app_lints_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2_3
+      ref: dart3a
       path: app_lints
     version: '>=0.1.0'
 

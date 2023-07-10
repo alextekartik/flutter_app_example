@@ -3,7 +3,7 @@ publish_to: none
 deploy_to: none
 
 environment:
-  sdk: '>=2.18.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   process_run:
@@ -11,7 +11,7 @@ dependencies:
   tekartik_build_utils:
     git:
       url: https://github.com/tekartik/build_utils.dart
-      ref: dart2_3
+      ref: dart3a
     version: '>=0.7.8'
 
 dev_dependencies:

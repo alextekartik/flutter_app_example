@@ -1,0 +1,50 @@
+# Dependabot configuration file.
+# See https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+version: 2
+
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: "pub"
+    directory: "demo_idb"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "demo_sembast"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "demo_sqflite"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "notepad_idb"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "notepad_sembast"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "notepad_sqflite"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "process_run_example"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "pub"
+    directory: "repo_support"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
