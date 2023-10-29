@@ -17,7 +17,7 @@ Future main() async {
 class MyApp extends StatelessWidget {
   final NoteProvider? noteProvider;
 
-  const MyApp({Key? key, this.noteProvider}) : super(key: key);
+  const MyApp({super.key, this.noteProvider});
 
   // This widget is the root of your application.
   @override

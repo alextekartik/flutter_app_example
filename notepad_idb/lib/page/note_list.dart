@@ -27,7 +27,7 @@ class NoteListPageBloc {
 class NoteListPage extends StatefulWidget {
   final NoteProvider? noteProvider;
 
-  const NoteListPage({Key? key, required this.noteProvider}) : super(key: key);
+  const NoteListPage({super.key, required this.noteProvider});
   @override
   State<StatefulWidget> createState() {
     return NoteListPageState();

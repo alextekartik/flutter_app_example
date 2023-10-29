@@ -8,7 +8,7 @@ import 'package:tekartik_notepad_sembast_app/page/edit_page.dart';
 class NotePage extends StatefulWidget {
   final int noteId;
 
-  const NotePage({Key? key, required this.noteId}) : super(key: key);
+  const NotePage({super.key, required this.noteId});
 
   @override
   // ignore: library_private_types_in_public_api

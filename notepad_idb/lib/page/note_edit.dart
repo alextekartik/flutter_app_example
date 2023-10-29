@@ -8,8 +8,7 @@ class NoteEditPage extends StatefulWidget {
   final Note? note;
 
   /// If [note] is null, it is a new note
-  const NoteEditPage({Key? key, this.note, required this.noteProvider})
-      : super(key: key);
+  const NoteEditPage({super.key, this.note, required this.noteProvider});
 
   @override
   NoteEditPageState createState() {

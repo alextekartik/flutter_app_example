@@ -9,7 +9,7 @@ class EditNotePage extends StatefulWidget {
   /// null when adding a note
   final DbNote? initialNote;
 
-  const EditNotePage({Key? key, required this.initialNote}) : super(key: key);
+  const EditNotePage({super.key, required this.initialNote});
 
   @override
   // ignore: library_private_types_in_public_api

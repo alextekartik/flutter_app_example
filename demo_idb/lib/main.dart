@@ -61,7 +61,7 @@ class MyAppBloc {
 class MyApp extends StatelessWidget {
   final MyAppBloc bloc;
 
-  const MyApp({Key? key, required this.bloc}) : super(key: key);
+  const MyApp({super.key, required this.bloc});
 
   // This widget is the root of your application.
   @override
@@ -91,8 +91,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final MyAppBloc bloc;
 
-  const MyHomePage({Key? key, required this.title, required this.bloc})
-      : super(key: key);
+  const MyHomePage({super.key, required this.title, required this.bloc});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect

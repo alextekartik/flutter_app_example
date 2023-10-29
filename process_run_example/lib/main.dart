@@ -17,7 +17,7 @@ void main() {
 }
 
 class ProcessRunExampleApp extends StatelessWidget {
-  ProcessRunExampleApp({Key? key}) : super(key: key);
+  ProcessRunExampleApp({super.key});
   // This widget is the root of your application.
   final ThemeData theme = ThemeData(
     brightness: Brightness.dark,
@@ -39,7 +39,7 @@ class ProcessRunExampleApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key, this.title}) : super(key: key);
+  const MainPage({super.key, this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -64,11 +64,11 @@ abstract class Line {
 }
 
 class ErrLine extends Line {
-  ErrLine(String text) : super(text);
+  ErrLine(super.text);
 }
 
 class OutLine extends Line {
-  OutLine(String text) : super(text);
+  OutLine(super.text);
 }
 
 /// Basic line streaming. Assuming system encoding
