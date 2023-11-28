@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
+import 'package:tekartik_common_utils/string_utils.dart';
 import 'package:tekartik_notepad_sqflite_app/main.dart';
 import 'package:tekartik_notepad_sqflite_app/model/model.dart';
 
@@ -48,54 +49,40 @@ class _EditNotePageState extends State<EditNotePage> {
     }
   }
 
+  bool isTextDirty(String? newText, String? originalText) {
+    return newText?.trimmedNonEmpty() != originalText?.trimmedNonEmpty();
+  }
+
+  bool get _isDirty {
+    var dirty = false;
+    if (isTextDirty(_titleTextController!.text, widget.initialNote?.title.v)) {
+      dirty = true;
+    } else if (isTextDirty(
+        _contentTextController!.text, widget.initialNote?.content.v)) {
+      dirty = true;
+    }
+    return dirty;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        var dirty = false;
-        if (_titleTextController!.text != widget.initialNote?.title.v) {
-          dirty = true;
-        } else if (_contentTextController!.text !=
-            widget.initialNote?.content.v) {
-          dirty = true;
+    return PopScope(
+      canPop: _isDirty,
+      onPopInvoked: (invoked) async {
+        if (invoked) {
+          return;
         }
+        var dirty = _isDirty;
         if (dirty) {
-          return await (showDialog<bool>(
-                  context: context,
-                  barrierDismissible: false, // user must tap button!
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Discard change?'),
-                      content: SingleChildScrollView(
-                        child: ListBody(
-                          children: <Widget>[
-                            Text('Content has changed.'),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            Text('Tap \'CONTINUE\' to discard your changes.'),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, true);
-                          },
-                          child: Text('CONTINUE'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
-                          child: Text('CANCEL'),
-                        ),
-                      ],
-                    );
-                  })) ??
-              false;
+          var doDiscard = await _askDiscardChange(context) ?? false;
+          if (!doDiscard) {
+            return;
+          }
         }
-        return true;
+        // Ok do pop
+        if (context.mounted) {
+          Navigator.of(context).pop();
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -195,5 +182,41 @@ class _EditNotePageState extends State<EditNotePage> {
         ),
       ),
     );
+  }
+
+  Future<bool?> _askDiscardChange(BuildContext context) async {
+    return await (showDialog<bool>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Discard change?'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Content has changed.'),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text('Tap \'CONTINUE\' to discard your changes.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: Text('CONTINUE'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+                child: Text('CANCEL'),
+              ),
+            ],
+          );
+        }));
   }
 }
