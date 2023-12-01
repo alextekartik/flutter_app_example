@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
+import 'package:tekartik_common_utils/string_utils.dart';
 import 'package:tekartik_notepad_sembast_app/app.dart';
 import 'package:tekartik_notepad_sembast_app/model/model.dart';
 
@@ -37,8 +38,8 @@ class _EditNotePageState extends State<EditNotePage> {
       _formKey.currentState!.save();
       await noteProvider.saveNote(DbNote()
         ..id = _noteId
-        ..title.v = _titleTextController!.text
-        ..content.v = _contentTextController!.text
+        ..title.v = _titleTextController!.text.trimmedNonEmpty()
+        ..content.v = _contentTextController!.text.trimmedNonEmpty()
         ..date.v = DateTime.now().millisecondsSinceEpoch);
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
@@ -52,17 +53,15 @@ class _EditNotePageState extends State<EditNotePage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        var dirty = false;
-        if (_titleTextController!.text != widget.initialNote?.title.v) {
-          dirty = true;
-        } else if (_contentTextController!.text !=
-            widget.initialNote?.content.v) {
-          dirty = true;
+    return PopScope(
+      canPop: isDirty(),
+      onPopInvoked: (invoked) async {
+        if (invoked) {
+          return;
         }
+        var dirty = isDirty();
         if (dirty) {
-          return (await showDialog<bool>(
+          var doDiscard = (await showDialog<bool>(
                   context: context,
                   barrierDismissible: false, // user must tap button!
                   builder: (BuildContext context) {
@@ -96,8 +95,13 @@ class _EditNotePageState extends State<EditNotePage> {
                     );
                   })) ??
               false;
+          if (!doDiscard) {
+            return;
+          }
         }
-        return true;
+        if (context.mounted) {
+          Navigator.of(context).pop();
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -197,5 +201,20 @@ class _EditNotePageState extends State<EditNotePage> {
         ),
       ),
     );
+  }
+
+  bool isTextDirty(String? newText, String? originalText) {
+    return newText?.trimmedNonEmpty() != originalText?.trimmedNonEmpty();
+  }
+
+  bool isDirty() {
+    var dirty = false;
+    if (isTextDirty(_titleTextController!.text, widget.initialNote?.title.v)) {
+      dirty = true;
+    } else if (isTextDirty(
+        _contentTextController!.text, widget.initialNote?.content.v)) {
+      dirty = true;
+    }
+    return dirty;
   }
 }

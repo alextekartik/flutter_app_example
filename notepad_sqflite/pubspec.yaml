@@ -52,7 +52,7 @@ dependencies:
   # Deps and setup
   sqflite_common_ffi: '>=2.2.2-1'
   sqflite: '>=2.2.6-0'
-  sqflite_common_ffi_web: '>=0.3.3'
+  sqflite_common_ffi_web: '>=0.4.2-1'
 
 dev_dependencies:
   flutter_test:
