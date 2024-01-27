@@ -33,7 +33,6 @@ dependencies:
       path: app_sembast
       ref: dart3a
       version: '>=0.4.2'
-  path_provider_macos:
   tekartik_common_utils:
     git:
       url: https://github.com/tekartik/common_utils.dart
