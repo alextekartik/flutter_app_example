@@ -30,7 +30,6 @@ dependencies:
       path: app_sqflite
       ref: dart3a
       version: '>=0.4.2'
-  path_provider_macos:
   tekartik_common_utils:
     git:
       url: https://github.com/tekartik/common_utils.dart
@@ -51,7 +50,7 @@ dependencies:
   cv:
   # Deps and setup
   sqflite_common_ffi: '>=2.2.2-1'
-  sqflite: '>=2.2.6-0'
+  sqflite: '>=2.3.2-2'
   sqflite_common_ffi_web: '>=0.4.2-1'
 
 dev_dependencies:
