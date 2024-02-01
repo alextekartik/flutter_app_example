@@ -9,18 +9,19 @@ import 'package:tekartik_demo_sqflite/counter_database.dart';
 final counterDb = CounterDatabase();
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   // Use sqflite on Mac/Android/iOS
   // On the web using sqflite_common_ffi_web (need setup)
   if (kIsWeb) {
-    databaseFactory = databaseFactoryFfiWeb;
+    databaseFactoryOrNull = databaseFactoryFfiWeb;
   } else if (Platform.isLinux || Platform.isWindows) {
     // Use the ffi version on linux and windows
     sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
+    databaseFactoryOrNull = databaseFactoryFfi;
   }
   // More log to see the executed queries
   // ignore: deprecated_member_use
-  databaseFactory = databaseFactory.debugQuickLoggerWrapper();
+  databaseFactoryOrNull = databaseFactory.debugQuickLoggerWrapper();
   runApp(const MyApp());
 }
 
