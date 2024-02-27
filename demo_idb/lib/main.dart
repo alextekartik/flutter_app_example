@@ -12,7 +12,14 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
   appInit();
-  var bloc = MyAppBloc();
+  run(idbFactory: idbFactory);
+}
+
+void run({required IdbFactory idbFactory}) {
+  WidgetsFlutterBinding.ensureInitialized();
+  platformInit();
+  appInit();
+  var bloc = MyAppBloc(idbFactory: idbFactory);
   runApp(MyApp(
     bloc: bloc,
   ));
@@ -22,7 +29,8 @@ var storeName = 'counter';
 var valueKey = 'value';
 
 class MyAppBloc {
-  MyAppBloc() {
+  final IdbFactory idbFactory;
+  MyAppBloc({required this.idbFactory}) {
     // Load counter on start
     () async {
       var db = await database;
@@ -33,7 +41,7 @@ class MyAppBloc {
     }();
   }
 
-  Future<Database> database = () async {
+  late Future<Database> database = () async {
     var db =
         await idbFactory.open('counter.db', version: 1, onUpgradeNeeded: (e) {
       var db = e.database;
