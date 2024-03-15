@@ -30,14 +30,22 @@ var valueKey = 'value';
 
 class MyAppBloc {
   final IdbFactory idbFactory;
+
+  Future<int> readValue(ObjectStore store) async {
+    var rawValue = await store.getObject(valueKey);
+    return (rawValue as num?)?.toInt() ?? 0;
+  }
+
   MyAppBloc({required this.idbFactory}) {
     // Load counter on start
     () async {
       var db = await database;
       var txn = db.transaction(storeName, idbModeReadOnly);
       var store = txn.objectStore(storeName);
-      _value = ((await store.getObject(valueKey)) as int?) ?? 0;
-      _counterController.add(_value);
+      var value = await readValue(store);
+      // In wasm we might get a double !
+      //_value = (((await store.getObject(valueKey)) as num?)?.toInt()) ?? 0;
+      _counterController.add(value);
     }();
   }
 
@@ -50,19 +58,19 @@ class MyAppBloc {
     return db;
   }();
 
-  int? _value;
   final StreamController<int?> _counterController =
       StreamController<int>.broadcast();
 
   Stream<int> get counter => _counterController.stream as Stream<int>;
 
   Future increment() async {
-    _value = _value! + 1;
     var db = await database;
     var txn = db.transaction(storeName, idbModeReadWrite);
     var store = txn.objectStore(storeName);
-    await store.put(_value!, valueKey);
-    _counterController.add(_value);
+    var value = await readValue(store) + 1;
+
+    await store.put(value, valueKey);
+    _counterController.add(value);
   }
 }
 
