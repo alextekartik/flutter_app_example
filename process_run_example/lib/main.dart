@@ -3,8 +3,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:process_run/cmd_run.dart';
 import 'package:process_run/shell.dart';
@@ -12,7 +12,20 @@ import 'package:pub_semver/pub_semver.dart';
 
 final appVersion = Version(0, 1, 0);
 
+late BuildContext appContext;
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  PlatformDispatcher.instance.onError = (error, stack) {
+    // ignore: avoid_print
+    print('error: $error');
+    // ignore: avoid_print
+    print('stack: $stack');
+    try {
+      ScaffoldMessenger.of(appContext)
+          .showSnackBar(SnackBar(content: Text('$error\n$stack')));
+    } catch (_) {}
+    return true;
+  };
   runApp(ProcessRunExampleApp());
 }
 
@@ -29,11 +42,13 @@ class ProcessRunExampleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Process run Example',
+      debugShowCheckedModeBanner: false,
       theme: theme.copyWith(
           colorScheme: theme.colorScheme.copyWith(
         secondary: Colors.cyan[600],
       )),
-      home: const MainPage(title: 'Process run example'),
+      home: const MainPage(
+          title: 'Process run example${kDebugMode ? ' (debug)' : ''}'),
     );
   }
 }
@@ -152,9 +167,22 @@ class _MainPageState extends State<MainPage> {
     _linesCtlr.add(_lines);
   }
 
+  void _initShell() {
+    _shell = Shell(stdout: _stdoutCtlr.sink, stderr: _stderrCtlr.sink);
+  }
+
+  void _initShellStdin() {
+    _shell = Shell(
+        runInShell: true,
+        stdout: _stdoutCtlr.sink,
+        stderr: _stderrCtlr.sink,
+        stdin: sharedStdIn);
+  }
+
   @override
   void initState() {
     super.initState();
+    appContext = context;
     streamLines(_stdoutCtlr.stream).listen((line) {
       _addLine(OutLine(line));
     });
@@ -177,10 +205,10 @@ class _MainPageState extends State<MainPage> {
     });
 
      */
-    _shell = Shell(stdout: _stdoutCtlr.sink, stderr: _stderrCtlr.sink);
     _addLine(OutLine(
         'Press the button to run flutter doctor -v, see other commands in the menu'));
     _addLine(ErrLine('Error text will be displayed in red'));
+    _initShell();
   }
 
   Future _run(String command) async {
@@ -243,6 +271,18 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text(widget.title!),
         actions: [
+          IconButton(
+              onPressed: () {
+                _shell.kill();
+                _initShell();
+              },
+              icon: Icon(Icons.delete_forever)),
+          IconButton(
+              onPressed: () {
+                _shell.kill();
+                _initShellStdin();
+              },
+              icon: Icon(Icons.refresh)),
           // overflow menu
           PopupMenuButton<String>(
             onSelected: _run,
@@ -253,8 +293,6 @@ class _MainPageState extends State<MainPage> {
                 'flutter doctor -v',
                 'dart --version',
                 'dart --help',
-                'pub --version',
-                'pub --help',
                 '@info',
                 '@path',
                 '@userEnv'
