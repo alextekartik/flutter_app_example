@@ -7,7 +7,7 @@ Future<void> main() async {
   var shell = Shell();
   await shell.run('''
   flutter clean
-  flutter build web --target lib/main_web_interop.dart''');
+  flutter build web --target lib/main_web.dart''');
   shell = shell.cd(join('build', 'web'));
   // ignore: avoid_print
   print('http://localhost:8080');
