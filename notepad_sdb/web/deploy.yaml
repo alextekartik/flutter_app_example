@@ -1,0 +1,15 @@
+# list of files needed for web deployment
+files:
+  - index.html
+  - main.dart.js
+  - main.dart.mjs
+  - main.dart.wasm
+  - flutter.js
+  - version.json
+  - flutter_service_worker.js
+  - flutter_bootstrap.js
+  - assets/
+  - canvaskit/
+  - manifest.json
+
+

@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        working-directory: repo_support
+        working-directory: .
     strategy:
       fail-fast: false
       matrix:
@@ -36,5 +36,5 @@ jobs:
       - run: dart --version
       - run: flutter --version
       - run: flutter upgrade
-      - run: dart pub get
-      - run: dart run tool/run_ci.dart
+      - run: dart pub global activate dev_build
+      - run: dart pub global run dev_build:run_ci --recursive
