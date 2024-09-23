@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_idb/idb.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
 
-import 'app_io.dart' if (dart.library.html) 'app_web.dart';
+import 'app_io.dart' if (dart.library.js_interop) 'app_web.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
