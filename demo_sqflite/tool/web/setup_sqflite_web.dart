@@ -1,6 +1,10 @@
 import 'package:process_run/shell.dart';
 
 Future<void> main() async {
+  await setupWeb();
+}
+
+Future<void> setupWeb() async {
   await run('''
     # Create the web project
     flutter create . --platforms web
