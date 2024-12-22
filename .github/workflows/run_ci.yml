@@ -29,11 +29,16 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '11.x'
+          java-version: '17.x'
       - uses: subosito/flutter-action@v2
         with:
           channel: ${{ matrix.flutter }}
       - run: dart --version
+        # Setup sqlite3 lib (done for linux only but works safely on all platform)
+      - name: Install libsqlite3-dev
+        run: |
+          dart pub global activate --source git https://github.com/tekartik/ci.dart --git-path ci
+          dart pub global run tekartik_ci:setup_sqlite3lib
       - run: flutter --version
       - run: flutter upgrade
       - run: dart pub global activate dev_build

@@ -6,8 +6,8 @@ environment:
   sdk: ^3.5.0
 
 dependencies:
-  process_run:
-  path:
+  process_run: ">=1.2.1+1"
+  path: ">=1.9.0"
   tekartik_build_utils:
     git:
       url: https://github.com/tekartik/build_utils.dart
@@ -15,8 +15,8 @@ dependencies:
     version: '>=0.7.8'
 
 dev_dependencies:
-  test: '>=1.0.0'
-  dev_build: '>=0.13.4-dev.1'
+  test: ">=1.24.0"
+  dev_build: ">=1.1.0+2"
 
 dependency_overrides:
 #  tekartik_build_utils:

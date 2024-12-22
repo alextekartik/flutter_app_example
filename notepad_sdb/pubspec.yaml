@@ -23,8 +23,8 @@ dependencies:
   idb_shim: '>=2.6.0+4'
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons:
-  sqflite: '>=1.2.0-dev'
+  cupertino_icons: ">=1.0.8"
+  sqflite: ">=2.4.0"
   tekartik_app_flutter_idb:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
@@ -78,7 +78,7 @@ dev_dependencies:
       path: packages/flutter_build
   flutter_test:
     sdk: flutter
-  process_run: '>=0.10.3'
+  process_run: ">=1.2.1+1"
   tekartik_app_lints_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
