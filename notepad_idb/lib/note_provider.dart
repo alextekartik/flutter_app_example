@@ -54,8 +54,11 @@ class NoteProvider {
   }
 
   Future open() async {
-    db = await idbFactory.open(dbName,
-        version: kVersion1, onUpgradeNeeded: onUpgradeNeeded);
+    db = await idbFactory.open(
+      dbName,
+      version: kVersion1,
+      onUpgradeNeeded: onUpgradeNeeded,
+    );
   }
 
   void onUpgradeNeeded(VersionChangeEvent event) {
@@ -89,18 +92,18 @@ class NoteProvider {
     subscription = store
         .openCursor(direction: idbDirectionPrev, autoAdvance: true)
         .listen((cursor) {
-      try {
-        var map = asMap<String, Object?>(cursor.value);
+          try {
+            var map = asMap<String, Object?>(cursor.value);
 
-        if (map != null) {
-          var note = cursorToNote(cursor);
-          // devPrint('adding ${note}');
-          list.add(note);
-        }
-      } catch (e) {
-        // devPrint('error getting list notes $e');
-      }
-    });
+            if (map != null) {
+              var note = cursorToNote(cursor);
+              // devPrint('adding ${note}');
+              list.add(note);
+            }
+          } catch (e) {
+            // devPrint('error getting list notes $e');
+          }
+        });
     await subscription.asFuture<void>();
     return list as FutureOr<List<Note>>;
   }
@@ -117,7 +120,7 @@ class NoteProvider {
   }
 }
 
-Note? cursorToNote(CursorWithValue/*<int, Map<String, Object?>>*/ cursor) {
+Note? cursorToNote(CursorWithValue /*<int, Map<String, Object?>>*/ cursor) {
   Note? note;
   var snapshot = asMap(cursor.value);
   if (snapshot != null) {
@@ -136,7 +139,7 @@ class Note {
   Map<String, String?> toMap() {
     var map = <String, String?>{
       fieldTitle: title,
-      fieldDescription: description
+      fieldDescription: description,
     };
     return map;
   }

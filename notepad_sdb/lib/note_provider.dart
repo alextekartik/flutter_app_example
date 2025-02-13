@@ -39,8 +39,11 @@ class NoteProvider {
   }
 
   Future open() async {
-    db = await idbFactory.openDatabase(dbName,
-        version: kVersion1, onVersionChange: onUpgradeNeeded);
+    db = await idbFactory.openDatabase(
+      dbName,
+      version: kVersion1,
+      onVersionChange: onUpgradeNeeded,
+    );
   }
 
   void onUpgradeNeeded(SdbVersionChangeEvent event) {
@@ -65,9 +68,10 @@ class NoteProvider {
 
   Future<List<Note>> getNotes() async {
     var maps = await noteStore.findRecords(db);
-    var list = maps.map((map) {
-      return Note.fromMap(map.value, map.key);
-    }).toList();
+    var list =
+        maps.map((map) {
+          return Note.fromMap(map.value, map.key);
+        }).toList();
 
     return list;
   }
@@ -91,7 +95,7 @@ class Note {
   Map<String, String?> toMap() {
     var map = <String, String?>{
       fieldTitle: title,
-      fieldDescription: description
+      fieldDescription: description,
     };
     return map;
   }

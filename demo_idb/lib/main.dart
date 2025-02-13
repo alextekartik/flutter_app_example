@@ -20,9 +20,7 @@ void run({required IdbFactory idbFactory}) {
   platformInit();
   appInit();
   var bloc = MyAppBloc(idbFactory: idbFactory);
-  runApp(MyApp(
-    bloc: bloc,
-  ));
+  runApp(MyApp(bloc: bloc));
 }
 
 var storeName = 'counter';
@@ -50,11 +48,14 @@ class MyAppBloc {
   }
 
   late Future<Database> database = () async {
-    var db =
-        await idbFactory.open('counter.db', version: 1, onUpgradeNeeded: (e) {
-      var db = e.database;
-      db.createObjectStore(storeName);
-    });
+    var db = await idbFactory.open(
+      'counter.db',
+      version: 1,
+      onUpgradeNeeded: (e) {
+        var db = e.database;
+        db.createObjectStore(storeName);
+      },
+    );
     return db;
   }();
 
@@ -96,10 +97,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(
-        title: 'Flutter Demo Home Page',
-        bloc: bloc,
-      ),
+      home: MyHomePage(title: 'Flutter Demo Home Page', bloc: bloc),
     );
   }
 }
@@ -129,39 +127,38 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-        stream: widget.bloc.counter,
-        builder: (context, snapshot) {
-          var count = snapshot.data;
-          return Scaffold(
-            appBar: AppBar(
-              // Here we take the value from the MyHomePage object that was created by
-              // the App.build method, and use it to set our appbar title.
-              title: Text(widget.title),
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  if (count != null) ...[
-                    Text(
-                      'You have pushed the button this many times:',
-                    ),
-                    Text('$count',
-                        style: Theme.of(context).textTheme.labelLarge)
-                  ]
+      stream: widget.bloc.counter,
+      builder: (context, snapshot) {
+        var count = snapshot.data;
+        return Scaffold(
+          appBar: AppBar(
+            // Here we take the value from the MyHomePage object that was created by
+            // the App.build method, and use it to set our appbar title.
+            title: Text(widget.title),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (count != null) ...[
+                  Text('You have pushed the button this many times:'),
+                  Text('$count', style: Theme.of(context).textTheme.labelLarge),
                 ],
-              ),
+              ],
             ),
-            floatingActionButton: count != null
-                ? FloatingActionButton(
+          ),
+          floatingActionButton:
+              count != null
+                  ? FloatingActionButton(
                     onPressed: () {
                       widget.bloc.increment();
                     },
                     tooltip: 'Increment',
                     child: Icon(Icons.add),
                   )
-                : null,
-          );
-        });
+                  : null,
+        );
+      },
+    );
   }
 }

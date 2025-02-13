@@ -19,9 +19,7 @@ void main() {
   interopQuickExperiment();
   var factory = idbFactoryNative;
   var bloc = MyAppBloc(idbFactory: factory);
-  runApp(MyApp(
-    bloc: bloc,
-  ));
+  runApp(MyApp(bloc: bloc));
 }
 
 extension on Object? {
@@ -52,7 +50,8 @@ extension on Object? {
 void interopQuickExperiment() {
   if (kIsWeb) {
     print(
-        'kIsWeb: $kIdbDartIsWeb, isRunningAsJavascript: $idbIsRunningAsJavascript');
+      'kIsWeb: $kIdbDartIsWeb, isRunningAsJavascript: $idbIsRunningAsJavascript',
+    );
 
     for (var value in [
       null,
@@ -63,13 +62,13 @@ void interopQuickExperiment() {
       Uint8List.fromList([1, 2, 3]),
       DateTime(2024, 3, 15, 12, 0, 0),
       {
-        'list': [1, 2, 3]
+        'list': [1, 2, 3],
       },
       [
         {
-          'map': {'sub': '1, 2, 3'}
-        }
-      ]
+          'map': {'sub': '1, 2, 3'},
+        },
+      ],
     ]) {
       print('value: $value (${value.runtimeTypeToString()})');
 
@@ -79,14 +78,16 @@ void interopQuickExperiment() {
         try {
           var dartified = jsified.dartify();
           print(
-              'jsify/dartify: $dartified (${dartified.runtimeTypeToString()})');
+            'jsify/dartify: $dartified (${dartified.runtimeTypeToString()})',
+          );
         } catch (e) {
           print('error re-dartifying $value: $e');
         }
         try {
           var dartified = jsified?.dartifyValueStrict();
           print(
-              'jsify/dartifyValueStrict: $dartified (${dartified.runtimeTypeToString()})');
+            'jsify/dartifyValueStrict: $dartified (${dartified.runtimeTypeToString()})',
+          );
         } catch (e) {
           print('error re-dartifyingValueStrict $value: $e');
         }
@@ -99,14 +100,16 @@ void interopQuickExperiment() {
         try {
           var dartified = jsified.dartify();
           print(
-              'jsifyValueStrict/dartify: $dartified (${dartified.runtimeTypeToString()})');
+            'jsifyValueStrict/dartify: $dartified (${dartified.runtimeTypeToString()})',
+          );
         } catch (e) {
           print('error re-dartifying $value: $e');
         }
         try {
           var dartified = jsified?.dartifyValueStrict();
           print(
-              'jsifyValueStrict/dartifyValueStrict: $dartified (${dartified.runtimeTypeToString()})');
+            'jsifyValueStrict/dartifyValueStrict: $dartified (${dartified.runtimeTypeToString()})',
+          );
         } catch (e) {
           print('error re-dartifying $value: $e');
         }

@@ -67,10 +67,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(
-        title: 'Sembast Demo',
-        bloc: bloc,
-      ),
+      home: MyHomePage(title: 'Sembast Demo', bloc: bloc),
     );
   }
 }
@@ -100,44 +97,46 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-        stream: widget.bloc.counter,
-        builder: (context, snapshot) {
-          var count = snapshot.data;
-          return Scaffold(
-            appBar: AppBar(
-              // Here we take the value from the MyHomePage object that was created by
-              // the App.build method, and use it to set our appbar title.
-              title: Text(widget.title),
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  if (count != null) ...[
-                    if (kIsWeb)
-                      const Text(
-                        '(You can open multiples tabs and see that they are synchronized)',
-                      ),
+      stream: widget.bloc.counter,
+      builder: (context, snapshot) {
+        var count = snapshot.data;
+        return Scaffold(
+          appBar: AppBar(
+            // Here we take the value from the MyHomePage object that was created by
+            // the App.build method, and use it to set our appbar title.
+            title: Text(widget.title),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (count != null) ...[
+                  if (kIsWeb)
                     const Text(
-                      'You have pushed the button this many times:',
+                      '(You can open multiples tabs and see that they are synchronized)',
                     ),
-                    Text('$count',
-                        style: Theme.of(context).textTheme.headlineSmall)
-                  ]
+                  const Text('You have pushed the button this many times:'),
+                  Text(
+                    '$count',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 ],
-              ),
+              ],
             ),
-            floatingActionButton: count != null
-                ? FloatingActionButton(
+          ),
+          floatingActionButton:
+              count != null
+                  ? FloatingActionButton(
                     onPressed: () {
                       widget.bloc.increment();
                     },
                     tooltip: 'Increment',
                     child: const Icon(Icons.add),
                   )
-                : null,
-          );
-        });
+                  : null,
+        );
+      },
+    );
   }
 
   @override

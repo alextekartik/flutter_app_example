@@ -15,7 +15,5 @@ Future main() async {
   var databaseFactory = getDatabaseFactory(packageName: packageName);
 
   var bloc = MyAppBloc(databaseFactory);
-  runApp(MyApp(
-    bloc: bloc,
-  ));
+  runApp(MyApp(bloc: bloc));
 }

@@ -9,7 +9,8 @@ Future main() async {
   platformInit();
   // print('factory: ${getIdbFactory(packageName: 'com.tekartik.notepad_idb_app')}');
   var noteProvider = NoteProvider(
-      idbFactory: getIdbFactory(packageName: 'com.tekartik.notepad_idb_app'));
+    idbFactory: getIdbFactory(packageName: 'com.tekartik.notepad_idb_app'),
+  );
   await noteProvider.open();
   runApp(MyApp(noteProvider: noteProvider));
 }
@@ -23,12 +24,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Notepad Idb',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: NoteListPage(
-          noteProvider: noteProvider,
-        ));
+      title: 'Flutter Notepad Idb',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: NoteListPage(noteProvider: noteProvider),
+    );
   }
 }

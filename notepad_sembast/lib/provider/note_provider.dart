@@ -47,8 +47,11 @@ class DbNoteProvider {
   DbNoteProvider(this.dbFactory);
 
   Future<Database> openPath(String path) async {
-    db = await dbFactory.openDatabase(path,
-        version: kVersion1, onVersionChanged: _onVersionChanged);
+    db = await dbFactory.openDatabase(
+      path,
+      version: kVersion1,
+      onVersionChanged: _onVersionChanged,
+    );
     return db!;
   }
 
@@ -83,7 +86,7 @@ class DbNoteProvider {
               ..title.v = 'Welcome to NotePad'
               ..content.v =
                   'Enter your notes\n\nThis is a content. Just tap anywhere to edit the note.\n'
-                      '${kIsWeb ? '\nYou can open multiple tabs or windows and see that the content is the same in all tabs' : ''}'
+                  '${kIsWeb ? '\nYou can open multiple tabs or windows and see that the content is the same in all tabs' : ''}'
               ..date.v = 2)
             .toMap(),
       ]);
@@ -111,16 +114,22 @@ class DbNoteProvider {
   }
 
   var notesTransformer = StreamTransformer<
-      List<RecordSnapshot<int, Map<String, Object?>>>,
-      List<DbNote>>.fromHandlers(handleData: (snapshotList, sink) {
-    sink.add(DbNotes(snapshotList));
-  });
+    List<RecordSnapshot<int, Map<String, Object?>>>,
+    List<DbNote>
+  >.fromHandlers(
+    handleData: (snapshotList, sink) {
+      sink.add(DbNotes(snapshotList));
+    },
+  );
 
   var noteTransformer = StreamTransformer<
-      RecordSnapshot<int, Map<String, Object?>>?,
-      DbNote?>.fromHandlers(handleData: (snapshot, sink) {
-    sink.add(snapshot == null ? null : snapshotToNote(snapshot));
-  });
+    RecordSnapshot<int, Map<String, Object?>>?,
+    DbNote?
+  >.fromHandlers(
+    handleData: (snapshot, sink) {
+      sink.add(snapshot == null ? null : snapshotToNote(snapshot));
+    },
+  );
 
   /// Listen for changes on any note
   Stream<List<DbNote>> onNotes() {

@@ -19,48 +19,47 @@ class _NoteListPageState extends State<NoteListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(
-        'NotePad sqflite',
-      )),
+      appBar: AppBar(title: Text('NotePad sqflite')),
       body: StreamBuilder<List<DbNote?>>(
         stream: noteProvider.onNotes(),
         builder: (context, snapshot) {
           var notes = snapshot.data;
           if (notes == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Center(child: CircularProgressIndicator());
           }
           return ListView.builder(
-              itemCount: notes.length,
-              itemBuilder: (context, index) {
-                var note = notes[index]!;
-                return ListTile(
-                  title: Text(note.title.v ?? ''),
-                  subtitle: note.content.v?.isNotEmpty ?? false
-                      ? Text(LineSplitter.split(note.content.v!).first)
-                      : null,
-                  onTap: () {
-                    Navigator.of(context)
-                        .push<void>(MaterialPageRoute(builder: (context) {
-                      return NotePage(
-                        noteId: note.id.v,
-                      );
-                    }));
-                  },
-                );
-              });
+            itemCount: notes.length,
+            itemBuilder: (context, index) {
+              var note = notes[index]!;
+              return ListTile(
+                title: Text(note.title.v ?? ''),
+                subtitle:
+                    note.content.v?.isNotEmpty ?? false
+                        ? Text(LineSplitter.split(note.content.v!).first)
+                        : null,
+                onTap: () {
+                  Navigator.of(context).push<void>(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return NotePage(noteId: note.id.v);
+                      },
+                    ),
+                  );
+                },
+              );
+            },
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .push<void>(MaterialPageRoute(builder: (context) {
-            return EditNotePage(
-              initialNote: null,
-            );
-          }));
+          Navigator.of(context).push<void>(
+            MaterialPageRoute(
+              builder: (context) {
+                return EditNotePage(initialNote: null);
+              },
+            ),
+          );
         },
         child: Icon(Icons.add),
       ),

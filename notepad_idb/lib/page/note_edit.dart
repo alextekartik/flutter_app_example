@@ -29,7 +29,8 @@ class NoteEditPageState extends State<NoteEditPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       await noteProvider.saveNote(
-          Note(title: _title, description: _description, id: note?.id));
+        Note(title: _title, description: _description, id: note?.id),
+      );
       // ignore: use_build_context_synchronously
       Navigator.pop(context, true);
     }
@@ -38,49 +39,51 @@ class NoteEditPageState extends State<NoteEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit notes data'),
-      ),
+      appBar: AppBar(title: Text('Edit notes data')),
       body: Container(
-          margin: EdgeInsets.all(16.0),
-          child: Form(
-              key: _formKey,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Title',
-                        border: InputBorder.none,
-                      ),
-                      key: Key('title'),
-                      initialValue: note?.title,
-                      validator: (val) =>
-                          val!.isNotEmpty ? null : 'Title must not be empty',
-                      onSaved: (val) => _title = val,
-                    ),
-                    Container(
-                        child: Divider(
-                      color: Colors.black,
-                    )),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Description',
-                        border: InputBorder.none,
-                      ),
-                      key: Key('description'),
-                      initialValue: note?.description,
-                      validator: (val) => val!.isNotEmpty
-                          ? null
-                          : 'Description must not be empty',
-                      onSaved: (val) => _description = val,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 5,
-                    )
-                  ]))),
+        margin: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                  border: InputBorder.none,
+                ),
+                key: Key('title'),
+                initialValue: note?.title,
+                validator:
+                    (val) => val!.isNotEmpty ? null : 'Title must not be empty',
+                onSaved: (val) => _title = val,
+              ),
+              Container(child: Divider(color: Colors.black)),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Description',
+                  border: InputBorder.none,
+                ),
+                key: Key('description'),
+                initialValue: note?.description,
+                validator:
+                    (val) =>
+                        val!.isNotEmpty
+                            ? null
+                            : 'Description must not be empty',
+                onSaved: (val) => _description = val,
+                keyboardType: TextInputType.multiline,
+                maxLines: 5,
+              ),
+            ],
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () => _submit(), child: Icon(Icons.check)),
+        onPressed: () => _submit(),
+        child: Icon(Icons.check),
+      ),
     );
   }
 }

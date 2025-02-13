@@ -9,7 +9,8 @@ Future main() async {
 
 Future generate({bool? force}) async {
   await gitGenerate(
-      dirName: idbExampleDirName,
-      appName: 'tekartik_demoidb_app',
-      force: force);
+    dirName: idbExampleDirName,
+    appName: 'tekartik_demoidb_app',
+    force: force,
+  );
 }

@@ -25,47 +25,49 @@ class _NotePageState extends State<NotePage> {
 
         void edit() {
           if (note != null) {
-            Navigator.of(context)
-                .push<void>(MaterialPageRoute(builder: (context) {
-              return EditNotePage(
-                initialNote: note,
-              );
-            }));
+            Navigator.of(context).push<void>(
+              MaterialPageRoute(
+                builder: (context) {
+                  return EditNotePage(initialNote: note);
+                },
+              ),
+            );
           }
         }
 
         return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Note',
-              ),
-              actions: <Widget>[
-                if (note != null)
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      edit();
-                    },
-                  ),
-              ],
-            ),
-            body: (note == null)
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : GestureDetector(
+          appBar: AppBar(
+            title: Text('Note'),
+            actions: <Widget>[
+              if (note != null)
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    edit();
+                  },
+                ),
+            ],
+          ),
+          body:
+              (note == null)
+                  ? Center(child: CircularProgressIndicator())
+                  : GestureDetector(
                     onTap: () {
                       edit();
                     },
-                    child: ListView(children: <Widget>[
-                      ListTile(
+                    child: ListView(
+                      children: <Widget>[
+                        ListTile(
                           title: Text(
-                        note.title.v!,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                      ListTile(title: Text(note.content.v ?? ''))
-                    ]),
-                  ));
+                            note.title.v!,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        ListTile(title: Text(note.content.v ?? '')),
+                      ],
+                    ),
+                  ),
+        );
       },
     );
   }

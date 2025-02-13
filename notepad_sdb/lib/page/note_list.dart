@@ -55,21 +55,22 @@ class NoteListPageState extends State<NoteListPage> {
       stream: bloc.notes,
       builder: (context, snapshot) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text('Notepad sdb'),
-          ),
+          appBar: AppBar(title: Text('Notepad sdb')),
           body: buildNotesList(snapshot),
           floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                var result = await Navigator.of(context).push<Object?>(
-                    MaterialPageRoute(
-                        builder: (_) =>
-                            NoteEditPage(noteProvider: widget.noteProvider!)));
-                if (result == true) {
-                  await bloc.refresh();
-                }
-              },
-              child: Icon(Icons.add)),
+            onPressed: () async {
+              var result = await Navigator.of(context).push<Object?>(
+                MaterialPageRoute(
+                  builder:
+                      (_) => NoteEditPage(noteProvider: widget.noteProvider!),
+                ),
+              );
+              if (result == true) {
+                await bloc.refresh();
+              }
+            },
+            child: Icon(Icons.add),
+          ),
         );
       },
     );
@@ -79,9 +80,10 @@ class NoteListPageState extends State<NoteListPage> {
     var notes = snapshot.data;
     if (notes != null) {
       return ListView.builder(
-          itemBuilder: (BuildContext context, int index) =>
-              _createItem(notes, index),
-          itemCount: notes.length);
+        itemBuilder:
+            (BuildContext context, int index) => _createItem(notes, index),
+        itemCount: notes.length,
+      );
     }
     // print('snapshot ${snapshot.connectionState} ${snapshot.data}');
     switch (snapshot.connectionState) {
@@ -105,14 +107,21 @@ class NoteListPageState extends State<NoteListPage> {
       },
       child: ListTile(
         title: Text(notes[index].title!),
-        subtitle: Text(notes[index].description!.length > 50
-            ? notes[index].description!.substring(0, 50)
-            : notes[index].description!),
+        subtitle: Text(
+          notes[index].description!.length > 50
+              ? notes[index].description!.substring(0, 50)
+              : notes[index].description!,
+        ),
         onTap: () async {
           var result = await Navigator.of(context).push<Object?>(
-              MaterialPageRoute(
-                  builder: (_) => NoteEditPage(
-                      noteProvider: widget.noteProvider!, note: notes[index])));
+            MaterialPageRoute(
+              builder:
+                  (_) => NoteEditPage(
+                    noteProvider: widget.noteProvider!,
+                    note: notes[index],
+                  ),
+            ),
+          );
           if (result == true) {
             await bloc.refresh();
           }

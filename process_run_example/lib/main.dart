@@ -21,8 +21,9 @@ void main() {
     // ignore: avoid_print
     print('stack: $stack');
     try {
-      ScaffoldMessenger.of(appContext)
-          .showSnackBar(SnackBar(content: Text('$error\n$stack')));
+      ScaffoldMessenger.of(
+        appContext,
+      ).showSnackBar(SnackBar(content: Text('$error\n$stack')));
     } catch (_) {}
     return true;
   };
@@ -44,11 +45,11 @@ class ProcessRunExampleApp extends StatelessWidget {
       title: 'Process run Example',
       debugShowCheckedModeBanner: false,
       theme: theme.copyWith(
-          colorScheme: theme.colorScheme.copyWith(
-        secondary: Colors.cyan[600],
-      )),
+        colorScheme: theme.colorScheme.copyWith(secondary: Colors.cyan[600]),
+      ),
       home: const MainPage(
-          title: 'Process run example${kDebugMode ? ' (debug)' : ''}'),
+        title: 'Process run example${kDebugMode ? ' (debug)' : ''}',
+      ),
     );
   }
 }
@@ -87,66 +88,74 @@ class OutLine extends Line {
 }
 
 /// Basic line streaming. Assuming system encoding
-Stream<String> streamLines(Stream<List<int>> stream,
-    {Encoding encoding = systemEncoding}) {
+Stream<String> streamLines(
+  Stream<List<int>> stream, {
+  Encoding encoding = systemEncoding,
+}) {
   StreamSubscription? subscription;
   List<int>? currentLine;
   const endOfLine = 10;
   const lineFeed = 13;
   late StreamController<String> ctlr;
-  ctlr = StreamController<String>(onListen: () {
-    void addCurrentLine() {
-      if (currentLine?.isNotEmpty ?? false) {
-        try {
-          ctlr.add(systemEncoding.decode(currentLine!));
-        } catch (_) {
-          // Ignore nad encoded line
-          // print('ignoring: $currentLine');
+  ctlr = StreamController<String>(
+    onListen: () {
+      void addCurrentLine() {
+        if (currentLine?.isNotEmpty ?? false) {
+          try {
+            ctlr.add(systemEncoding.decode(currentLine!));
+          } catch (_) {
+            // Ignore nad encoded line
+            // print('ignoring: $currentLine');
+          }
+        }
+        currentLine = null;
+      }
+
+      void addToCurrentLine(List<int> data) {
+        if (currentLine == null) {
+          currentLine = data;
+        } else {
+          var newCurrentLine = Uint8List(currentLine!.length + data.length);
+          newCurrentLine.setAll(0, currentLine!);
+          newCurrentLine.setAll(currentLine!.length, data);
+          currentLine = newCurrentLine;
         }
       }
-      currentLine = null;
-    }
 
-    void addToCurrentLine(List<int> data) {
-      if (currentLine == null) {
-        currentLine = data;
-      } else {
-        var newCurrentLine = Uint8List(currentLine!.length + data.length);
-        newCurrentLine.setAll(0, currentLine!);
-        newCurrentLine.setAll(currentLine!.length, data);
-        currentLine = newCurrentLine;
-      }
-    }
-
-    subscription = stream.listen((data) {
-      // var _w;
-      // print('read $data');
-      // devPrint('read $data');
-      // look for \n (10)
-      var start = 0;
-      for (var i = 0; i < data.length; i++) {
-        var byte = data[i];
-        if (byte == endOfLine || byte == lineFeed) {
-          addToCurrentLine(data.sublist(start, i));
-          addCurrentLine();
-          // Skip it
-          start = i + 1;
-        }
-      }
-      // Store last current line
-      if (data.length > start) {
-        addToCurrentLine(data.sublist(start, data.length));
-      }
-    }, onDone: () {
-      // Last one
-      if (currentLine != null) {
-        addCurrentLine();
-      }
-      ctlr.close();
-    });
-  }, onCancel: () {
-    subscription?.cancel();
-  });
+      subscription = stream.listen(
+        (data) {
+          // var _w;
+          // print('read $data');
+          // devPrint('read $data');
+          // look for \n (10)
+          var start = 0;
+          for (var i = 0; i < data.length; i++) {
+            var byte = data[i];
+            if (byte == endOfLine || byte == lineFeed) {
+              addToCurrentLine(data.sublist(start, i));
+              addCurrentLine();
+              // Skip it
+              start = i + 1;
+            }
+          }
+          // Store last current line
+          if (data.length > start) {
+            addToCurrentLine(data.sublist(start, data.length));
+          }
+        },
+        onDone: () {
+          // Last one
+          if (currentLine != null) {
+            addCurrentLine();
+          }
+          ctlr.close();
+        },
+      );
+    },
+    onCancel: () {
+      subscription?.cancel();
+    },
+  );
 
   return ctlr.stream;
 }
@@ -173,10 +182,11 @@ class _MainPageState extends State<MainPage> {
 
   void _initShellStdin() {
     _shell = Shell(
-        runInShell: true,
-        stdout: _stdoutCtlr.sink,
-        stderr: _stderrCtlr.sink,
-        stdin: sharedStdIn);
+      runInShell: true,
+      stdout: _stdoutCtlr.sink,
+      stderr: _stderrCtlr.sink,
+      stdin: sharedStdIn,
+    );
   }
 
   @override
@@ -205,8 +215,11 @@ class _MainPageState extends State<MainPage> {
     });
 
      */
-    _addLine(OutLine(
-        'Press the button to run flutter doctor -v, see other commands in the menu'));
+    _addLine(
+      OutLine(
+        'Press the button to run flutter doctor -v, see other commands in the menu',
+      ),
+    );
     _addLine(ErrLine('Error text will be displayed in red'));
     _initShell();
   }
@@ -220,24 +233,29 @@ class _MainPageState extends State<MainPage> {
       _addLine(OutLine('which(\'flutter\'): ${await which('flutter')}'));
       _addLine(OutLine('which(\'pub\'): ${await which('pub')}'));
       try {
-        _addLine(OutLine('DartCmd(\'--version\'): ${(await runCmd(DartCmd([
-              '--version'
-            ]))).stderr.toString().trim()}'));
+        _addLine(
+          OutLine(
+            'DartCmd(\'--version\'): ${(await runCmd(DartCmd(['--version']))).stderr.toString().trim()}',
+          ),
+        );
       } catch (e) {
         _addLine(ErrLine('DartCmd(\'--version\') error $e'));
       }
       try {
-        _addLine(OutLine(
-            'FlutterCmd(\'--version\'): ${(await runCmd(FlutterCmd([
-              '--version'
-            ]))).stdout.toString().trim()}'));
+        _addLine(
+          OutLine(
+            'FlutterCmd(\'--version\'): ${(await runCmd(FlutterCmd(['--version']))).stdout.toString().trim()}',
+          ),
+        );
       } catch (e) {
         _addLine(ErrLine('FlutterCmd(\'--version\') error $e'));
       }
       try {
-        _addLine(OutLine('PubCmd(\'--version\'): ${(await runCmd(PubCmd([
-              '--version'
-            ]))).stdout.toString().trim()}'));
+        _addLine(
+          OutLine(
+            'PubCmd(\'--version\'): ${(await runCmd(PubCmd(['--version']))).stdout.toString().trim()}',
+          ),
+        );
       } catch (e) {
         _addLine(ErrLine('PubCmd(\'--version\') error $e'));
       }
@@ -247,8 +265,11 @@ class _MainPageState extends State<MainPage> {
       await _shell.run('dart --version');
       await _shell.run('pub --version');
     } else if (command == '@userEnv') {
-      _addLine(OutLine(
-          'userEnvironment: ${const JsonEncoder.withIndent('  ').convert(userEnvironment)}'));
+      _addLine(
+        OutLine(
+          'userEnvironment: ${const JsonEncoder.withIndent('  ').convert(userEnvironment)}',
+        ),
+      );
     } else if (command == '@path') {
       for (var element in userPaths) {
         _addLine(OutLine(element));
@@ -272,35 +293,34 @@ class _MainPageState extends State<MainPage> {
         title: Text(widget.title!),
         actions: [
           IconButton(
-              onPressed: () {
-                _shell.kill();
-                _initShell();
-              },
-              icon: Icon(Icons.delete_forever)),
+            onPressed: () {
+              _shell.kill();
+              _initShell();
+            },
+            icon: Icon(Icons.delete_forever),
+          ),
           IconButton(
-              onPressed: () {
-                _shell.kill();
-                _initShellStdin();
-              },
-              icon: Icon(Icons.refresh)),
+            onPressed: () {
+              _shell.kill();
+              _initShellStdin();
+            },
+            icon: Icon(Icons.refresh),
+          ),
           // overflow menu
           PopupMenuButton<String>(
             onSelected: _run,
             itemBuilder: (BuildContext context) {
               return [
-                'flutter --version',
-                'flutter --help',
-                'flutter doctor -v',
-                'dart --version',
-                'dart --help',
-                '@info',
-                '@path',
-                '@userEnv'
-              ]
-                  .map((e) => PopupMenuItem<String>(
-                        value: e,
-                        child: Text(e),
-                      ))
+                    'flutter --version',
+                    'flutter --help',
+                    'flutter doctor -v',
+                    'dart --version',
+                    'dart --help',
+                    '@info',
+                    '@path',
+                    '@userEnv',
+                  ]
+                  .map((e) => PopupMenuItem<String>(value: e, child: Text(e)))
                   .toList(growable: false);
             },
           ),
@@ -321,12 +341,15 @@ class _MainPageState extends State<MainPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: snapshot.data!
-                      .map((line) => Text(
-                            line.text,
-                            style: line is ErrLine
-                                ? const TextStyle(color: Colors.red)
-                                : null,
-                          ))
+                      .map(
+                        (line) => Text(
+                          line.text,
+                          style:
+                              line is ErrLine
+                                  ? const TextStyle(color: Colors.red)
+                                  : null,
+                        ),
+                      )
                       .toList(growable: false),
                 );
               },
@@ -360,33 +383,39 @@ class _MainPageState extends State<MainPage> {
 
     return await showDialog<String>(
       context: context,
-      builder: (_) => AlertDialog(
-        contentPadding: const EdgeInsets.all(16.0),
-        content: Row(
-          children: <Widget>[
-            Expanded(
-                child: TextField(
-              controller: _commandInputController,
-              autofocus: true,
-              onSubmitted: (_) => run(),
-              decoration: InputDecoration(
-                  labelText: 'Full command', hintText: 'Command'),
-            )),
-          ],
-        ),
-        actions: <Widget>[
-          TextButton(
-              child: const Text('CANCEL'),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          TextButton(
-              child: const Text('RUN'),
-              onPressed: () {
-                run();
-              })
-        ],
-      ),
+      builder:
+          (_) => AlertDialog(
+            contentPadding: const EdgeInsets.all(16.0),
+            content: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: _commandInputController,
+                    autofocus: true,
+                    onSubmitted: (_) => run(),
+                    decoration: InputDecoration(
+                      labelText: 'Full command',
+                      hintText: 'Command',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('CANCEL'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                child: const Text('RUN'),
+                onPressed: () {
+                  run();
+                },
+              ),
+            ],
+          ),
     );
   }
 
