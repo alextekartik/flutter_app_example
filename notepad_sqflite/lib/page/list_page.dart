@@ -33,10 +33,9 @@ class _NoteListPageState extends State<NoteListPage> {
               var note = notes[index]!;
               return ListTile(
                 title: Text(note.title.v ?? ''),
-                subtitle:
-                    note.content.v?.isNotEmpty ?? false
-                        ? Text(LineSplitter.split(note.content.v!).first)
-                        : null,
+                subtitle: note.content.v?.isNotEmpty ?? false
+                    ? Text(LineSplitter.split(note.content.v!).first)
+                    : null,
                 onTap: () {
                   Navigator.of(context).push<void>(
                     MaterialPageRoute(

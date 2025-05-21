@@ -124,16 +124,15 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          floatingActionButton:
-              count != null
-                  ? FloatingActionButton(
-                    onPressed: () {
-                      widget.bloc.increment();
-                    },
-                    tooltip: 'Increment',
-                    child: const Icon(Icons.add),
-                  )
-                  : null,
+          floatingActionButton: count != null
+              ? FloatingActionButton(
+                  onPressed: () {
+                    widget.bloc.increment();
+                  },
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                )
+              : null,
         );
       },
     );

@@ -15,7 +15,7 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.8.0
 
 dependencies:
   flutter:
@@ -48,7 +48,7 @@ dependencies:
   path_provider:
 
 dev_dependencies:
-  dev_build: ">=1.1.0+2"
+  dev_build: ">=1.1.2"
   process_run: ">=1.2.1+1"
   flutter_test:
     sdk: flutter
@@ -93,6 +93,7 @@ flutter:
     - family: Roboto
       fonts:
         - asset: packages/tekartik_app_roboto/fonts/Roboto/Roboto-Regular.ttf
+resolution: workspace
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

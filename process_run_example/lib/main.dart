@@ -344,10 +344,9 @@ class _MainPageState extends State<MainPage> {
                       .map(
                         (line) => Text(
                           line.text,
-                          style:
-                              line is ErrLine
-                                  ? const TextStyle(color: Colors.red)
-                                  : null,
+                          style: line is ErrLine
+                              ? const TextStyle(color: Colors.red)
+                              : null,
                         ),
                       )
                       .toList(growable: false),
@@ -383,39 +382,38 @@ class _MainPageState extends State<MainPage> {
 
     return await showDialog<String>(
       context: context,
-      builder:
-          (_) => AlertDialog(
-            contentPadding: const EdgeInsets.all(16.0),
-            content: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: _commandInputController,
-                    autofocus: true,
-                    onSubmitted: (_) => run(),
-                    decoration: InputDecoration(
-                      labelText: 'Full command',
-                      hintText: 'Command',
-                    ),
-                  ),
+      builder: (_) => AlertDialog(
+        contentPadding: const EdgeInsets.all(16.0),
+        content: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                controller: _commandInputController,
+                autofocus: true,
+                onSubmitted: (_) => run(),
+                decoration: InputDecoration(
+                  labelText: 'Full command',
+                  hintText: 'Command',
                 ),
-              ],
+              ),
             ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('CANCEL'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              TextButton(
-                child: const Text('RUN'),
-                onPressed: () {
-                  run();
-                },
-              ),
-            ],
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('CANCEL'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
+          TextButton(
+            child: const Text('RUN'),
+            onPressed: () {
+              run();
+            },
+          ),
+        ],
+      ),
     );
   }
 

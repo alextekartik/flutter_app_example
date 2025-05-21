@@ -48,25 +48,24 @@ class _NotePageState extends State<NotePage> {
                 ),
             ],
           ),
-          body:
-              (note == null)
-                  ? Center(child: CircularProgressIndicator())
-                  : GestureDetector(
-                    onTap: () {
-                      edit();
-                    },
-                    child: ListView(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text(
-                            note.title.v!,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
+          body: (note == null)
+              ? Center(child: CircularProgressIndicator())
+              : GestureDetector(
+                  onTap: () {
+                    edit();
+                  },
+                  child: ListView(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          note.title.v!,
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        ListTile(title: Text(note.content.v ?? '')),
-                      ],
-                    ),
+                      ),
+                      ListTile(title: Text(note.content.v ?? '')),
+                    ],
                   ),
+                ),
         );
       },
     );

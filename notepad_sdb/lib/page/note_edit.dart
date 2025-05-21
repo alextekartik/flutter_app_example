@@ -55,8 +55,8 @@ class NoteEditPageState extends State<NoteEditPage> {
                 ),
                 key: Key('title'),
                 initialValue: note?.title,
-                validator:
-                    (val) => val!.isNotEmpty ? null : 'Title must not be empty',
+                validator: (val) =>
+                    val!.isNotEmpty ? null : 'Title must not be empty',
                 onSaved: (val) => _title = val,
               ),
               SizedBox(height: 16.0),
@@ -67,11 +67,8 @@ class NoteEditPageState extends State<NoteEditPage> {
                 ),
                 key: Key('description'),
                 initialValue: note?.description,
-                validator:
-                    (val) =>
-                        val!.isNotEmpty
-                            ? null
-                            : 'Description must not be empty',
+                validator: (val) =>
+                    val!.isNotEmpty ? null : 'Description must not be empty',
                 onSaved: (val) => _description = val,
                 keyboardType: TextInputType.multiline,
                 maxLines: 5,

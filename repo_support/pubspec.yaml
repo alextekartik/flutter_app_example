@@ -3,7 +3,7 @@ publish_to: none
 deploy_to: none
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.8.0
 
 dependencies:
   process_run: ">=1.2.1+1"
@@ -16,8 +16,9 @@ dependencies:
 
 dev_dependencies:
   test: ">=1.24.0"
-  dev_build: ">=1.1.0+2"
+  dev_build: ">=1.1.2"
 
 dependency_overrides:
+resolution: workspace
 #  tekartik_build_utils:
 #    path: ../../../tekartik/build_utils.dart

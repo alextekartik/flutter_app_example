@@ -61,8 +61,8 @@ class NoteListPageState extends State<NoteListPage> {
             onPressed: () async {
               var result = await Navigator.of(context).push<Object?>(
                 MaterialPageRoute(
-                  builder:
-                      (_) => NoteEditPage(noteProvider: widget.noteProvider!),
+                  builder: (_) =>
+                      NoteEditPage(noteProvider: widget.noteProvider!),
                 ),
               );
               if (result == true) {
@@ -80,8 +80,8 @@ class NoteListPageState extends State<NoteListPage> {
     var notes = snapshot.data;
     if (notes != null) {
       return ListView.builder(
-        itemBuilder:
-            (BuildContext context, int index) => _createItem(notes, index),
+        itemBuilder: (BuildContext context, int index) =>
+            _createItem(notes, index),
         itemCount: notes.length,
       );
     }
@@ -115,11 +115,10 @@ class NoteListPageState extends State<NoteListPage> {
         onTap: () async {
           var result = await Navigator.of(context).push<Object?>(
             MaterialPageRoute(
-              builder:
-                  (_) => NoteEditPage(
-                    noteProvider: widget.noteProvider!,
-                    note: notes[index],
-                  ),
+              builder: (_) => NoteEditPage(
+                noteProvider: widget.noteProvider!,
+                note: notes[index],
+              ),
             ),
           );
           if (result == true) {

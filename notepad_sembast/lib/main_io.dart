@@ -18,19 +18,17 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Use regular sembast io (but on the web).
-  var factory =
-      kIsWeb
-          ? databaseFactoryWeb
-          : createDatabaseFactoryIo(
-            rootPath:
-                (Platform.isAndroid
-                    ? (await getApplicationDocumentsDirectory()).path
-                    : p.join(
-                      '.dart_tool',
-                      'tekartik_notepad_sembast_app',
-                      'databases',
-                    )),
-          );
+  var factory = kIsWeb
+      ? databaseFactoryWeb
+      : createDatabaseFactoryIo(
+          rootPath: (Platform.isAndroid
+              ? (await getApplicationDocumentsDirectory()).path
+              : p.join(
+                  '.dart_tool',
+                  'tekartik_notepad_sembast_app',
+                  'databases',
+                )),
+        );
   noteProvider = DbNoteProvider(factory);
   await noteProvider.ready;
   runApp(MyApp());

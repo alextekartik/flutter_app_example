@@ -68,10 +68,9 @@ class NoteProvider {
 
   Future<List<Note>> getNotes() async {
     var maps = await noteStore.findRecords(db);
-    var list =
-        maps.map((map) {
-          return Note.fromMap(map.value, map.key);
-        }).toList();
+    var list = maps.map((map) {
+      return Note.fromMap(map.value, map.key);
+    }).toList();
 
     return list;
   }

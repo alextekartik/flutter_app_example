@@ -1,0 +1,14 @@
+name: _
+publish_to: none
+environment:
+  sdk: ^3.8.0
+workspace:
+  - demo_idb
+  - demo_sembast
+  - demo_sqflite
+  - notepad_idb
+  - notepad_sdb
+  - notepad_sembast
+  - notepad_sqflite
+  - process_run_example
+  - repo_support

@@ -15,7 +15,7 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.8.0
 
 dependencies:
   flutter:
@@ -122,6 +122,7 @@ flutter:
     - family: Roboto
       fonts:
         - asset: packages/tekartik_app_roboto/fonts/Roboto/Roboto-Regular.ttf
+resolution: workspace
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

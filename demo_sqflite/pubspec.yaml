@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.8.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -34,16 +34,16 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: '>=1.0.2'
-  sqflite: '>=2.3.2'
-  sqflite_common_ffi: '>=2.3.3'
+  cupertino_icons: ">=1.0.8"
+  sqflite: ">=2.4.0"
+  sqflite_common_ffi: ">=2.3.4"
   sqflite_common:
   sqflite_common_ffi_web: '>=0.4.3'
   path_provider:
 dev_dependencies:
-  process_run:
-  dev_build: '>=0.16.4+3'
-  path:
+  process_run: ">=1.2.1+1"
+  dev_build: ">=1.1.2"
+  path: ">=1.9.0"
   flutter_test:
     sdk: flutter
 
@@ -52,7 +52,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: '>=2.0.0'
+  flutter_lints: ">=5.0.0"
 
 dependency_overrides:
 #  sqflite_common_ffi_web:
@@ -68,6 +68,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+resolution: workspace
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -113,23 +113,25 @@ class DbNoteProvider {
     }
   }
 
-  var notesTransformer = StreamTransformer<
-    List<RecordSnapshot<int, Map<String, Object?>>>,
-    List<DbNote>
-  >.fromHandlers(
-    handleData: (snapshotList, sink) {
-      sink.add(DbNotes(snapshotList));
-    },
-  );
+  var notesTransformer =
+      StreamTransformer<
+        List<RecordSnapshot<int, Map<String, Object?>>>,
+        List<DbNote>
+      >.fromHandlers(
+        handleData: (snapshotList, sink) {
+          sink.add(DbNotes(snapshotList));
+        },
+      );
 
-  var noteTransformer = StreamTransformer<
-    RecordSnapshot<int, Map<String, Object?>>?,
-    DbNote?
-  >.fromHandlers(
-    handleData: (snapshot, sink) {
-      sink.add(snapshot == null ? null : snapshotToNote(snapshot));
-    },
-  );
+  var noteTransformer =
+      StreamTransformer<
+        RecordSnapshot<int, Map<String, Object?>>?,
+        DbNote?
+      >.fromHandlers(
+        handleData: (snapshot, sink) {
+          sink.add(snapshot == null ? null : snapshotToNote(snapshot));
+        },
+      );
 
   /// Listen for changes on any note
   Stream<List<DbNote>> onNotes() {

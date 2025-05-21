@@ -60,13 +60,12 @@ class DbNoteProvider {
     _updateTriggerController.sink.add(true);
   }
 
-  Future<Database?> get ready async =>
-      db ??= await lock.synchronized(() async {
-        if (db == null) {
-          await open();
-        }
-        return db;
-      });
+  Future<Database?> get ready async => db ??= await lock.synchronized(() async {
+    if (db == null) {
+      await open();
+    }
+    return db;
+  });
 
   Future<DbNote?> getNote(int? id) async {
     var list = (await db!.query(

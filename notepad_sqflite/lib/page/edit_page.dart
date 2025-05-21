@@ -164,11 +164,8 @@ class _EditNotePageState extends State<EditNotePage> {
                         border: OutlineInputBorder(),
                       ),
                       controller: _titleTextController,
-                      validator:
-                          (val) =>
-                              val!.isNotEmpty
-                                  ? null
-                                  : 'Title must not be empty',
+                      validator: (val) =>
+                          val!.isNotEmpty ? null : 'Title must not be empty',
                     ),
                     SizedBox(height: 16),
                     TextFormField(
@@ -177,11 +174,9 @@ class _EditNotePageState extends State<EditNotePage> {
                         border: OutlineInputBorder(),
                       ),
                       controller: _contentTextController,
-                      validator:
-                          (val) =>
-                              val!.isNotEmpty
-                                  ? null
-                                  : 'Description must not be empty',
+                      validator: (val) => val!.isNotEmpty
+                          ? null
+                          : 'Description must not be empty',
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
                     ),

@@ -15,7 +15,7 @@ version: 0.2.0
 publish_to: none
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.8.0
 
 dependencies:
   flutter:
@@ -44,7 +44,7 @@ dependencies:
     version: '>=0.1.0'
 
 dev_dependencies:
-  dev_build: ">=1.1.0+2"
+  dev_build: ">=1.1.2"
   path: ">=1.9.0"
   flutter_test:
     sdk: flutter
@@ -91,6 +91,7 @@ flutter:
     - family: Roboto
       fonts:
         - asset: packages/tekartik_app_roboto/fonts/Roboto/Roboto-Regular.ttf
+resolution: workspace
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
