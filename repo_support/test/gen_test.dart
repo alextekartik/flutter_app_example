@@ -34,7 +34,7 @@ void main() {
         }
       });
     },
-    skip: true, // !isFlutterSupported,
+    skip: !isFlutterSupported,
     // Allow 10 mn for web build (sdk download)
     timeout: Timeout(Duration(minutes: 10)),
   );
