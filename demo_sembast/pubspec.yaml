@@ -30,19 +30,16 @@ dependencies:
   tekartik_app_flutter_sembast:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_sembast
     version: '>=0.3.0'
   tekartik_app_platform:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_platform
     version: '>=0.1.0'
   tekartik_app_roboto:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_roboto
     version: '>=0.1.0'
   path_provider:
@@ -55,7 +52,6 @@ dev_dependencies:
   tekartik_app_lints_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_lints
     version: '>=0.1.0'
 

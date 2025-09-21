@@ -28,53 +28,44 @@ dependencies:
   tekartik_app_flutter_idb:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_idb
     version: '>=0.3.0'
   tekartik_app_rx_utils:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_rx_utils
     version: '>=0.1.0'
   tekartik_common_utils:
     git:
       url: https://github.com/tekartik/common_utils.dart
-      ref: dart3a
     version: '>=0.9.8'
   tekartik_app_platform:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_platform
     version: '>=0.1.0'
   tekartik_app_roboto:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_roboto
     version: '>=0.1.0'
   rxdart:
   tekartik_web_splash:
     git:
       url: https://github.com/tekartik/app_web_utils.dart
-      ref: dart3a
       path: packages/web_splash
   tekaly_assets:
     git:
       url: https://github.com/tekartikprj/tekaly.git
       path: packages/tekaly_assets
-      ref: dart3a
   tekartik_web_publish:
     git:
       url: https://github.com/tekartik/app_build.dart
-      ref: dart3a
       path: packages/web_publish
 dev_dependencies:
   tekartik_flutter_build:
     git:
       url: https://github.com/tekartik/app_build.dart
-      ref: dart3a
       path: packages/flutter_build
   flutter_test:
     sdk: flutter
@@ -82,7 +73,6 @@ dev_dependencies:
   tekartik_app_lints_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_lints
     version: '>=0.1.0'
 
