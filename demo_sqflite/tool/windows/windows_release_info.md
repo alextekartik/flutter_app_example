@@ -39,7 +39,6 @@ dart run tool\windows\windows_01_create_project.dart
 # Build the windows project
 dart run tool\windows\windows_02_build.dart
 # Copy the sqlite3.dll to the build folder
-dart run tool\windows\windows_03_copy_sqlite3_dll.dart
 # Run the application
-dart run tool\windows\windows_04_run.dart
+dart run tool\windows\windows_03_run.dart
 ```
