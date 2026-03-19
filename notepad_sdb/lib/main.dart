@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:idb_shim/sdb.dart';
-import 'package:tekartik_app_flutter_idb/idb.dart';
+
+import 'package:tekartik_app_flutter_idb/sdb.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
 import 'package:tekartik_notepad_sdb_app/note_provider.dart';
 import 'package:tekartik_notepad_sdb_app/page/note_list.dart';
@@ -12,9 +12,7 @@ Future main() async {
   platformInit();
   // print('factory: ${getIdbFactory(packageName: 'com.tekartik.notepad_sdb_app')}');
   var noteProvider = NoteProvider(
-    idbFactory: sdbFactoryFromIdb(
-      getIdbFactory(packageName: 'com.tekartik.notepad_sdb_app'),
-    ),
+    sdbFactory: getSdbFactory(packageName: 'com.tekartik.notepad_sdb_app'),
   );
   await noteProvider.open();
   webSplashHide();

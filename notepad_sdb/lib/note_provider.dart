@@ -13,17 +13,17 @@ String fieldTitle = 'title';
 String fieldDescription = 'description';
 
 class MemoryNoteProvider extends NoteProvider {
-  MemoryNoteProvider() : super(idbFactory: sdbFactoryMemory);
+  MemoryNoteProvider() : super(sdbFactory: sdbFactoryMemory);
 }
 
 class NoteProvider {
-  final SdbFactory idbFactory;
+  final SdbFactory sdbFactory;
   late SdbDatabase db;
 
   static final noteStore = SdbStoreRef<int, SdbModel>('notes');
   static final String notesStoreName = 'notes';
 
-  NoteProvider({required this.idbFactory});
+  NoteProvider({required this.sdbFactory});
 
   Future<int> getCount() async {
     var count = await noteStore.count(db);
@@ -39,10 +39,12 @@ class NoteProvider {
   }
 
   Future open() async {
-    db = await idbFactory.openDatabase(
+    db = await sdbFactory.openDatabase(
       dbName,
-      version: kVersion1,
-      onVersionChange: onUpgradeNeeded,
+      options: SdbOpenDatabaseOptions(
+        version: kVersion1,
+        onVersionChange: onUpgradeNeeded,
+      ),
     );
   }
 
