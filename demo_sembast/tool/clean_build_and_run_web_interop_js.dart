@@ -1,9 +1,9 @@
-import 'package:dev_build/build_support.dart';
+import 'package:flutter_app_example_repo_support/dhttpd.dart';
 import 'package:path/path.dart';
 import 'package:process_run/shell.dart';
 
 Future<void> main() async {
-  await checkAndActivatePackage('dhttpd');
+  await checkOrPubActivateDhttpd();
   var shell = Shell();
   await shell.run('''
   flutter clean

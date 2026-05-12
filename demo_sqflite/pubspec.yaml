@@ -53,7 +53,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ">=5.0.0"
-
+  flutter_app_example_repo_support:
+    path: ../repo_support
 dependency_overrides:
 #  sqflite_common_ffi_web:
 #    path: ../../../tekartik/sqflite/packages_web/sqflite_common_ffi_web

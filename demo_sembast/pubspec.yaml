@@ -45,7 +45,8 @@ dependencies:
   path_provider:
 
 dev_dependencies:
-  dev_build: ">=1.1.2"
+  dev_build: ">=1.1.7-1"
+  pub_semver:
   process_run: ">=1.2.1+1"
   flutter_test:
     sdk: flutter
@@ -54,7 +55,8 @@ dev_dependencies:
       url: https://github.com/tekartik/app_flutter_utils.dart
       path: app_lints
     version: '>=0.1.0'
-
+  flutter_app_example_repo_support:
+    path: ../repo_support
 dependency_overrides:
   # pedantic: '>=1.9.0'
 

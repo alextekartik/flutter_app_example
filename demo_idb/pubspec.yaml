@@ -51,7 +51,8 @@ dev_dependencies:
       path: app_lints
     version: '>=0.1.0'
   process_run: ">=1.2.1+1"
-
+  flutter_app_example_repo_support:
+    path: ../repo_support
 dependency_overrides:
   # idb_shim:
   #  path: ../../../tekartik/idb_shim.dart/idb_shim
