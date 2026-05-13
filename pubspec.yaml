@@ -5,6 +5,7 @@ environment:
 workspace:
   - demo_idb
   - demo_sembast
+  - demo_sdb
   - demo_sqflite
   - notepad_idb
   - notepad_sdb

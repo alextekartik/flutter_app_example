@@ -2,17 +2,23 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sembast/sembast.dart';
+import 'package:idb_shim/sdb.dart';
 
 var valueKey = 'value';
-var store = StoreRef<String, int>.main();
+var store = SdbStoreRef<String, int>('main');
 var record = store.record(valueKey);
 
 class MyAppBloc {
-  final DatabaseFactory databaseFactory;
+  final SdbFactory databaseFactory;
   MyAppBloc(this.databaseFactory) {
     database = () async {
-      var db = await databaseFactory.openDatabase('counter.db');
+      var db = await databaseFactory.openDatabase(
+        'counter.sdb',
+        options: SdbOpenDatabaseOptions(
+          version: 1,
+          schema: SdbDatabaseSchema(stores: [store.schema()]),
+        ),
+      );
       return db;
     }();
     // Load counter on start
@@ -26,7 +32,7 @@ class MyAppBloc {
 
   late StreamSubscription _streamSubscription;
 
-  late final Future<Database> database;
+  late final Future<SdbDatabase> database;
 
   final _counterController = StreamController<int>.broadcast();
 
@@ -34,8 +40,10 @@ class MyAppBloc {
 
   Future increment() async {
     var db = await database;
-    await db.transaction((txn) async {
-      var value = await record.get(txn) ?? 0;
+    await db.inStoreTransaction(store, SdbTransactionMode.readWrite, (
+      txn,
+    ) async {
+      var value = await record.getValue(txn) ?? 0;
       await record.put(txn, ++value);
     });
   }
@@ -54,8 +62,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sembast Demo',
+      title: 'SDB Demo',
       theme: ThemeData(
+        brightness: Brightness.dark,
         // This is the theme of your application.
         //
         // Try running your application with 'flutter run'. You'll see the
@@ -67,7 +76,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Sembast Demo', bloc: bloc),
+      home: MyHomePage(title: 'SDB Demo', bloc: bloc),
     );
   }
 }

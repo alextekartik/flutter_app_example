@@ -1,5 +1,5 @@
-name: tekartik_notepad_sdb_app
-description: Notepad idb app.
+name: tekartik_demosdb_app
+description: Sembast demo
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -20,36 +20,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  idb_shim: '>=2.8.4-1'
+  path: ">=1.9.0"
+  idb_shim: ">=2.9.2-2"
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ">=1.0.8"
-  sqflite: ">=2.4.0"
-  tekartik_app_flutter_idb:
-    git:
-      url: https://github.com/tekartik/app_flutter_utils.dart
-      path: app_idb
-    version: '>=0.3.0'
-  tekartik_app_rx_utils:
-    git:
-      url: https://github.com/tekartik/app_flutter_utils.dart
-      path: app_rx_utils
-    version: '>=0.1.0'
-  tekartik_common_utils:
-    git:
-      url: https://github.com/tekartik/common_utils.dart
-    version: '>=0.9.8'
-  tekartik_app_platform:
-    git:
-      url: https://github.com/tekartik/app_flutter_utils.dart
-      path: app_platform
-    version: '>=0.1.0'
   tekartik_app_roboto:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
       path: app_roboto
     version: '>=0.1.0'
-  rxdart:
+  path_provider:
+  tekartik_app_flutter_idb:
+    git:
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      path: app_idb
   tekartik_web_splash:
     git:
       url: https://github.com/tekartik/app_web_utils.dart
@@ -67,15 +53,18 @@ dev_dependencies:
     git:
       url: https://github.com/tekartik/app_build.dart
       path: packages/flutter_build
+  dev_build: ">=1.1.7-1"
+  pub_semver:
+  process_run: ">=1.2.1+1"
   flutter_test:
     sdk: flutter
-  process_run: ">=1.2.1+1"
   tekartik_app_lints_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
       path: app_lints
     version: '>=0.1.0'
-
+  flutter_app_example_repo_support:
+    path: ../repo_support
 dependency_overrides:
   # pedantic: '>=1.9.0'
 
@@ -94,7 +83,6 @@ flutter:
   assets:
     - packages/tekaly_assets/img/tekartik_logo_256.png
     - packages/tekaly_assets/js/tekaly_splash.js
-  #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -107,22 +95,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-
   fonts:
     - family: Roboto
       fonts:
         - asset: packages/tekartik_app_roboto/fonts/Roboto/Roboto-Regular.ttf
 resolution: workspace
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

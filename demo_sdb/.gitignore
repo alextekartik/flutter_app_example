@@ -1,0 +1,13 @@
+# Ignore everything
+/*
+/*/
+
+# Add files you modify here
+!/.gitignore
+!/lib/
+!/pubspec.yaml
+!/README.md
+!/test/
+!/analysis_options.yaml
+!/tool/
+!/web/

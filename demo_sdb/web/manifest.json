@@ -1,0 +1,19 @@
+{
+    "name": "Notepad SimpleDB",
+    "short_name": "SDB notepad",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "description": "Notepad using SDB",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "assets/packages/tekaly_assets/img/tekartik_logo_256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+
+    ]
+}
