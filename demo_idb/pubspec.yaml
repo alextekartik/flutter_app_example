@@ -41,7 +41,7 @@ dependencies:
     version: '>=0.1.0'
 
 dev_dependencies:
-  dev_build: ">=1.1.7+1"
+  dev_build: ">=1.1.7+3"
   path: ">=1.9.1"
   flutter_test:
     sdk: flutter
