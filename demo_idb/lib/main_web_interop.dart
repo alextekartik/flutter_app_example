@@ -11,6 +11,7 @@ import 'package:idb_shim/src/native_web/js_utils.dart';
 import 'package:idb_shim/src/utils/env_utils.dart';
 
 import 'main.dart';
+
 //import 'package:tekartik_app_platform/app_platform.dart';
 
 void main() {
