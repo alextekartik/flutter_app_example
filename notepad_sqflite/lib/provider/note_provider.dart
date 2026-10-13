@@ -211,7 +211,7 @@ class DbNoteProvider {
     return ctlr.stream;
   }
 
-  /// Don't read all fields
+  /// Don't read all fields, newest first unless [descending] is false
   Future<DbNotes> getListNotes({
     int? offset,
     int? limit,
@@ -221,7 +221,7 @@ class DbNoteProvider {
     var list = (await db!.query(
       tableNotes,
       columns: [columnId, columnTitle, columnContent],
-      orderBy: '$columnUpdated ${(descending ?? false) ? 'ASC' : 'DESC'}',
+      orderBy: '$columnUpdated ${(descending ?? true) ? 'DESC' : 'ASC'}',
       limit: limit,
       offset: offset,
     ));

@@ -58,7 +58,7 @@ class _NotePageState extends State<NotePage> {
                     children: <Widget>[
                       ListTile(
                         title: Text(
-                          note.title.v!,
+                          note.title.v ?? '',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),

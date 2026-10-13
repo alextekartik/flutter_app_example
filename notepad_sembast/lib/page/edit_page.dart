@@ -58,47 +58,14 @@ class _EditNotePageState extends State<EditNotePage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: isDirty(),
+      // Always handled in onPopInvokedWithResult to check for changes
+      canPop: false,
       onPopInvokedWithResult: (invoked, result) async {
         if (invoked) {
           return;
         }
-        var dirty = isDirty();
-        if (dirty) {
-          var doDiscard =
-              (await showDialog<bool>(
-                context: context,
-                barrierDismissible: false, // user must tap button!
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Discard change?'),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          Text('Content has changed.'),
-                          SizedBox(height: 12),
-                          Text('Tap \'CONTINUE\' to discard your changes.'),
-                        ],
-                      ),
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        },
-                        child: Text('CONTINUE'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, false);
-                        },
-                        child: Text('CANCEL'),
-                      ),
-                    ],
-                  );
-                },
-              )) ??
-              false;
+        if (isDirty()) {
+          var doDiscard = await _askDiscardChange(context) ?? false;
           if (!doDiscard) {
             return;
           }
@@ -181,8 +148,10 @@ class _EditNotePageState extends State<EditNotePage> {
                         border: OutlineInputBorder(),
                       ),
                       controller: _titleTextController,
-                      validator: (val) =>
-                          val!.isNotEmpty ? null : 'Title must not be empty',
+                      // Saved trimmed
+                      validator: (val) => (val ?? '').trim().isNotEmpty
+                          ? null
+                          : 'Title must not be empty',
                     ),
                     SizedBox(height: 16),
                     TextFormField(
@@ -191,7 +160,7 @@ class _EditNotePageState extends State<EditNotePage> {
                         border: OutlineInputBorder(),
                       ),
                       controller: _contentTextController,
-                      validator: (val) => val!.isNotEmpty
+                      validator: (val) => (val ?? '').trim().isNotEmpty
                           ? null
                           : 'Description must not be empty',
                       keyboardType: TextInputType.multiline,
@@ -222,5 +191,40 @@ class _EditNotePageState extends State<EditNotePage> {
       dirty = true;
     }
     return dirty;
+  }
+
+  Future<bool?> _askDiscardChange(BuildContext context) async {
+    return await showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Discard change?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Content has changed.'),
+                SizedBox(height: 12),
+                Text('Tap \'CONTINUE\' to discard your changes.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: Text('CONTINUE'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: Text('CANCEL'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -235,7 +235,7 @@ class _MainPageState extends State<MainPage> {
       try {
         _addLine(
           OutLine(
-            'DartCmd(\'--version\'): ${(await runCmd(DartCmd(['--version']))).stderr.toString().trim()}',
+            'DartCmd(\'--version\'): ${(await runCmd(DartCmd(['--version']))).stdout.toString().trim()}',
           ),
         );
       } catch (e) {
@@ -259,11 +259,10 @@ class _MainPageState extends State<MainPage> {
       } catch (e) {
         _addLine(ErrLine('PubCmd(\'--version\') error $e'));
       }
-      _addLine(OutLine('$userHomePath: $userHomePath'));
-      _addLine(OutLine('$userAppDataPath: $userAppDataPath'));
+      _addLine(OutLine('userHomePath: $userHomePath'));
+      _addLine(OutLine('userAppDataPath: $userAppDataPath'));
       await _shell.run('flutter --version');
       await _shell.run('dart --version');
-      await _shell.run('pub --version');
     } else if (command == '@userEnv') {
       _addLine(
         OutLine(

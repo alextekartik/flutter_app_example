@@ -68,8 +68,9 @@ class NoteProvider {
     }
   }
 
+  /// Newest first
   Future<List<Note>> getNotes() async {
-    var maps = await noteStore.findRecords(db);
+    var maps = await noteStore.findRecords(db, descending: true);
     var list = maps.map((map) {
       return Note.fromMap(map.value, map.key);
     }).toList();

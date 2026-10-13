@@ -109,10 +109,7 @@ class NoteProvider {
   }
 
   Future clearAllNotes() async {
-    var store = notesWritableTxn;
-    await store.openKeyCursor(autoAdvance: true).listen((cursor) {
-      cursor.delete();
-    }).asFuture<void>();
+    await notesWritableTxn.clear();
   }
 
   Future close() async {

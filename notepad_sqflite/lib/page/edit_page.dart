@@ -73,7 +73,8 @@ class _EditNotePageState extends State<EditNotePage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: _isDirty,
+      // Always handled in onPopInvokedWithResult to check for changes
+      canPop: false,
       onPopInvokedWithResult: (invoked, result) async {
         if (invoked) {
           return;
