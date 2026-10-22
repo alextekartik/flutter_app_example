@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_idb/idb.dart';
 import 'package:tekartik_app_platform/app_platform.dart';
 import 'package:tekartik_notepad_idb_app/note_provider.dart';

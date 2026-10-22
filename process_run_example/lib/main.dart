@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:process_run/cmd_run.dart';
 import 'package:process_run/shell.dart';
 import 'package:pub_semver/pub_semver.dart';
@@ -21,9 +21,8 @@ void main() {
     // ignore: avoid_print
     print('stack: $stack');
     try {
-      ScaffoldMessenger.of(
-        appContext,
-      ).showSnackBar(SnackBar(content: Text('$error\n$stack')));
+      ScaffoldMessenger.of(appContext)
+          .showSnackBar(SnackBar(content: Text('$error\n$stack')));
     } catch (_) {}
     return true;
   };

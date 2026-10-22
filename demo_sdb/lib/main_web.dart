@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:idb_shim/sdb.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_demosdb_app/src/app.dart';
 import 'package:tekartik_web_splash/web_splash.dart';
 

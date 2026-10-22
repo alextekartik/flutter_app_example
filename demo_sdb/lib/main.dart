@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_idb/sdb.dart';
 import 'package:tekartik_demosdb_app/src/app.dart';
 import 'package:tekartik_web_splash/web_splash.dart';

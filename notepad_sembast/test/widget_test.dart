@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sembast/sembast_memory.dart';
 import 'package:tekartik_notepad_sembast_app/app.dart';
 import 'package:tekartik_notepad_sembast_app/model/model.dart';
@@ -12,9 +12,9 @@ Widget _launcher(Widget Function() page) => MaterialApp(
   home: Builder(
     builder: (context) => Scaffold(
       body: TextButton(
-        onPressed: () => Navigator.of(
-          context,
-        ).push(MaterialPageRoute<void>(builder: (_) => page())),
+        onPressed: () =>
+            Navigator.of(context)
+                .push(MaterialPageRoute<void>(builder: (_) => page())),
         child: const Text('go'),
       ),
     ),

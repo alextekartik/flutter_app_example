@@ -3,12 +3,12 @@
 import 'dart:js_interop';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:idb_shim/idb_client_native.dart';
 // ignore: implementation_imports
 import 'package:idb_shim/src/native_web/js_utils.dart';
 // ignore: implementation_imports
 import 'package:idb_shim/src/utils/env_utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'main.dart';
 
