@@ -11,5 +11,7 @@ workspace:
   - notepad_sdb
   - notepad_sembast
   - notepad_sqflite
+  - notepad_sqflite_common
+  - notepad_sqflite_ffi
   - process_run_example
   - repo_support

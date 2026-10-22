@@ -15,7 +15,7 @@ version: 1.1.0
 publish_to: none
 
 environment:
-  sdk: ^3.12.0
+  sdk: ^3.13.0
 
 dependencies:
   flutter:
@@ -29,9 +29,9 @@ dependencies:
       url: https://github.com/tekartik/app_flutter_utils.dart
       path: app_sqflite
     version: '>=0.4.2'
-  tekartik_common_utils:
-    git:
-      url: https://github.com/tekartik/common_utils.dart
+  # Model, provider and pages shared with notepad_sqflite_ffi.
+  tekartik_notepad_sqflite_common:
+    path: ../notepad_sqflite_common
   tekartik_app_platform:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
@@ -43,7 +43,6 @@ dependencies:
       path: app_roboto
     version: '>=0.1.0'
   path_provider: ">=2.1.5"
-  cv: ">=1.1.10+2"
   # Deps and setup
   sqflite_common_ffi: ">=2.4.0+3"
   sqflite: ">=2.4.2+1"

@@ -1,16 +1,20 @@
+import 'dart:async';
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
-import 'package:tekartik_app_flutter_sqflite/sqflite.dart';
-import 'package:tekartik_common_utils/common_utils_import.dart';
-import 'package:tekartik_notepad_sqflite_app/model/model.dart';
-import 'package:tekartik_notepad_sqflite_app/model/model_constant.dart';
+import 'package:sqflite_common/sqlite_api.dart';
+import 'package:synchronized/synchronized.dart';
+import 'package:tekartik_notepad_sqflite_common/src/model/model_constant.dart';
+import 'package:tekartik_notepad_sqflite_common/src/model/note.dart';
 
 DbNote snapshotToNote(Map<String, Object?> snapshot) {
   return DbNote()..fromMap(snapshot);
 }
 
+/// Read-only list of notes, converted lazily from the query result.
 class DbNotes extends ListBase<DbNote> {
   final List<Map<String, Object?>> list;
-  late List<DbNote?> _cacheNotes;
+  late final List<DbNote?> _cacheNotes;
 
   DbNotes(this.list) {
     _cacheNotes = List.generate(list.length, (index) => null);
@@ -31,26 +35,24 @@ class DbNotes extends ListBase<DbNote> {
   set length(int newLength) => throw 'read-only';
 }
 
+/// Notes stored in a sqflite database, [dbFactory] being the factory of the
+/// platform chosen by the app (sqflite plugin, sqflite_ffi,
+/// sqflite_common_ffi_web...).
 class DbNoteProvider {
-  final lock = Lock(reentrant: true);
+  final _lock = Lock();
   final DatabaseFactory dbFactory;
   final _updateTriggerController = StreamController<bool>.broadcast();
   Database? db;
 
   DbNoteProvider(this.dbFactory);
 
-  Future openPath(String path) async {
+  Future<void> openPath(String path) async {
     db = await dbFactory.openDatabase(
       path,
       options: OpenDatabaseOptions(
         version: kVersion1,
         onCreate: (db, version) async {
           await _createDb(db);
-        },
-        onUpgrade: (db, oldVersion, newVersion) async {
-          if (oldVersion < kVersion1) {
-            await _createDb(db);
-          }
         },
       ),
     );
@@ -60,28 +62,30 @@ class DbNoteProvider {
     _updateTriggerController.sink.add(true);
   }
 
-  Future<Database?> get ready async => db ??= await lock.synchronized(() async {
-    if (db == null) {
-      await open();
-    }
-    return db;
-  });
+  /// Opens the database once.
+  Future<Database> get ready async =>
+      db ??
+      await _lock.synchronized(() async {
+        if (db == null) {
+          await open();
+        }
+        return db!;
+      });
 
   Future<DbNote?> getNote(int? id) async {
-    var list = (await db!.query(
+    var list = await db!.query(
       tableNotes,
       columns: [columnId, columnTitle, columnContent, columnUpdated],
       where: '$columnId = ?',
       whereArgs: <Object?>[id],
-    ));
+    );
     if (list.isNotEmpty) {
-      return DbNote()..fromMap(list.first);
+      return snapshotToNote(list.first);
     }
     return null;
   }
 
-  Future _createDb(Database db) async {
-    await db.execute('DROP TABLE If EXISTS $tableNotes');
+  Future<void> _createDb(Database db) async {
     await db.execute(
       'CREATE TABLE $tableNotes($columnId INTEGER PRIMARY KEY, $columnTitle TEXT, $columnContent TEXT, $columnUpdated INTEGER)',
     );
@@ -107,28 +111,27 @@ class DbNoteProvider {
     _triggerUpdate();
   }
 
-  Future open() async {
-    await openPath(await fixPath(dbName));
+  /// Opens [dbName], relative to the databases path of [dbFactory].
+  Future<void> open() async {
+    await openPath(dbName);
   }
 
-  Future<String> fixPath(String path) async => path;
-
-  /// Add or update a note
-  Future _saveNote(DatabaseExecutor? db, DbNote updatedNote) async {
+  /// Add or update a note.
+  Future<void> _saveNote(DatabaseExecutor db, DbNote updatedNote) async {
     if (updatedNote.id.v != null) {
-      await db!.update(
+      await db.update(
         tableNotes,
         updatedNote.toMap(),
         where: '$columnId = ?',
         whereArgs: <Object?>[updatedNote.id.v],
       );
     } else {
-      updatedNote.id.v = await db!.insert(tableNotes, updatedNote.toMap());
+      updatedNote.id.v = await db.insert(tableNotes, updatedNote.toMap());
     }
   }
 
-  Future saveNote(DbNote updatedNote) async {
-    await _saveNote(db, updatedNote);
+  Future<void> saveNote(DbNote updatedNote) async {
+    await _saveNote(db!, updatedNote);
     _triggerUpdate();
   }
 
@@ -141,37 +144,21 @@ class DbNoteProvider {
     _triggerUpdate();
   }
 
-  var notesTransformer =
-      StreamTransformer<List<Map<String, Object?>>, List<DbNote>>.fromHandlers(
-        handleData: (snapshotList, sink) {
-          sink.add(DbNotes(snapshotList));
-        },
-      );
-
-  var noteTransformer =
-      StreamTransformer<Map<String, Object?>, DbNote?>.fromHandlers(
-        handleData: (snapshot, sink) {
-          sink.add(snapshotToNote(snapshot));
-        },
-      );
-
-  /// Listen for changes on any note
-  Stream<List<DbNote?>> onNotes() {
-    late StreamController<DbNotes> ctlr;
+  /// Emits [fetch] now and on every change.
+  Stream<T> _onChange<T>(Future<T> Function() fetch) {
+    late StreamController<T> ctlr;
     StreamSubscription? triggerSubscription;
 
     Future<void> sendUpdate() async {
-      var notes = await getListNotes();
+      var value = await fetch();
       if (!ctlr.isClosed) {
-        ctlr.add(notes);
+        ctlr.add(value);
       }
     }
 
-    ctlr = StreamController<DbNotes>(
+    ctlr = StreamController<T>(
       onListen: () {
         sendUpdate();
-
-        /// Listen for trigger
         triggerSubscription = _updateTriggerController.stream.listen((_) {
           sendUpdate();
         });
@@ -183,61 +170,39 @@ class DbNoteProvider {
     return ctlr.stream;
   }
 
-  /// Listed for changes on a given note
-  Stream<DbNote?> onNote(int? id) {
-    late StreamController<DbNote?> ctlr;
-    StreamSubscription? triggerSubscription;
+  /// Listen for changes on any note.
+  Stream<List<DbNote>> onNotes() => _onChange(getListNotes);
 
-    Future<void> sendUpdate() async {
-      var note = await getNote(id);
-      if (!ctlr.isClosed) {
-        ctlr.add(note);
-      }
-    }
+  /// Listen for changes on a given note.
+  Stream<DbNote?> onNote(int? id) => _onChange(() => getNote(id));
 
-    ctlr = StreamController<DbNote?>(
-      onListen: () {
-        sendUpdate();
-
-        /// Listen for trigger
-        triggerSubscription = _updateTriggerController.stream.listen((_) {
-          sendUpdate();
-        });
-      },
-      onCancel: () {
-        triggerSubscription?.cancel();
-      },
-    );
-    return ctlr.stream;
-  }
-
-  /// Don't read all fields, newest first unless [descending] is false
+  /// Don't read all fields, newest first unless [descending] is false.
   Future<DbNotes> getListNotes({
     int? offset,
     int? limit,
     bool? descending,
   }) async {
-    // devPrint('fetching $offset $limit');
-    var list = (await db!.query(
+    var list = await db!.query(
       tableNotes,
       columns: [columnId, columnTitle, columnContent],
       orderBy: '$columnUpdated ${(descending ?? true) ? 'DESC' : 'ASC'}',
       limit: limit,
       offset: offset,
-    ));
+    );
     return DbNotes(list);
   }
 
-  Future clearAllNotes() async {
+  Future<void> clearAllNotes() async {
     await db!.delete(tableNotes);
     _triggerUpdate();
   }
 
-  Future close() async {
-    await db!.close();
+  Future<void> close() async {
+    await db?.close();
+    db = null;
   }
 
-  Future deleteDb() async {
-    await dbFactory.deleteDatabase(await fixPath(dbName));
+  Future<void> deleteDb() async {
+    await dbFactory.deleteDatabase(dbName);
   }
 }

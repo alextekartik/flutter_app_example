@@ -1,0 +1,14 @@
+# Miscellaneous
+*.log
+.DS_Store
+
+# IntelliJ related
+*.iml
+.idea/
+
+# Flutter/Dart/Pub related
+.dart_tool/
+/build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata

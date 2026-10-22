@@ -1,0 +1,36 @@
+name: tekartik_notepad_sqflite_ffi_app
+description: Notepad example using sqflite_ffi (sqflite_common_ffi_web on the web), without the sqflite plugin.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Model, provider and pages shared with notepad_sqflite.
+  tekartik_notepad_sqflite_common:
+    path: ../notepad_sqflite_common
+  path: ">=1.9.1"
+  path_provider: ">=2.1.6"
+  # Database: sqflite_ffi on Android, iOS, macOS, Linux and Windows,
+  # sqflite_common_ffi_web on the web. No sqflite plugin.
+  sqflite_ffi: ">=0.1.1"
+  sqflite_common_ffi_web: ">=1.2.0"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  dev_build: ">=1.1.9"
+  tekartik_app_lints_flutter:
+    git:
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      path: app_lints
+    version: '>=0.1.0'
+
+flutter:
+  uses-material-design: true
+
+resolution: workspace

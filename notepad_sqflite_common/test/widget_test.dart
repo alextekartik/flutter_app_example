@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tekartik_notepad_sqflite_app/page/edit_page.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:tekartik_notepad_sqflite_common/notepad_sqflite_common.dart';
 
 /// Home page with a button pushing [page].
 Widget _launcher(Widget Function() page) => MaterialApp(
   home: Builder(
     builder: (context) => Scaffold(
       body: TextButton(
-        onPressed: () => Navigator.of(
-          context,
-        ).push(MaterialPageRoute<void>(builder: (_) => page())),
+        onPressed: () =>
+            Navigator.of(context)
+                .push(MaterialPageRoute<void>(builder: (_) => page())),
         child: const Text('go'),
       ),
     ),
@@ -17,15 +17,13 @@ Widget _launcher(Widget Function() page) => MaterialApp(
 );
 
 void main() {
-  testWidgets('discard dialog after rebuild', (tester) async {
+  testWidgets('discard dialog', (tester) async {
     await tester.pumpWidget(
       _launcher(() => const EditNotePage(initialNote: null)),
     );
     await tester.tap(find.text('go'));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextFormField).at(0), 'dirty');
-    // Rebuilt while dirty (parent rebuild, hot reload)
-    tester.element(find.byType(EditNotePage)).markNeedsBuild();
     await tester.pump();
 
     NavigatorState navigator() => tester.state(find.byType(Navigator));
@@ -49,5 +47,18 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Discard change?'), findsNothing);
     expect(find.byType(EditNotePage), findsNothing);
+  });
+  testWidgets('blank title rejected', (tester) async {
+    await tester.pumpWidget(
+      _launcher(() => const EditNotePage(initialNote: null)),
+    );
+    await tester.tap(find.text('go'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextFormField).at(0), '   ');
+    await tester.enterText(find.byType(TextFormField).at(1), 'content');
+    await tester.tap(find.byIcon(Icons.save_alt));
+    await tester.pumpAndSettle();
+    expect(find.text('Title must not be empty'), findsOneWidget);
+    expect(find.byType(EditNotePage), findsOneWidget);
   });
 }

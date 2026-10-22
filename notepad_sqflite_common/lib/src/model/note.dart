@@ -1,6 +1,6 @@
 import 'package:cv/cv.dart';
-import 'package:tekartik_notepad_sqflite_app/db/db.dart';
-import 'package:tekartik_notepad_sqflite_app/model/model_constant.dart';
+import 'package:tekartik_notepad_sqflite_common/src/model/db_record.dart';
+import 'package:tekartik_notepad_sqflite_common/src/model/model_constant.dart';
 
 class DbNote extends DbRecord {
   final title = CvField<String>(columnTitle);

@@ -10,6 +10,11 @@ Simple sqflite example:
 * Works on flutter mobile using `sqflite`
 * Works on flutter desktop using `sqflite_common_ffi`
 
+The model, the provider and the pages are shared with
+[notepad_sqflite_ffi](../notepad_sqflite_ffi/README.md) in
+[notepad_sqflite_common](../notepad_sqflite_common/README.md); this app only
+chooses the database factory (`lib/main.dart`).
+
 ## Setup
 
 Project files are not checked in, simply run:

@@ -1,0 +1,30 @@
+name: tekartik_notepad_sqflite_common
+description: Common code of the sqflite notepad examples (notepad_sqflite, notepad_sqflite_ffi), the database factory being chosen by each app.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui: ">=1.5.0"
+  cupertino_icons: ">=1.0.9"
+  cv: ">=1.1.14"
+  # Database API only, the implementation is given by the app.
+  sqflite_common: ">=2.5.14"
+  synchronized: ">=3.4.0"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  sqflite_common_ffi: ">=2.4.4"
+  tekartik_app_lints_flutter:
+    git:
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      path: app_lints
+    version: '>=0.1.0'
+
+resolution: workspace

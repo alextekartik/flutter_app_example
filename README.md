@@ -6,6 +6,8 @@ Flutter app examples
 * [Notepad example](notepad_idb/README.md) using idb
 * [Notepad example](notepad_sdb/README.md) using sdb
 * [Notepad example](notepad_sqflite/README.md) using sqflite
+* [Notepad example](notepad_sqflite_ffi/README.md) using sqflite_ffi (no sqflite plugin)
+  * both share their model, provider and pages in [notepad_sqflite_common](notepad_sqflite_common/README.md)
 
 ## Manual setup
 
