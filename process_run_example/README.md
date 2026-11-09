@@ -1,31 +1,39 @@
 # `process_run` example
 
-Simple example or running a command and capturing the output in a widget.
+A Flutter desktop app running commands with
+[process_run](https://pub.dev/packages/process_run) `Shell` and showing their
+output (stdout, stderr in red) in a widget.
 
-Tested on Linux. Ran sometimes on Windows and MacOS.
+Tested on Linux, run sometimes on Windows and macOS. Desktop only:
+`process_run` starts processes (`dart:io`), which the web cannot do.
 
-Goal:
-* Create a Create sink
-* Call `shell.run`
-* Capture and display output in a widget
+What it shows:
+* A `Shell(stdout: sink, stderr: sink)` whose output is turned into lines
+  (`streamLines` in `lib/main.dart`) for a `StreamBuilder`.
+* `shell.run(command)` from a menu or a typed command, `shell.kill()` (the
+  delete button) to stop the running one.
+* `which`, `userPaths`, `userEnvironment` and the dart/flutter executables
+  (`@info`, `@path`, `@userEnv` menu entries).
 
 This is not intended to be the perfect way of doing things...
 
 ## Setup
 
-Project files are not checked in, simply run:
+The platform folders are not checked in. The package belongs to the pub
+workspace of the repository, run `flutter pub get` at its root once, then:
 
 ```bash
-flutter create .
-flutter run
+flutter create --platforms linux,macos,windows .
+flutter run -d linux
 ```
 
-To allow running on Linux. Make sure you are on the proper flutter channel (as of 2020/07/01: beta for the web, dev for MacOS/Linux, master for Windows)
+`dart run tool/build_and_run_linux.dart` (or `tool/build_and_run_windows.dart`)
+builds the release app and runs it.
 
 ### Mac support
 
 In `macos/Runner/Release.entitlements` and `macos/Runner/DebugProfile.entitlements`,
-make sure the following var is defined:
+turn the app sandbox off (a sandboxed app cannot start the processes):
 
 ```xml
 <dict>
