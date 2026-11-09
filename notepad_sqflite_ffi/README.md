@@ -78,7 +78,9 @@ dart run tool/web_run.dart
 It creates the web project once, installs `web/sqlite3.wasm` and
 `web/sqflite_sw.js` (`dart run sqflite_common_ffi_web:setup`), then runs
 `flutter run -d chrome` (`--build` for a release build in `build/web`).
-After a `sqlite3` update, refresh the binaries with
+The setup only runs when `web/sqflite_sw.js` is missing. The worker holds the
+code of `sqflite_common_ffi_web` and `sqflite_common_ffi`: after upgrading one
+of them (or `sqlite3`), rebuild the binaries with
 `dart run sqflite_common_ffi_web:setup --force`.
 
 ## Run on Android
