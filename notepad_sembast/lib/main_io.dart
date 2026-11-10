@@ -14,21 +14,26 @@ import 'package:tekartik_notepad_sembast_app/provider/note_provider.dart';
 
 import 'app.dart';
 
+/// Folder of the sembast io databases of this entry point: the documents
+/// directory on Android, `<application support directory>/databases` on iOS,
+/// macOS, Linux and Windows.
+///
+/// Never relative: the current directory is `/` in an iOS or macOS app (not
+/// writable) and any launch folder on Linux and Windows.
+Future<String> ioDatabasesRootPath() async {
+  if (Platform.isAndroid) {
+    return (await getApplicationDocumentsDirectory()).path;
+  }
+  return p.join((await getApplicationSupportDirectory()).path, 'databases');
+}
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Use regular sembast io (but on the web).
   var factory = kIsWeb
       ? databaseFactoryWeb
-      : createDatabaseFactoryIo(
-          rootPath: (Platform.isAndroid
-              ? (await getApplicationDocumentsDirectory()).path
-              : p.join(
-                  '.dart_tool',
-                  'tekartik_notepad_sembast_app',
-                  'databases',
-                )),
-        );
+      : createDatabaseFactoryIo(rootPath: await ioDatabasesRootPath());
   noteProvider = DbNoteProvider(factory);
   await noteProvider.ready;
   runApp(MyApp());

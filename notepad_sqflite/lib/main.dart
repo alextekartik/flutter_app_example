@@ -14,7 +14,9 @@ Future<void> main() async {
   }
   var packageName = 'com.tekartik.sqflite.notepad';
 
-  // sqflite plugin on mobile, ffi on desktop, sqflite_common_ffi_web on the
+  // sqflite_common_ffi on Android, iOS and macOS (in the sqflite plugin
+  // databases folder), Linux and Windows (in
+  // <userAppDataPath>/<packageName>/databases), sqflite_common_ffi_web on the
   // web.
   var databaseFactory = getDatabaseFactory(packageName: packageName);
 

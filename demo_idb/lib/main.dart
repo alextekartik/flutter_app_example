@@ -8,11 +8,27 @@ import 'package:tekartik_app_platform/app_platform.dart';
 
 import 'app_io.dart' if (dart.library.js_interop) 'app_web.dart';
 
+/// Package name of the app, the name of its databases folder on Linux and
+/// Windows.
+const demoIdbPackageName = 'com.tekartik.demoidb';
+
+/// Name of the counter database.
+const counterDbName = 'counter.db';
+
+/// The idb factory of the app: SQLite (ffi) on Android, iOS, macOS, Linux
+/// and Windows, IndexedDB on the web.
+///
+/// On Linux and Windows the databases are in
+/// `<userAppDataPath>/com.tekartik.demoidb/databases`. The plain `idbFactory`
+/// would keep the ffi default there, `.dart_tool/sqflite_common_ffi/databases`
+/// of the current directory.
+IdbFactory get appIdbFactory => getIdbFactory(packageName: demoIdbPackageName);
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   platformInit();
   appInit();
-  run(idbFactory: idbFactory);
+  run(idbFactory: appIdbFactory);
 }
 
 void run({required IdbFactory idbFactory}) {
@@ -49,7 +65,7 @@ class MyAppBloc {
 
   late Future<Database> database = () async {
     var db = await idbFactory.open(
-      'counter.db',
+      counterDbName,
       version: 1,
       onUpgradeNeeded: (e) {
         var db = e.database;

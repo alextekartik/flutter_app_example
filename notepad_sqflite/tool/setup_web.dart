@@ -6,5 +6,5 @@ Future<void> main() async {
 
 Future<void> setupWeb() async {
   await run('flutter pub get');
-  await run('flutter pub run sqflite_common_ffi_web:setup --force');
+  await run('dart run sqflite_common_ffi_web:setup --force');
 }

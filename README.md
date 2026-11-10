@@ -8,6 +8,10 @@ Flutter app examples
 * [Notepad example](notepad_sqflite/README.md) using sqflite
 * [Notepad example](notepad_sqflite_ffi/README.md) using sqflite_ffi (no sqflite plugin)
   * both share their model, provider and pages in [notepad_sqflite_common](notepad_sqflite_common/README.md)
+* Counter demos, the counter stored in a local database:
+  [demo_sdb](demo_sdb/README.md) (sdb), [demo_idb](demo_idb/README.md) (idb),
+  [demo_sembast](demo_sembast/README.md) (sembast),
+  [demo_sqflite](demo_sqflite/README.md) (sqflite)
 
 ## Manual setup
 
