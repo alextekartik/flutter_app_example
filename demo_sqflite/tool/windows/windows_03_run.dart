@@ -1,10 +1,9 @@
-import 'package:path/path.dart';
 import 'package:process_run/process_run.dart';
 
 import 'src/helper.dart';
 
 Future<void> main() async {
-  var exePath = join(windowsBuildPath, 'demo_sqflite.exe');
+  var exePath = await getWindowsExePath();
 
   /// Run from the home path to make sure it works from any directory
   var runPath = userHomePath;

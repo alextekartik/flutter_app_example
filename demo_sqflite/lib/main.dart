@@ -2,14 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:tekartik_demo_sqflite/counter_database.dart';
 
 final counterDb = CounterDatabase();
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initDatabaseFactory();
+  runApp(const MyApp());
+}
+
+/// Selects the sqflite implementation of the platform.
+Future<void> initDatabaseFactory() async {
   // Use sqflite on Mac/Android/iOS
   // On the web using sqflite_common_ffi_web (need setup)
   if (kIsWeb) {
@@ -17,12 +25,18 @@ void main() {
   } else if (Platform.isLinux || Platform.isWindows) {
     // Use the ffi version on linux and windows
     sqfliteFfiInit();
+    // The ffi default databases path is relative to the current directory
+    // (.dart_tool/sqflite_common_ffi/databases): use the application support
+    // directory, as the sqflite plugin uses an application folder.
+    var supportDir = await getApplicationSupportDirectory();
+    await databaseFactoryFfi.setDatabasesPath(
+      join(supportDir.path, 'databases'),
+    );
     databaseFactoryOrNull = databaseFactoryFfi;
   }
   // More log to see the executed queries
   // ignore: deprecated_member_use
   databaseFactoryOrNull = databaseFactory.debugQuickLoggerWrapper();
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
